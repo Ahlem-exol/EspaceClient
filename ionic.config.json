@@ -1,0 +1,7 @@
+{
+  "name": "EspaceClient",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

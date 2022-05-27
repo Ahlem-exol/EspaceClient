@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "EspaceClient",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
