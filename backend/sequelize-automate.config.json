@@ -1,0 +1,19 @@
+
+  
+
+  {
+    "dbOptions": {
+      "database": "espaceclient",
+      "username": "root",
+      "password": "root",
+      "dialect": "mysql",
+      "host": "localhost",
+      "port": 3306,
+      "logging": false
+    },
+    "options": {
+      "type": "js",
+      "dir": "backend/models"
+    }
+  }
+  
