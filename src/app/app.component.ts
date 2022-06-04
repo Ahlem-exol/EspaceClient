@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   title = 'Espace Client';
   pages: any[] = [
     { title: 'Home', url: '/home', icon: 'home' },
+    { title: 'Users', url: '/user', icon: 'person' },
     { title: 'Profile', url: '/profile', icon: 'person' },
     { title: 'About US', url: '/about', icon: 'Information-circle' },
     { title: 'Sign Out', url: '/logout', icon: 'log-out', route: true },

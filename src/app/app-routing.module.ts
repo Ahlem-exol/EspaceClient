@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { UsersComponent } from './pages/users/users.component';
+
 import { AuthGuard } from './services/auth/auth-guard';
 
 const routes: Routes = [
@@ -20,7 +20,7 @@ const routes: Routes = [
   //   //   import('./pages/login/login.component').then((m) => m.LoginComponent),
   // },
   {
-    path: '**',
+    path: '',
     redirectTo: '/home',
     pathMatch: 'full',
   },
@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () =>
       import('./pages/profile/profile.module').then((m) => m.ProfilePageModule),
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)
   },
 ];
 
