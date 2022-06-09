@@ -49,7 +49,7 @@ exports.createUser = (req, res, next) => {
           .then(result => {
             const options ={
               from:"bsn-dz@alrim.dz",
-              to:"chelliahlem98@gmail.com",
+              to:req.body.email,
               subject:"Compte user ",
               text:"wit's support technique \n voter nom d'utilisateur : "+req.body.email +"\n voter password : " + password, 
             };

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 const BACKEND_URL = 'http://localhost:3000/api/users';
+const BACKEND_URL1 = 'http://localhost:3000/api/auth';
 interface AuthData {
   nom?: string;
   prenom?: string;
@@ -12,6 +13,7 @@ interface AuthData {
   adress?: string;
   telephone?: string;
   email?: string;
+  password?: string;
 }
 
 @Injectable({
@@ -61,6 +63,37 @@ export class AuthService {
       `${BACKEND_URL}/signup`,
       authData
     );
+  }
+
+  login(email: string, password: string) {
+    const authData: AuthData = {
+      email: email,
+      password: password,
+    };
+    return this.http
+      .post<{ token: string; expiresIn: number }>(
+        `${BACKEND_URL}/login`,
+        authData
+      )
+      .pipe(
+        tap((response) => {
+          console.log(response);
+          const token = response.token;
+          if (token) {
+            const expiresInDuration = response.expiresIn;
+            this.setAuthTimer(expiresInDuration);
+            this._token = token;
+            this.isAuthenticated = true;
+            this._authStatusListener.next(true);
+            const now = new Date();
+            const expirationDate = new Date(
+              now.getTime() + expiresInDuration * 1000
+            );
+            this.saveAuthData(token, expirationDate);
+            this.router.navigateByUrl('dashboard');
+          }
+        })
+      );
   }
 
   autoAuthUser() {
