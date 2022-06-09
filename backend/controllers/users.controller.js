@@ -28,50 +28,50 @@ exports.createUser = (req, res, next) => {
     numbers: true
   });
 
-  const options ={
-    from:"bsn-dz@alrim.dz",
-    to:"chelliahlem98@gmail.com",
-    subject:"sending email with node js §",
-    text:"wow! that's simple"
-  };
-  transporter.sendMail(options, function(err,info){
-    if(err){
-      console.log(err);
-      return;
-    }
-    console.log("Sent:  "+info.response);
-  });
-    //  bcrypt.hash(password,10).then(hash=>{
+
+     bcrypt.hash(password,10).then(hash=>{
    
 
-    //    const user = new User({
-    //       usr_nom: req.body.nom,
-    //       usr_prenom: req.body.prenom,
-    //       usr_fonction :req.body.fonction,
-    //       usr_address:req.body.adress,
-    //       usr_active:1,
-    //       usr_date_inscription: req.body.dateInscreption,
-    //       usr_mobile: req.body.telephone,
-    //       usr_email: req.body.email,
-    //       usr_password: hash,
-    //       privilege_id:1,
-    //       societe_id:1,
-    //     });
-    //          user.save()
-    //       .then(result => {
-
+       const user = new User({
+          usr_nom: req.body.nom,
+          usr_prenom: req.body.prenom,
+          usr_fonction :req.body.fonction,
+          usr_address:req.body.adress,
+          usr_active:1,
+          usr_date_inscription: req.body.dateInscreption,
+          usr_mobile: req.body.telephone,
+          usr_email: req.body.email,
+          usr_password: hash,
+          privilege_id:1,
+          societe_id:1,
+        });
+             user.save()
+          .then(result => {
+            const options ={
+              from:"bsn-dz@alrim.dz",
+              to:"chelliahlem98@gmail.com",
+              subject:"Compte user ",
+              text:"wit's support technique \n voter nom d'utilisateur : "+req.body.email +"\n voter password : " + password, 
+            };
+            transporter.sendMail(options, function(err,info){
+              if(err){
+                console.log(err);
+                return;
+              }
+              console.log("Sent:  "+info.response);
+            });
         
-    //       });   
-    //        res.status(201).json({
-    //         message: 'Account created successfully ! \n Please wait for the admin\'s approval.',
+          });   
+           res.status(201).json({
+            message: 'Account created successfully ! \n Please wait for the admin\'s approval.',
            
-    //       });
-    //  })
-    //     .catch(err => {
-    //       res.status(500).json({
-    //         error: err,
-    //         message: 'Username or Email already in use !',
-    //       });
-    //     });
+          });
+     })
+        .catch(err => {
+          res.status(500).json({
+            error: err,
+            message: 'Username or Email already in use !',
+          });
+        });
     
   };
