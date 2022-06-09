@@ -15,6 +15,6 @@ export class AuthenticationPage implements OnInit {
   ngOnInit() {}
 
   login() {
-    this.router.navigateByUrl('dashboard');
+    this.router.navigateByUrl('user');
   }
 }

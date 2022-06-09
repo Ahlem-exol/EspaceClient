@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -6,10 +10,45 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  date = new Date();
+  constructor(
+    private router: Router,
+    private menu: MenuController,
+    private authService: AuthService
+  ) {
+    this.menu.enable(true, 'custom-menu');
   }
 
+  ngOnInit() {}
+
+  addUser(form: NgForm) {
+    if (!form.valid) {
+      return;
+    }
+
+    console.log('i m in ts', this.date.toLocaleString());
+    const nom = form.value.nom;
+    const prenom = form.value.prenom;
+    const fonction = form.value.fonction;
+    const adress = form.value.adress;
+    const telephone = form.value.telephone;
+    const email = form.value.email;
+    const dateInscreption = this.date;
+    this.authService
+      .createUser(
+        nom,
+        prenom,
+        fonction,
+        dateInscreption,
+        adress,
+        telephone,
+        email
+      )
+      .subscribe(
+        (result) => {
+          form.reset();
+        },
+        (error) => {}
+      );
+  }
 }

@@ -3,6 +3,17 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
+const BACKEND_URL = 'http://localhost:3000/api/users';
+interface AuthData {
+  nom?: string;
+  prenom?: string;
+  fonction?: string;
+  dateInscreption?: Date;
+  adress?: string;
+  telephone?: string;
+  email?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,6 +37,32 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
+  createUser(
+    nom: string,
+    prenom: string,
+    fonction: string,
+    dateInscreption: Date,
+    adress: string,
+    telephone: string,
+    email: string
+  ) {
+    console.log('in the server');
+    const authData: AuthData = {
+      nom: nom,
+      prenom: prenom,
+      fonction: fonction,
+      dateInscreption: dateInscreption,
+      adress: adress,
+      telephone: telephone,
+      email: email,
+    };
+
+    return this.http.post<{ message: string }>(
+      `${BACKEND_URL}/signup`,
+      authData
+    );
+  }
+
   autoAuthUser() {
     const authInfo = this.getAuthData();
     if (!authInfo) {
@@ -42,6 +79,21 @@ export class AuthService {
     }
   }
 
+  logout() {
+    this._token = null;
+    this.isAuthenticated = false;
+    this._authStatusListener.next(false);
+    clearTimeout(this.tokenTimer);
+    this.clearAuthData();
+    this.router.navigateByUrl('login');
+  }
+
+  private setAuthTimer(duration: number) {
+    this.tokenTimer = setTimeout(() => {
+      this.logout();
+    }, duration * 1000);
+  }
+
   private saveAuthData(token: string, expirationDate: Date) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
@@ -50,20 +102,6 @@ export class AuthService {
   private clearAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
-  }
-  private setAuthTimer(duration: number) {
-    this.tokenTimer = setTimeout(() => {
-      this.logout();
-    }, duration * 1000);
-  }
-
-  logout() {
-    this._token = null;
-    this.isAuthenticated = false;
-    this._authStatusListener.next(false);
-    clearTimeout(this.tokenTimer);
-    this.clearAuthData();
-    this.router.navigateByUrl('login');
   }
 
   private getAuthData() {
@@ -78,3 +116,4 @@ export class AuthService {
     };
   }
 }
+
