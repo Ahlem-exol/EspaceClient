@@ -7,6 +7,7 @@ export class User {
     dateInscreption: Date,
     adress: string,
     telephone: string,
-    email: string
+    email: string,
+    password: string
   ) {}
 }

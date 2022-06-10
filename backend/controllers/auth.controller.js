@@ -1,10 +1,12 @@
 //for generation et cryp the password 
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 const User = require('../models/user');
 
 
 exports.userLogin = (req, res, next) => {
+
+console.log("le see the body ",req.body.email,req.body.password )
     let fetchedUser;
     User.findOne({ where: {usr_email: req.body.email} })
       .then(user => {
@@ -13,20 +15,22 @@ exports.userLogin = (req, res, next) => {
             message: 'User does not exist !'
           });
         }
-     
         fetchedUser = user;
-        return bcrypt.compare(req.body.password, user.usr_password);
-      })
-      .then(result => {
+
+        console.log("the result ",bcrypt.compare(req.body.password, fetchedUser.usr_password))
+        return bcrypt.compare(req.body.password, fetchedUser.usr_password);
+
+      }).then(result => {
+        console.log(result)
         if (!result) {
           return res.status(401).json({
             message: "Incorrect Password !"
           });
         }
-        User.findByPk(fetchedUser.id)
+        User.findByPk(fetchedUser.usr_id)
         .then(fetchedUser => {
           const token = jwt.sign(
-            {mail: fetchedUser.mail, id: fetchedUser.id, name: fetchedUser.name},
+            {email: fetchedUser.email, id: fetchedUser.usr_id, nom: fetchedUser.nom},
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );

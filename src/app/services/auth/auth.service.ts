@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-
+import { map, take, switchMap, tap } from 'rxjs/operators';
 const BACKEND_URL = 'http://localhost:3000/api/users';
 const BACKEND_URL1 = 'http://localhost:3000/api/auth';
 interface AuthData {
@@ -72,7 +72,7 @@ export class AuthService {
     };
     return this.http
       .post<{ token: string; expiresIn: number }>(
-        `${BACKEND_URL}/login`,
+        `${BACKEND_URL1}/login`,
         authData
       )
       .pipe(
@@ -90,7 +90,7 @@ export class AuthService {
               now.getTime() + expiresInDuration * 1000
             );
             this.saveAuthData(token, expirationDate);
-            this.router.navigateByUrl('dashboard');
+            this.router.navigateByUrl('home');
           }
         })
       );
