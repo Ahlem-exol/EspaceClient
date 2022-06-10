@@ -71,16 +71,18 @@ export class AuthService {
       password: password,
     };
     return this.http
-      .post<{ token: string; expiresIn: number }>(
+      .post<{ token: string; expiresIn: number; nom: string; prenom: string }>(
         `${BACKEND_URL1}/login`,
         authData
       )
       .pipe(
         tap((response) => {
-          console.log(response);
           const token = response.token;
+
           if (token) {
             const expiresInDuration = response.expiresIn;
+            const nom = response.nom;
+            const prenom = response.prenom;
             this.setAuthTimer(expiresInDuration);
             this._token = token;
             this.isAuthenticated = true;
@@ -89,8 +91,8 @@ export class AuthService {
             const expirationDate = new Date(
               now.getTime() + expiresInDuration * 1000
             );
-            this.saveAuthData(token, expirationDate);
-            this.router.navigateByUrl('home');
+            this.saveAuthData(token, expirationDate, nom, prenom);
+            this.router.navigateByUrl('user');
           }
         })
       );
@@ -127,23 +129,36 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date) {
+  private saveAuthData(
+    token: string,
+    expirationDate: Date,
+    nom: string,
+    prenom: string
+  ) {
     localStorage.setItem('token', token);
+    localStorage.setItem('nom', nom);
+    localStorage.setItem('prenom', prenom);
     localStorage.setItem('expiration', expirationDate.toISOString());
   }
 
   private clearAuthData() {
+    localStorage.removeItem('nom');
+    localStorage.removeItem('prenom');
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
   }
 
-  private getAuthData() {
+  public getAuthData() {
+    const prenom = localStorage.getItem('prenom');
+    const nom = localStorage.getItem('nom');
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
     if (!token || !expirationDate) {
       return;
     }
     return {
+      prenom: prenom,
+      nom: nom,
       token: token,
       expirationDate: new Date(expirationDate),
     };

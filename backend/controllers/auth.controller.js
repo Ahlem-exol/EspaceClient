@@ -16,12 +16,8 @@ console.log("le see the body ",req.body.email,req.body.password )
           });
         }
         fetchedUser = user;
-
-        console.log("the result ",bcrypt.compare(req.body.password, fetchedUser.usr_password))
         return bcrypt.compare(req.body.password, fetchedUser.usr_password);
-
       }).then(result => {
-        console.log(result)
         if (!result) {
           return res.status(401).json({
             message: "Incorrect Password !"
@@ -30,18 +26,19 @@ console.log("le see the body ",req.body.email,req.body.password )
         User.findByPk(fetchedUser.usr_id)
         .then(fetchedUser => {
           const token = jwt.sign(
-            {email: fetchedUser.email, id: fetchedUser.usr_id, nom: fetchedUser.nom},
+            {email: fetchedUser.email, id: fetchedUser.usr_id, nom: fetchedUser.usr_nom,prenom:fetchedUser.usr_prenom},
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );
+
           res.status(200).json({
             email: fetchedUser.usr_email,
+
             id: fetchedUser.usr_id, // should send the whole user !!
             nom: fetchedUser.usr_nom,
+            prenom:fetchedUser.usr_prenom,
             token: token,
             expiresIn: 3600
-
-
           });
         });
       })

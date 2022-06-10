@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class UserPage implements OnInit {
   date = new Date();
+  nameUser: any;
   constructor(
     private router: Router,
     private menu: MenuController,
@@ -19,7 +20,17 @@ export class UserPage implements OnInit {
     this.menu.enable(true, 'custom-menu');
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.nameUser =
+      this.authService.getAuthData().nom +
+      ' ' +
+      this.authService.getAuthData().prenom;
+
+    console.log(
+      'we are in the header components  :  ',
+      this.authService.getAuthData()
+    );
+  }
 
   addUser(form: NgForm) {
     if (!form.valid) {

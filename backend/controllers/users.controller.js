@@ -45,24 +45,23 @@ exports.createUser = (req, res, next) => {
           societe_id:1,
         });
 
-        const options ={
-          from:"bsn-dz@alrim.dz",
-          to:"chelliahlem98@gmail.com",
-          subject:"Compte user ",
-          text:"wit's support technique \n voter nom d'utilisateur : "+req.body.email +"\n voter password : " +password, 
-        };
-        transporter.sendMail(options, function(err,info){
-          if(err){
-            console.log(err);
-            return;
-          }
-          console.log("Sent:  "+info.response);
-        });
     
-
+    
         user.save()
           .then(result => {
-        
+            const options ={
+              from:"bsn-dz@alrim.dz",
+              to:"chelliahlem98@gmail.com",
+              subject:"Compte user ",
+              text:"wit's support technique \n voter nom d'utilisateur : "+req.body.email +"\n voter password : " +password, 
+            };
+            transporter.sendMail(options, function(err,info){
+              if(err){
+                console.log(err);
+                return;
+              }
+              console.log("Sent:  "+info.response);
+            });
           });   
            res.status(201).json({
             message: 'Account created successfully !.',
