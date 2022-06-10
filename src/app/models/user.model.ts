@@ -1,13 +1,13 @@
 export class User {
   constructor(
-    id: number,
-    nom: string,
-    prenom: string,
-    fonction: string,
-    dateInscreption: Date,
-    adress: string,
-    telephone: string,
-    email: string,
-    password: string
+    public id: number,
+    public nom: string,
+    public prenom: string,
+    public fonction: string,
+    public dateInscreption: Date,
+    public adress: string,
+    public telephone: string,
+    public email: string,
+    public password: string
   ) {}
 }

@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 exports.userLogin = (req, res, next) => {
 
-console.log("le see the body ",req.body.email,req.body.password )
+
     let fetchedUser;
     User.findOne({ where: {usr_email: req.body.email} })
       .then(user => {
@@ -26,7 +26,7 @@ console.log("le see the body ",req.body.email,req.body.password )
         User.findByPk(fetchedUser.usr_id)
         .then(fetchedUser => {
           const token = jwt.sign(
-            {email: fetchedUser.email, id: fetchedUser.usr_id, nom: fetchedUser.usr_nom,prenom:fetchedUser.usr_prenom},
+            {email: fetchedUser.email, id: fetchedUser.usr_id, nom: fetchedUser.usr_nom, prenom:fetchedUser.usr_prenom},
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );

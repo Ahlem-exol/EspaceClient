@@ -15,11 +15,11 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | boolean
-    | UrlTree
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
-    throw new Error('Method not implemented.');
+  ): boolean | Observable<boolean> | Promise<boolean> {
+    const isAuth = this.authService.isAuth;
+    if (!isAuth) {
+      this.router.navigateByUrl('login');
+    }
+    return isAuth;
   }
 }

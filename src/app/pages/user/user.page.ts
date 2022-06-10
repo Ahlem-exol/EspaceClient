@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
-
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-user',
@@ -13,12 +15,26 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class UserPage implements OnInit {
   date = new Date();
   nameUser: any;
+  id: number;
+  sub: Subscription;
+  loadedUsers: User[];
+  tablestyle = 'bootstrap';
+
   constructor(
+    public modalController: ModalController,
     private router: Router,
     private menu: MenuController,
-    private authService: AuthService
+    private authService: AuthService,
+    private UserService: UsersService
   ) {
     this.menu.enable(true, 'custom-menu');
+  }
+  dismiss() {
+    // using the injected ModalController this page
+    // can "dismiss" itself and optionally pass back data
+    this.modalController.dismiss({
+      dismissed: true,
+    });
   }
 
   ngOnInit() {
@@ -26,11 +42,11 @@ export class UserPage implements OnInit {
       this.authService.getAuthData().nom +
       ' ' +
       this.authService.getAuthData().prenom;
-
-    console.log(
-      'we are in the header components  :  ',
-      this.authService.getAuthData()
-    );
+    this.id = parseInt(this.authService.getAuthData().id);
+    this.sub = this.UserService.getUsers().subscribe((usersdata) => {
+      console.log(usersdata.users);
+      this.loadedUsers = usersdata.users;
+    });
   }
 
   addUser(form: NgForm) {
@@ -62,5 +78,11 @@ export class UserPage implements OnInit {
         },
         (error) => {}
       );
+  }
+
+  deleteUser(idUser: number) {
+    this.UserService.DeleteUser(idUser).subscribe((res) => {
+      this.router.navigate(['/user']);
+    });
   }
 }

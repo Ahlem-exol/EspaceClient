@@ -78,18 +78,25 @@ exports.createUser = (req, res, next) => {
 
 // get users 
 
+
+
 exports.getAllUsers = (req, res, next) => {
-  User.findAll({attributes: ['user_id', 'usr_nom', 'usr_prenom', 'usr_pseudo', 'usr_email']})
+ console.log("Get all users controller")
+ 
+  User.findAll({attributes: ['usr_id', 'usr_nom', 'usr_prenom', 'usr_fonction','usr_mobile', 'usr_address','usr_date_inscription','usr_email']})
     .then((users) => {
       //console.log(users[0].usr_email);
       res.status(200).json({
         message: 'Users !',
         users: users.map(user => {
           return {
-            id: user.user_id,
+            id:user.user_id,
             nom: user.usr_nom,
             prenom: user.usr_prenom,
-            pseudo: user.usr_pseudo,
+            fonction: user.usr_fonction,
+            dateInscreption: user.usr_date_inscription,
+            adress: user.usr_address,
+            telephone: user.usr_mobile,
             email: user.usr_email,
           }
         }),

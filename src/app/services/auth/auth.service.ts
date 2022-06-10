@@ -71,10 +71,13 @@ export class AuthService {
       password: password,
     };
     return this.http
-      .post<{ token: string; expiresIn: number; nom: string; prenom: string }>(
-        `${BACKEND_URL1}/login`,
-        authData
-      )
+      .post<{
+        token: string;
+        id: number;
+        expiresIn: number;
+        nom: string;
+        prenom: string;
+      }>(`${BACKEND_URL1}/login`, authData)
       .pipe(
         tap((response) => {
           const token = response.token;
@@ -83,6 +86,7 @@ export class AuthService {
             const expiresInDuration = response.expiresIn;
             const nom = response.nom;
             const prenom = response.prenom;
+            const id = response.id;
             this.setAuthTimer(expiresInDuration);
             this._token = token;
             this.isAuthenticated = true;
@@ -91,7 +95,7 @@ export class AuthService {
             const expirationDate = new Date(
               now.getTime() + expiresInDuration * 1000
             );
-            this.saveAuthData(token, expirationDate, nom, prenom);
+            this.saveAuthData(token, id, expirationDate, nom, prenom);
             this.router.navigateByUrl('user');
           }
         })
@@ -131,11 +135,13 @@ export class AuthService {
 
   private saveAuthData(
     token: string,
+    id: number,
     expirationDate: Date,
     nom: string,
     prenom: string
   ) {
     localStorage.setItem('token', token);
+    localStorage.setItem('id', id.toString());
     localStorage.setItem('nom', nom);
     localStorage.setItem('prenom', prenom);
     localStorage.setItem('expiration', expirationDate.toISOString());
@@ -145,11 +151,13 @@ export class AuthService {
     localStorage.removeItem('nom');
     localStorage.removeItem('prenom');
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     localStorage.removeItem('expiration');
   }
 
   public getAuthData() {
     const prenom = localStorage.getItem('prenom');
+    const id = localStorage.getItem('id');
     const nom = localStorage.getItem('nom');
     const token = localStorage.getItem('token');
     const expirationDate = localStorage.getItem('expiration');
@@ -157,8 +165,10 @@ export class AuthService {
       return;
     }
     return {
+      id: id,
       prenom: prenom,
       nom: nom,
+
       token: token,
       expirationDate: new Date(expirationDate),
     };

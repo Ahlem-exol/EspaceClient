@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './services/auth/auth-gruad';
 
-
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 const routes: Routes = [
   // {
@@ -28,6 +29,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomePageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile',
@@ -38,6 +40,7 @@ const routes: Routes = [
     path: 'user',
     loadChildren: () =>
       import('./pages/user/user.module').then((m) => m.UserPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'authentication',
@@ -51,8 +54,10 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    NgxDatatableModule,
   ],
   exports: [RouterModule],
-  providers: [],
+
+  providers: [AuthGuard],
 })
 export class AppRoutingModule {}
