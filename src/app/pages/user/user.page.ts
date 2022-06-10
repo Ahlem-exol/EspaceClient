@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.page.html',

@@ -21,15 +21,13 @@ exports.createUser = (req, res, next) => {
       rejectUnauthorized: false
     }
   });
- 
-
   var password = generator.generate({
     length: 10,
     numbers: true
   });
-
-
-     bcrypt.hash(password,10).then(hash=>{
+ console.log(password);
+  
+ bcrypt.hash(password,10).then(hash=>{
   
        const user = new User({
           usr_nom: req.body.nom,
@@ -45,10 +43,10 @@ exports.createUser = (req, res, next) => {
           societe_id:1,
         });
 
-    
-    
         user.save()
           .then(result => {
+            //Invalid login: 451 4.7.0 Temporary server error. Please try again later. PRX2  
+            //this erreur apard in case when i put it here when i got it out it s work
             const options ={
               from:"bsn-dz@alrim.dz",
               to:"chelliahlem98@gmail.com",
@@ -76,3 +74,28 @@ exports.createUser = (req, res, next) => {
         
     
   };
+
+
+// get users 
+
+exports.getAllUsers = (req, res, next) => {
+  User.findAll({attributes: ['user_id', 'usr_nom', 'usr_prenom', 'usr_pseudo', 'usr_email']})
+    .then((users) => {
+      //console.log(users[0].usr_email);
+      res.status(200).json({
+        message: 'Users !',
+        users: users.map(user => {
+          return {
+            id: user.user_id,
+            nom: user.usr_nom,
+            prenom: user.usr_prenom,
+            pseudo: user.usr_pseudo,
+            email: user.usr_email,
+          }
+        }),
+      });
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+};
