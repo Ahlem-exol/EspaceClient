@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   pages: any[] = [
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Users', url: '/user', icon: 'person' },
-    { title: 'Profile', url: '/profile', icon: 'person' },
+    { title: 'Sociéte', url: '/societe', icon: 'business-outline' },
     { title: 'About US', url: '/about', icon: 'Information-circle' },
     { title: 'Sign Out', url: '/logout', icon: 'log-out', route: true },
   ];

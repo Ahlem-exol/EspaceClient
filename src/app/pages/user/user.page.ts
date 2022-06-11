@@ -49,7 +49,6 @@ export class UserPage implements OnInit {
   }
 
   async _openModalDelete(user: User) {
-    console.log(user.id);
     const modal = await this.modalController.create({
       component: DeleteUserComponent,
       componentProps: { user },
@@ -62,6 +61,7 @@ export class UserPage implements OnInit {
       this.authService.getAuthData().nom +
       ' ' +
       this.authService.getAuthData().prenom;
+      console.log(this.authService.getAuthData());
     this.idSession = parseInt(this.authService.getAuthData().id);
     this.sub = this.UserService.getUsers().subscribe((usersdata) => {
       this.loadedUsers = usersdata.users;

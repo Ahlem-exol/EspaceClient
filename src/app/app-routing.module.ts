@@ -49,6 +49,12 @@ const routes: Routes = [
         (m) => m.AuthenticationPageModule
       ),
   },
+  {
+    path: 'societe',
+    loadChildren: () =>
+      import('./pages/societe/societe.module').then((m) => m.SocietePageModule),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

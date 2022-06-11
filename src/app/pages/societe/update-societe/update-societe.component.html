@@ -1,0 +1,75 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Update Socite {{societe.raison_social}}</ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #addSocieteForm="ngForm" (ngSubmit)="updateUser(addSocieteForm)">
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="raisonSocial" [(ngModel)]="societe.raisonSocial" placeholder="raison_social"
+          required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="adresse" [(ngModel)]="societe.adresse" placeholder="adresse" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="mail" [(ngModel)]="societe.mail" placeholder="email de l'entreprise" required>
+        </ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="telephone" [(ngModel)]="societe.telephone" placeholder="telephone" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="description" [(ngModel)]="societe.description" placeholder="description" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="fixe" [(ngModel)]="societe.fixe" placeholder="Faxe" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="pt-1 mb-4">
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Update Societe</button>
+    </div>
+
+
+  </form>
+
+</ion-content>

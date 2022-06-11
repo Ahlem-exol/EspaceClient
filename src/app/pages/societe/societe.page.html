@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title class="ion-text-center ">Gestion des utilisateurs {{nameUser}}</ion-title>
+    <ion-title class="ion-text-center ">Gestion des Clients {{nameUser}}</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menuId="custom-menu"></ion-menu-button>
     </ion-buttons>
@@ -21,20 +21,20 @@
 
   <ion-list>
     <ion-item>
-      <ion-label>Users Details</ion-label>
+      <ion-label>Client Details</ion-label>
       <ion-button (click)="_openModal()">
-        + ajouter user
+        + ajouter client
       </ion-button>
 
     </ion-item>
   </ion-list>
 
-  <ngx-datatable [rows]="loadedUsers" [ngClass]="tablestyle" [rowHeight]="'auto'" [headerHeight]="50"
+  <ngx-datatable [rows]="loadedSocites" [ngClass]="tablestyle" [rowHeight]="'auto'" [headerHeight]="50"
     [columnMode]="'force'" style="overflow-x: scroll;">
 
-    <ngx-datatable-column name="nom"></ngx-datatable-column>
-    <ngx-datatable-column name="prenom"></ngx-datatable-column>
-    <ngx-datatable-column name="fonction"></ngx-datatable-column>
+    <ngx-datatable-column name="raisonSocial"></ngx-datatable-column>
+    <ngx-datatable-column name="adresse"></ngx-datatable-column>
+    <ngx-datatable-column name="telephone"></ngx-datatable-column>
     <ngx-datatable-column name="Actions" sortable="false">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         <ion-icon style="font-size: 30px; cursor: pointer; " slot="end" color="secondary" name="create"
@@ -45,7 +45,7 @@
       </ng-template>
 
     </ngx-datatable-column>
-    </ngx-datatable>
-  
-  
+  </ngx-datatable>
+
+
 </ion-content>
