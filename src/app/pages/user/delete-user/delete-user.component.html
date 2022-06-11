@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Suprimer Utilisateur </ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <section>
+    <header> Are you sure, you want to delete the user <b>{{nomUser}}</b> ??</header>
+
+  </section>
+  <section>
+
+
+    <ion-button slot="end" color="success" (click)="deletUser()">OUI</ion-button>
+
+    <ion-button slot="end" color="danger" (click)="_dismiss()">Non</ion-button>
+  </section>
+
+
+
+
+</ion-content>

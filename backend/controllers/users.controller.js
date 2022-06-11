@@ -77,20 +77,18 @@ exports.createUser = (req, res, next) => {
 
 
 // get users 
-
-
-
 exports.getAllUsers = (req, res, next) => {
  console.log("Get all users controller")
  
-  User.findAll({attributes: ['usr_id', 'usr_nom', 'usr_prenom', 'usr_fonction','usr_mobile', 'usr_address','usr_date_inscription','usr_email']})
+  User.findAll({attributes: ['usr_id', 'usr_nom', 'usr_prenom', 'usr_fonction','usr_mobile', 'usr_address','usr_date_inscription','usr_email'],
+  where: {usr_active: 1}})
     .then((users) => {
       //console.log(users[0].usr_email);
       res.status(200).json({
         message: 'Users !',
         users: users.map(user => {
           return {
-            id:user.user_id,
+            id:user.usr_id,
             nom: user.usr_nom,
             prenom: user.usr_prenom,
             fonction: user.usr_fonction,
@@ -105,4 +103,75 @@ exports.getAllUsers = (req, res, next) => {
     .catch((err) => {
       console.log(err)
     });
+};
+
+//
+
+exports.UpdateUser = (req, res, next) => {
+  const userId = req.params.id;
+ console.log("we are here" , userId)
+  User.findOne({   where:{usr_id:userId}}
+
+   ).then(user => {
+    if (!user) {
+      return res.status(401).json({
+        message: 'User does not exist !'
+      });
+    }else{
+        user.update({
+          usr_nom: req.body.nom,
+          usr_prenom: req.body.prenom,
+          usr_fonction :req.body.fonction,
+          usr_address:req.body.adress,
+          usr_active:1,
+          usr_date_inscription: req.body.dateInscreption,
+          usr_mobile: req.body.telephone,
+          usr_email: req.body.email,
+          privilege_id:1,
+          societe_id:1,
+         
+      }) .then(result => {
+        res.status(201).json({
+          message: 'User Update  !',
+          result: result,
+        });
+      }).catch(err => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+    }
+  })
+};
+
+
+
+//desactiver user 
+
+exports.DesactiverUser = (req, res, next) => {
+  const userId = req.params.id;
+ console.log("we are here" , userId)
+  User.findOne({   where:{usr_id:userId}}
+
+   ).then(user => {
+    if (!user) {
+      return res.status(401).json({
+        message: 'User does not exist !'
+      });
+    }else{
+        user.update({
+          
+          usr_active:0,
+      }) .then(result => {
+        res.status(201).json({
+          message: 'User Desactivat  !',
+          result: result,
+        });
+      }).catch(err => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+    }
+  })
 };

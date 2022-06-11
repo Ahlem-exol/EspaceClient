@@ -22,7 +22,7 @@
   <ion-list>
     <ion-item>
       <ion-label>Users Details</ion-label>
-      <ion-button id="trigger-button">
+      <ion-button (click)="_openModal()">
         + ajouter user
       </ion-button>
 
@@ -37,84 +37,16 @@
     <ngx-datatable-column name="fonction"></ngx-datatable-column>
     <ngx-datatable-column name="Actions" sortable="false">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        <ion-icon slot="end" color="secondary" name="create" id="update-button"></ion-icon>
-        <ion-icon slot="end" color="danger" name="trash" id="delete-button"></ion-icon>
+        <ion-icon style="font-size: 30px; cursor: pointer; " slot="end" color="secondary" name="create"
+          (click)="_openModalUpdate(row)">
+        </ion-icon>
+        <ion-icon style="font-size: 30px;  cursor: pointer;" slot="end" color="danger" name="trash"
+          (click)="_openModalDelete(row)"></ion-icon>
       </ng-template>
 
     </ngx-datatable-column>
     </ngx-datatable>
-    <!--model ajouter   -->
-  <ion-modal trigger="trigger-button">
-    <ng-template>
-      <div class="card shadow-2-strong" style="border-radius: 1rem;" style="overflow-y: scroll;">
-        <div class="card-body p-5 text-center">
-          <form #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm)">
-            <div class="d-flex align-items-center mb-3 pb-1">
-              <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-              <span class="h4 fw-bold mb-0">Ajouter un Utilisateur </span>
-            </div>
   
-            <div class="form-outline mb-4">
-  
-              <ion-item>
-  
-                <ion-input type="text" name="nom" [(ngModel)]="nom" placeholder="Nom" required></ion-input>
-              </ion-item>
-            </div>
-  
-            <div class="form-outline mb-4">
-  
-              <ion-item>
-  
-                <ion-input type="text" name="prenom" [(ngModel)]="prenom" placeholder="Prénom" required></ion-input>
-              </ion-item>
-            </div>
-            <div class="form-outline mb-4">
-  
-              <ion-item>
-  
-                <ion-input type="text" name="fonction" [(ngModel)]="fonction" placeholder="Fonction" required></ion-input>
-              </ion-item>
-            </div>
-            <div class="form-outline mb-4">
-  
-              <ion-item>
-  
-                <ion-input type="text" name="adress" [(ngModel)]="adress" placeholder="Adress" required></ion-input>
-              </ion-item>
-            </div>
-  
-            <div class="form-outline mb-4">
-  
-              <ion-item>
-  
-                <ion-input type="text" name="telephone" [(ngModel)]="telephone" placeholder="Telephone" required>
-                </ion-input>
-              </ion-item>
-            </div>
-  
-            <div class="form-outline mb-4">
-  
-              <ion-item>
-  
-                <ion-input type="text" name="email" [(ngModel)]="email" placeholder="Email" required></ion-input>
-              </ion-item>
-            </div>
-  
-            <div class="pt-1 mb-4">
-              <button type="submit" class="btn btn-dark btn-lg btn-block">Ajouter Utilisateur</button>
-            </div>
-  
-  
-          </form>
-  
-        </div>
-      </div>
-  
-  
-  
-    </ng-template>
-  </ion-modal>
   
     <!--model update   -->
     <ion-modal trigger="update-button">

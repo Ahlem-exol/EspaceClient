@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Update Utilisateur {{user.nom}} {{user.prenom}}</ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #addUserForm="ngForm" (ngSubmit)="updateUser(addUserForm)">
+
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="nom" [(ngModel)]="user.nom" placeholder="Nom" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="prenom" [(ngModel)]="user.prenom" placeholder="Prénom" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="fonction" [(ngModel)]="user.fonction" placeholder="Fonction" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="adress" [(ngModel)]="user.adress" placeholder="Adress" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="telephone" [(ngModel)]="user.telephone" placeholder="Telephone" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="email" [(ngModel)]="user.email" placeholder="Email" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="pt-1 mb-4">
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Update Utilisateur</button>
+    </div>
+
+
+  </form>
+
+</ion-content>

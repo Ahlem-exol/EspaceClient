@@ -12,6 +12,9 @@ router.post('/signup',  UsersController.createUser);
 router.get('/',checkAuth,UsersController.getAllUsers);
 //update user
 
-//suprimer user
+router.put('/update/:id',checkAuth,UsersController.UpdateUser);
+//Desactiver user
+
+router.put('/desactiver/:id',checkAuth,UsersController.DesactiverUser);
 
 module.exports = router;

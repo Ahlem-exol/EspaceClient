@@ -6,6 +6,9 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UsersService } from 'src/app/services/users/users.service';
+import { AddUserComponent } from './add-user/add-user.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 @Component({
   selector: 'app-user',
@@ -15,7 +18,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 export class UserPage implements OnInit {
   date = new Date();
   nameUser: any;
-  id: number;
+  idSession: number;
   sub: Subscription;
   loadedUsers: User[];
   tablestyle = 'bootstrap';
@@ -29,12 +32,29 @@ export class UserPage implements OnInit {
   ) {
     this.menu.enable(true, 'custom-menu');
   }
-  dismiss() {
-    // using the injected ModalController this page
-    // can "dismiss" itself and optionally pass back data
-    this.modalController.dismiss({
-      dismissed: true,
+
+  async _openModal() {
+    const modal = await this.modalController.create({
+      component: AddUserComponent,
     });
+    return await modal.present();
+  }
+
+  async _openModalUpdate(user: User) {
+    const modal = await this.modalController.create({
+      component: UpdateUserComponent,
+      componentProps: { user },
+    });
+    return await modal.present();
+  }
+
+  async _openModalDelete(user: User) {
+    console.log(user.id);
+    const modal = await this.modalController.create({
+      component: DeleteUserComponent,
+      componentProps: { user },
+    });
+    return await modal.present();
   }
 
   ngOnInit() {
@@ -42,9 +62,8 @@ export class UserPage implements OnInit {
       this.authService.getAuthData().nom +
       ' ' +
       this.authService.getAuthData().prenom;
-    this.id = parseInt(this.authService.getAuthData().id);
+    this.idSession = parseInt(this.authService.getAuthData().id);
     this.sub = this.UserService.getUsers().subscribe((usersdata) => {
-      console.log(usersdata.users);
       this.loadedUsers = usersdata.users;
     });
   }
@@ -78,11 +97,5 @@ export class UserPage implements OnInit {
         },
         (error) => {}
       );
-  }
-
-  deleteUser(idUser: number) {
-    this.UserService.DeleteUser(idUser).subscribe((res) => {
-      this.router.navigate(['/user']);
-    });
   }
 }

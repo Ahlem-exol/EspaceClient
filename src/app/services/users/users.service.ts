@@ -15,12 +15,16 @@ export class UsersService {
 
   updateUser(updateUser: User) {
     return this.http.put<{ message: string }>(
-      BACKEND_URL + '/update/' + updateUser,
+      BACKEND_URL + '/update/' + updateUser.id,
       updateUser
     );
   }
   DeleteUser(idUser: number) {
     console.log('id user ', idUser);
-    return this.http.delete<{ message: string }>(BACKEND_URL + '/' + idUser);
+    
+    return this.http.put<{ message: string }>(
+      BACKEND_URL + '/desactiver/' + idUser,
+      null
+    );
   }
 }

@@ -121,3 +121,12 @@ ion-content {
         }
     }
 }
+section {
+    margin-top: 2em;
+    margin-bottom: 2.5em;
+}
+
+section:not(.full-width),
+.full-width>header {
+    padding: 0 10px;
+}
