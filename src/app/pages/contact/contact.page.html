@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Gestion des Client {{nameUser}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menuId="custom-menu"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Clients Details</ion-label>
+      <ion-button (click)="_openModal()">
+        + Clients user
+      </ion-button>
+
+    </ion-item>
+  </ion-list>
+
+  <ngx-datatable [rows]="loadedContacts" [ngClass]="tablestyle" [rowHeight]="'auto'" [headerHeight]="50"
+    [columnMode]="'force'" style="overflow-x: scroll;">
+
+    <ngx-datatable-column name="nom"></ngx-datatable-column>
+    <ngx-datatable-column name="prenom"></ngx-datatable-column>
+    <ngx-datatable-column name="fonction"></ngx-datatable-column>
+    <ngx-datatable-column name="raisonSocial">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Actions" sortable="false">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <ion-icon style="font-size: 30px; cursor: pointer; " slot="end" color="secondary" name="create"
+          (click)="_openModalUpdate(row)">
+        </ion-icon>
+        <ion-icon style="font-size: 30px;  cursor: pointer;" slot="end" color="danger" name="trash"
+          (click)="_openModalDelete(row)"></ion-icon>
+      </ng-template>
+
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+
+</ion-content>

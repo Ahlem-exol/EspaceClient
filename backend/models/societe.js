@@ -3,11 +3,10 @@ const {
 } = require('sequelize');
 
 const sequelize = require('../utils/database');
-
+const Contact = require('./contact');
 const Societe = sequelize.define(
   'societe',
   {
-   
       societe_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -72,14 +71,14 @@ const Societe = sequelize.define(
       comment: null,
       field: "active"
     },
-    fixe: {
-      type: DataTypes.TEXT,
+    fix: {
+      type: DataTypes.STRING(250),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "date_create"
+      field: "fix"
     },
    
    
@@ -106,6 +105,9 @@ const Societe = sequelize.define(
 );
 module.exports = Societe;
 
+
+Societe.hasMany(Contact);
+Contact.belongsTo(Societe, { targetKey: 'societe_id', foreignKey: 'societe_id' });
 
 
 

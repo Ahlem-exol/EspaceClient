@@ -55,6 +55,10 @@ const routes: Routes = [
       import('./pages/societe/societe.module').then((m) => m.SocietePageModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'contact',
+    loadChildren: () => import('./pages/contact/contact.module').then( m => m.ContactPageModule)
+  },
 ];
 
 @NgModule({

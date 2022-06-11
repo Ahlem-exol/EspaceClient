@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Societe } from 'src/app/models/societe.model';
 const BACKEND_URL = 'http://localhost:3000/api/societe';
 interface addData {
-  raison_social: string;
+  raisonSocial: string;
   adresse: string;
   mail: string;
   telephone: string;
@@ -17,7 +17,7 @@ export class SocieteService {
   constructor(private http: HttpClient) {}
 
   createSociete(
-    raison_social: string,
+    raisonSocial: string,
     adresse: string,
     mail: string,
     telephone: string,
@@ -25,7 +25,7 @@ export class SocieteService {
     fixe: string
   ) {
     const authData: addData = {
-      raison_social: raison_social,
+      raisonSocial: raisonSocial,
       adresse: adresse,
       mail: mail,
       telephone: telephone,

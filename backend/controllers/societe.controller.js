@@ -12,7 +12,7 @@ exports.createSociete = (req, res, next) => {
         telephone:req.body.telephone,
         description: req.body.description,
         active: 1,
-        fix: req.body.fix,
+        fix: req.body.fixe,
         usr_id: idUser,
         });
 
@@ -50,7 +50,7 @@ exports.getAllSociete = (req, res, next) => {
             mail:societe.mail,
             telephone:societe.telephone,
             description: societe.description,
-            fix: societe.fix,
+            fixe: societe.fix,
           }
         }),
       });
@@ -79,7 +79,7 @@ exports.UpdateSociete = (req, res, next) => {
           mail:req.body.mail,
           telephone:req.body.telephone,
           description: req.body.description,
-          fix: req.body.fix,
+          fix: req.body.fixe,
           usr_id: idUser,
          
       }) .then(result => {

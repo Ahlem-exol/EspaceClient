@@ -3,6 +3,7 @@ const {
 } = require('sequelize');
 
 const sequelize = require('../utils/database');
+const Contact = require('./contact');
 const Societe = require('./societe');
 
 const User = sequelize.define(
@@ -138,4 +139,6 @@ User.hasMany(Societe);
 Societe.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 
 
+User.hasMany(Contact);
+Contact.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 

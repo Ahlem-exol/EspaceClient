@@ -25,8 +25,8 @@ export class AddSocieteComponent implements OnInit {
       return;
     }
 
-    console.log('i m in ts', this.date.toLocaleString());
-    const raison_social = form.value.raison_social;
+
+    const raisonSocial = form.value.raisonSocial;
     const adresse = form.value.adresse;
     const mail = form.value.mail;
     const telephone = form.value.telephone;
@@ -34,7 +34,7 @@ export class AddSocieteComponent implements OnInit {
     const fixe = form.value.fixe;
 
     this.SocieteService.createSociete(
-      raison_social,
+      raisonSocial,
       adresse,
       mail,
       telephone,

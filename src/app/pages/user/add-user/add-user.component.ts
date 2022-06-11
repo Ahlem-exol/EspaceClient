@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
-  date: Date;
+  date = new Date();
   constructor(
     private modelControl: ModalController,
     private authService: AuthService
@@ -20,7 +20,7 @@ export class AddUserComponent implements OnInit {
   _dismiss() {
     this.modelControl.dismiss();
   }
-  addUser(form: NgForm) {
+  addContact(form: NgForm) {
     if (!form.valid) {
       return;
     }
@@ -33,6 +33,7 @@ export class AddUserComponent implements OnInit {
     const telephone = form.value.telephone;
     const email = form.value.email;
     const dateInscreption = this.date;
+
     this.authService
       .createUser(
         nom,
