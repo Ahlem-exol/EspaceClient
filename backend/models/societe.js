@@ -4,6 +4,7 @@ const {
 
 const sequelize = require('../utils/database');
 const Contact = require('./contact');
+const Projet = require('./projet');
 const Societe = sequelize.define(
   'societe',
   {
@@ -108,6 +109,10 @@ module.exports = Societe;
 
 Societe.hasMany(Contact);
 Contact.belongsTo(Societe, { targetKey: 'societe_id', foreignKey: 'societe_id' });
+
+Societe.hasMany(Projet);
+Projet.belongsTo(Societe, { targetKey: 'societe_id', foreignKey: 'societe_id' });
+
 
 
 
