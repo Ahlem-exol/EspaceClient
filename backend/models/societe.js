@@ -106,7 +106,6 @@ const Societe = sequelize.define(
 );
 module.exports = Societe;
 
-
 Societe.hasMany(Contact);
 Contact.belongsTo(Societe, { targetKey: 'societe_id', foreignKey: 'societe_id' });
 

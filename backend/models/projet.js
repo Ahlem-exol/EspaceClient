@@ -72,7 +72,15 @@ const Lot = require('./lot');
         comment: null,
         field: "clt_active"
       },
-    
+      active: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "active"
+      },
    
       usr_id: {
         type: DataTypes.INTEGER(11),
