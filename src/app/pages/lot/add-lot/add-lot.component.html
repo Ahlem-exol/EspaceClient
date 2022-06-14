@@ -1,0 +1,70 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Ajouter Lot</ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #addUserForm="ngForm" (ngSubmit)="createLot(addUserForm)">
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="titre" [(ngModel)]="titre" placeholder="LOT N°1" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="description" [(ngModel)]="description" placeholder="La description" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="duree" [(ngModel)]="duree" placeholder="duree" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-label>projet Titre</ion-label>
+        <ion-select [(ngModel)]="projet" name="projet">
+          <ion-select-option *ngFor="let projet of loadedProjet" [value]="projet.id">
+            {{projet.titre}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="Date" name="dateFinLot" [(ngModel)]="dateFinLot" placeholder="date fine de lot" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+
+    <div class="pt-1 mb-4">
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Ajouter Lot</button>
+    </div>
+
+
+  </form>
+
+</ion-content>

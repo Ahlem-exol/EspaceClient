@@ -1,0 +1,85 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Update Projet {{projet.titre}}</ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #addprojetForm="ngForm" (ngSubmit)="updateProjet(addprojetForm)">
+
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="titre" [(ngModel)]="projet.titre" placeholder="Titre de Projet" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="duree" [(ngModel)]="projet.duree" placeholder="la duree" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-label>Societe</ion-label>
+        <ion-select [(ngModel)]="projet.societe" name="societe">
+          <ion-select-option *ngFor="let societe of loadedSociete" [value]="societe.id">
+            {{societe.raisonSocial}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="description" [(ngModel)]="projet.description" placeholder="La Description"
+          required>
+        </ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="localisation" [(ngModel)]="projet.localisation" placeholder="Localisation"
+          required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="Date" name="dateDemarage" [(ngModel)]="projet.dateDemarage"
+          placeholder="Date de demarage de projet" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="Date" name="dateFin" [(ngModel)]="projet.dateFin" placeholder="dateFin" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="pt-1 mb-4">
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Update Projet</button>
+    </div>
+
+
+  </form>
+
+</ion-content>

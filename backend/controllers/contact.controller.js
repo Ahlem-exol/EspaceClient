@@ -137,7 +137,6 @@ exports.Updatecontact = (req, res, next) => {
   const idUser = req.userData.id;
  console.log("we are here" , contactId)
   Contact.findOne({  attributes: ['clt_id', 'clt_nom', 'clt_prenom', 'clt_fonction','clt_mobile', 'clt_address','clt_date_inscription','clt_email','societe_id'], where:{clt_id:contactId}}
-
    ).then(contact => {
     if (!contact) {
       return res.status(401).json({

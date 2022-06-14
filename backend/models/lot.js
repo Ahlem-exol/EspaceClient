@@ -7,6 +7,7 @@ const {
   const Lot = sequelize.define(
     'lot',
     {
+
         lot_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -51,33 +52,6 @@ const {
         autoIncrement: false,
         comment: null,
         field: "dateFinLot"
-      },
-      clt_address: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        defaultValue: null,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "clt_address"
-      },
-      clt_active: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        defaultValue: null,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "clt_active"
-      },
-      clt_date_inscription: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-        defaultValue: null,
-        primaryKey: false,
-        autoIncrement: false,
-        comment: null,
-        field: "clt_date_inscription"
       },
       active: {
         type: DataTypes.INTEGER(11),

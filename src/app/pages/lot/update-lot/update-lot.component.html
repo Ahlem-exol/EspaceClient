@@ -1,0 +1,74 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Update lot {{lot.titre}}</ion-title>
+
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="_dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form #addlotForm="ngForm" (ngSubmit)="updatLot(addlotForm)">
+
+
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" name="titre" [(ngModel)]="lot.titre" placeholder="Titre de lot" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="duree" [(ngModel)]="lot.duree" placeholder="la duree" required></ion-input>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-label>Projet</ion-label>
+        <ion-select [(ngModel)]="lot.projet" name="projet">
+          <ion-select-option *ngFor="let projet of loadedProjet" [value]="projet.id">
+            {{projet.titre}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="text" name="description" [(ngModel)]="lot.description" placeholder="La Description" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+
+
+
+    <div class="form-outline mb-4">
+
+      <ion-item>
+
+        <ion-input type="Date" name="dateFinLot" [(ngModel)]="lot.dateFinLot" placeholder="dateFinLot" required>
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <div class="pt-1 mb-4">
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Update lot</button>
+    </div>
+
+
+  </form>
+
+</ion-content>

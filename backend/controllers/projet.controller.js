@@ -1,14 +1,11 @@
-//for generation et cryp the password 
-const bcrypt = require("bcrypt");
-var generator = require('generate-password');
 const Projet = require('../models/projet');
-
 const nodemailer = require("nodemailer");
 const Societe = require("../models/societe");
 
 // const ProjetPrivilege = require('../models/Projet_privilege');
 
 exports.createProjet = (req, res, next) => {
+  console.log(typeof(req.body.dateFin), req.userData);
     const idUser = req.userData.id;
        const projet = new Projet({
          titre: req.body.titre,
@@ -38,33 +35,42 @@ exports.createProjet = (req, res, next) => {
         });
   };
 
-
 // get Projets 
 exports.getAllProjets = (req, res, next) => {
  console.log("Get all Projets controller")
  
-  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin'],
+  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','societe_id'],
   include:[
     {
       model:Societe,attributes:['societe_id', 'raison_social', 'adresse', 'mail','telephone', 'description','fix']}
   ],
   where: {active: 1}})
-    .then((Projets) => {
+    .then((projets) => {
 
       res.status(200).json({
         message: 'Projets !',
-        Projets: Projets.map(Projet => {
+        projets: projets.map(projet => {
           return {
 
-             id: Projet.prj_id,
-             titre: Projet.titre,
-             duree: Projet.duree,
-             description: Projet.description,
-             localisation: Projet.localisation,
-             dateDemarage: Projet.dateDemarage,
-             dateFin: Projet.dateFin,
-             societe_id:  Projet.Societe.societe_id,
-             raisonSocial: Projet.Societe.raison_social,
+             id: projet.prj_id,
+             titre: projet.titre,
+             duree: projet.duree,
+             description: projet.description,
+             localisation: projet.localisation,
+             dateDemarage: projet.dateDemarage,
+             dateFin: projet.dateFin,
+             societe_id:  projet.societe_id,
+             raisonSocial: projet.societe.raison_social,
+            
+            societe:{
+                id:projet.societe.societe_id,
+                raisonSocial: projet.societe.raison_social,
+                adresse :projet.societe.adresse,
+                mail:projet.societe.mail,
+                telephone:projet.societe.telephone,
+                description: projet.societe.description,
+                fixe: projet.societe.fix,
+            }
           }
         }),
       });
@@ -74,8 +80,7 @@ exports.getAllProjets = (req, res, next) => {
     });
 };
 
-//
-
+//Update 
 exports.UpdateProjet = (req, res, next) => {
   const ProjetId = req.params.id;
   const idUser = req.userData.id;
@@ -98,7 +103,7 @@ exports.UpdateProjet = (req, res, next) => {
             dateDemarage: req.body.dateDemarage,
             dateFin: req.body.dateFin,
             usr_id: idUser,
-            societe_id:req.body.societe_id,
+            societe_id:req.body.societe,
 
         
          
@@ -116,10 +121,7 @@ exports.UpdateProjet = (req, res, next) => {
   })
 };
 
-
-
 //desactiver Projet 
-
 exports.DesactiverProjet = (req, res, next) => {
   const ProjetId = req.params.id;
   const idUser = req.userData.id;

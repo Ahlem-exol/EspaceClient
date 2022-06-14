@@ -11,6 +11,7 @@ export class Projet {
     public dateDemarage: string,
     public dateFin: string,
     public active: string,
+    public raisonSocial: string,
     public societe_id: string,
     public societe: Societe
   ) {}

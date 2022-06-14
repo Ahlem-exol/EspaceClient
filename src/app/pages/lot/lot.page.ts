@@ -2,31 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import { Projet } from 'src/app/models/projet.model';
+import { Lot } from 'src/app/models/lot.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { ProjetService } from 'src/app/services/projet/projet.service';
-import { AddProjetComponent } from './add-projet/add-projet.component';
-import { DeleteProjetComponent } from './delete-projet/delete-projet.component';
-import { UpdateProjetComponent } from './update-projet/update-projet.component';
+import { LotService } from 'src/app/services/lot/lot.service';
+import { AddLotComponent } from './add-lot/add-lot.component';
+import { DeleteLotComponent } from './delete-lot/delete-lot.component';
+import { UpdateLotComponent } from './update-lot/update-lot.component';
 
 @Component({
-  selector: 'app-projet',
-  templateUrl: './projet.page.html',
-  styleUrls: ['./projet.page.scss'],
+  selector: 'app-lot',
+  templateUrl: './lot.page.html',
+  styleUrls: ['./lot.page.scss'],
 })
-export class ProjetPage implements OnInit {
+export class LotPage implements OnInit {
   date = new Date();
   nameUser: any;
   idSession: number;
   sub: Subscription;
-  loadedProjet: Projet[];
+  loadedLot: Lot[];
   tablestyle = 'bootstrap'; // dark
 
   constructor(
     public modalController: ModalController,
     private router: Router,
     private menu: MenuController,
-    private ProjetService: ProjetService,
+    private LotService: LotService,
     private authService: AuthService
   ) {
     this.menu.enable(true, 'custom-menu');
@@ -34,32 +34,29 @@ export class ProjetPage implements OnInit {
 
   async _openModal() {
     const modal = await this.modalController.create({
-      component: AddProjetComponent,
+      component: AddLotComponent,
     });
     return await modal.present();
   }
 
-  async _openModalUpdate(projet: Projet) {
+  async _openModalUpdate(lot: Lot) {
     const modal = await this.modalController.create({
-      component: UpdateProjetComponent,
-      componentProps: { projet },
+      component: UpdateLotComponent,
+      componentProps: { lot },
     });
     return await modal.present();
   }
 
-  async _openModalDelete(projet: Projet) {
+  async _openModalDelete(lot: Lot) {
     console.log(this.authService.getAuthData());
-    console.log(projet.id);
+    console.log(lot.id);
     const modal = await this.modalController.create({
-      component: DeleteProjetComponent,
-      componentProps: { projet },
+      component: DeleteLotComponent,
+      componentProps: { lot },
     });
     return await modal.present();
   }
 
-  _openDetaille(projet: Projet) {
-    this.router.navigateByUrl('lot');
-  }
   ngOnInit() {
     this.nameUser =
       this.authService.getAuthData().nom +
@@ -67,9 +64,9 @@ export class ProjetPage implements OnInit {
       this.authService.getAuthData().prenom;
     console.log(this.authService.getAuthData());
     this.idSession = parseInt(this.authService.getAuthData().id);
-    this.sub = this.ProjetService.getProjets().subscribe((Projetsdata) => {
-      this.loadedProjet = Projetsdata.projets;
-      console.log(this.loadedProjet);
+    this.sub = this.LotService.getLots().subscribe((Lotsdata) => {
+      this.loadedLot = Lotsdata.lots;
+      console.log(this.loadedLot);
     });
   }
 

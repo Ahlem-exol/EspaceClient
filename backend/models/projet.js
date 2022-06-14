@@ -70,7 +70,7 @@ const Lot = require('./lot');
         primaryKey: false,
         autoIncrement: false,
         comment: null,
-        field: "clt_active"
+        field: "dateFin"
       },
       active: {
         type: DataTypes.INTEGER(11),
