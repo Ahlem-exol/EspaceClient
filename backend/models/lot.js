@@ -35,6 +35,15 @@ const {
         comment: null,
         field: "description"
       },
+      etat: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "etat"
+      },
       duree: {
         type: DataTypes.STRING(255),
         allowNull: false,

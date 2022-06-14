@@ -6,7 +6,6 @@ const checkAuth = require("../middleware/check-auth");
 
 const router = express.Router();
 
-console.log("we are in the canctact router")
 router.get('/',checkAuth,ProjetController.getAllProjets);
 router.post('/', checkAuth, ProjetController.createProjet);
 

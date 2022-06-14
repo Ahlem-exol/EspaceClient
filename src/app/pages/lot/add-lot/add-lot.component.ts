@@ -7,7 +7,10 @@ import { Societe } from 'src/app/models/societe.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LotService } from 'src/app/services/lot/lot.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
-
+declare interface type {
+  title: string;
+  icon: string;
+}
 @Component({
   selector: 'app-add-lot',
   templateUrl: './add-lot.component.html',
@@ -17,6 +20,13 @@ export class AddLotComponent implements OnInit {
   date = new Date();
   sub: Subscription;
   loadedProjet: Projet[];
+
+  listEtat: type[] = [
+    { title: 'Fin', icon: 'ni-tv-2 text-primary' },
+    { title: 'En attente ', icon: 'ni-tv-2 text-primary' },
+    { title: 'En cours', icon: 'ni-tv-2 text-primary' },
+  ];
+
   constructor(
     private modelControl: ModalController,
     private authService: AuthService,
@@ -43,6 +53,7 @@ export class AddLotComponent implements OnInit {
     const duree = form.value.duree;
     const description = form.value.description;
     const dateFinLot = form.value.dateFinLot;
+    const etat = form.value.etat;
     const prj_id = form.value.projet;
 
     this.LotService.createLot(
@@ -50,6 +61,7 @@ export class AddLotComponent implements OnInit {
       duree,
       description,
       dateFinLot,
+      etat,
       prj_id
     ).subscribe(
       (result) => {

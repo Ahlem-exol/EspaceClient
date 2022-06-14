@@ -67,6 +67,10 @@ const routes: Routes = [
     path: 'lot',
     loadChildren: () => import('./pages/lot/lot.module').then( m => m.LotPageModule)
   },
+  {
+    path: 'client-desh',
+    loadChildren: () => import('./pages/client-desh/client-desh.module').then( m => m.ClientDeshPageModule)
+  },
 ];
 
 @NgModule({

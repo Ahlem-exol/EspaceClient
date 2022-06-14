@@ -43,7 +43,16 @@
         </ion-select>
       </ion-item>
     </div>
-    <div class="form-outline mb-4">
+<div class="form-outline mb-4">
+  <ion-item>
+    <ion-label>ETAT de Lot </ion-label>
+    <ion-select [(ngModel)]="lot.etat" name="etat">
+      <ion-select-option *ngFor="let etat of listEtat" [value]="etat.title">
+        {{etat.title}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  </div>
+  <div class="form-outline mb-4">
 
       <ion-item>
 

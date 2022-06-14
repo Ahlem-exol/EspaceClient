@@ -5,7 +5,10 @@ import { Lot } from 'src/app/models/lot.model';
 import { Projet } from 'src/app/models/projet.model';
 import { LotService } from 'src/app/services/lot/lot.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
-
+declare interface type {
+  title: string;
+  icon: string;
+}
 @Component({
   selector: 'app-update-lot',
   templateUrl: './update-lot.component.html',
@@ -16,6 +19,12 @@ export class UpdateLotComponent implements OnInit {
   toast: any;
   sub: Subscription;
   loadedProjet: Projet[];
+  listEtat: type[] = [
+    { title: 'Fin', icon: 'ni-tv-2 text-primary' },
+    { title: 'En attente ', icon: 'ni-tv-2 text-primary' },
+    { title: 'En cours', icon: 'ni-tv-2 text-primary' },
+  ];
+
   constructor(
     private modelControl: ModalController,
     private ProjetService: ProjetService,
@@ -44,6 +53,7 @@ export class UpdateLotComponent implements OnInit {
   }
 
   updatLot() {
+    console.log(this.lot);
     this.LotService.updateLot(this.lot).subscribe((res) => {
       this.toastUpdate();
       this.modelControl.dismiss();

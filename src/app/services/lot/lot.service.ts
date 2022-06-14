@@ -8,6 +8,7 @@ interface addData {
   duree: string;
   description: string;
   dateFinLot: Date;
+  etat: string;
   prj_id: string;
 }
 
@@ -22,6 +23,7 @@ export class LotService {
     duree: string,
     description: string,
     dateFinLot: Date,
+    etat: string,
     prj_id: string
   ) {
     const ProjData: addData = {
@@ -29,6 +31,7 @@ export class LotService {
       duree: duree,
       description: description,
       dateFinLot: dateFinLot,
+      etat: etat,
       prj_id: prj_id,
     };
 

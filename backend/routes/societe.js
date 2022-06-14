@@ -7,7 +7,6 @@ const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
  
 
-console.log("in socite contoroller")
 router.get('/',checkAuth,SocieteController.getAllSociete);
 router.post('/', checkAuth, SocieteController.createSociete);
 

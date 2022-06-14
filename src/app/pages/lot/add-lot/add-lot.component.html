@@ -54,6 +54,15 @@
 
     <div class="form-outline mb-4">
       <ion-item>
+        <ion-label>ETAT</ion-label>
+        <ion-select [(ngModel)]="etat" name="etat">
+          <ion-select-option *ngFor="let etat of listEtat" [value]="etat.title">
+            {{etat.title}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
         <ion-input type="Date" name="dateFinLot" [(ngModel)]="dateFinLot" placeholder="date fine de lot" required>
         </ion-input>
       </ion-item>

@@ -6,7 +6,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ClientsComponent } from './pages/clients/clients.component';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './services/auth/auth-interceptor';
 import { UserPage } from './pages/user/user.page';
@@ -19,9 +18,8 @@ import { AddSocieteComponent } from './pages/societe/add-societe/add-societe.com
 import { UpdateSocieteComponent } from './pages/societe/update-societe/update-societe.component';
 import { DeleteSocieteComponent } from './pages/societe/delete-societe/delete-societe.component';
 import { AddUserComponent } from './pages/user/add-user/add-user.component';
-
 @NgModule({
-  declarations: [AppComponent, ClientsComponent],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
