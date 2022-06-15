@@ -27,7 +27,6 @@ export class ClientDeshPage implements OnInit {
   }
 
   doughnutChartMethod() {
-    this.doughnutChart.height = 500;
     this.doughnutChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'doughnut',
       data: {
