@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { Chart } from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-client-desh',
@@ -27,6 +27,7 @@ export class ClientDeshPage implements OnInit {
   }
 
   doughnutChartMethod() {
+    this.doughnutChart.height = 500;
     this.doughnutChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'doughnut',
       data: {
@@ -34,6 +35,7 @@ export class ClientDeshPage implements OnInit {
         datasets: [
           {
             label: '# of Votes',
+
             data: [50, 29, 15, 10, 7],
             backgroundColor: [
               'rgba(255, 159, 64, 0.2)',
@@ -51,6 +53,13 @@ export class ClientDeshPage implements OnInit {
             ],
           },
         ],
+      },
+      options: {
+        layout: {
+          padding: {
+            left: 0,
+          },
+        },
       },
     });
   }

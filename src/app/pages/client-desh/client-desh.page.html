@@ -19,7 +19,7 @@
   <!-- class="popover" //  -->
   <ion-list class="popoverd" lines="none">
     <ion-row>
-      <ion-col size="6">
+      <ion-col size="2">
         <ion-item>
           <ion-label class="ion-text-wrap">
             <h1>
@@ -31,7 +31,11 @@
         </ion-item>
       </ion-col>
 
-      <ion-col size="6">
+      <ion-col size="8">
+        <canvas #lineCanvas></canvas>
+      </ion-col>
+      
+      <ion-col size="2">
         <ion-item>
           <ion-label class="ion-text-wrap ion-text-right">
             <h1>
@@ -44,9 +48,7 @@
       </ion-col>
 
 
-      <ion-col size="12" style="display:block">
-        <canvas #lineCanvas></canvas>
-      </ion-col>
+    
 
     </ion-row>
   </ion-list>
@@ -65,7 +67,7 @@
 
 </ion-header>
 
-<!-- <ion-content>
+<ion-content>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
