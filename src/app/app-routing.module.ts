@@ -57,19 +57,25 @@ const routes: Routes = [
   },
   {
     path: 'contact',
-    loadChildren: () => import('./pages/contact/contact.module').then( m => m.ContactPageModule)
+    loadChildren: () =>
+      import('./pages/contact/contact.module').then((m) => m.ContactPageModule),
   },
   {
     path: 'projet',
-    loadChildren: () => import('./pages/projet/projet.module').then( m => m.ProjetPageModule)
+    loadChildren: () =>
+      import('./pages/projet/projet.module').then((m) => m.ProjetPageModule),
   },
   {
     path: 'lot',
-    loadChildren: () => import('./pages/lot/lot.module').then( m => m.LotPageModule)
+    loadChildren: () =>
+      import('./pages/lot/lot.module').then((m) => m.LotPageModule),
   },
   {
-    path: 'client-desh',
-    loadChildren: () => import('./pages/client-desh/client-desh.module').then( m => m.ClientDeshPageModule)
+    path: 'clientDesh',
+    loadChildren: () =>
+      import('./pages/client-desh/client-desh.module').then(
+        (m) => m.ClientDeshPageModule
+      ),
   },
 ];
 

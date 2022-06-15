@@ -9,7 +9,7 @@ import { AuthService } from './services/auth/auth.service';
 export class AppComponent implements OnInit {
   title = 'Espace Client';
   pages: any[] = [
-    { title: 'Dashboard', url: '/client-desh', icon: 'home' },
+    { title: 'Dashboard', url: '/clientDesh', icon: 'home' },
     { title: 'Users', url: '/user', icon: 'person' },
     { title: 'Sociéte', url: '/societe', icon: 'business' },
     { title: 'Contact(Client)', url: '/contact', icon: 'person' },

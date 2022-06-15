@@ -96,7 +96,7 @@ export class AuthService {
               now.getTime() + expiresInDuration * 1000
             );
             this.saveAuthData(token, id, expirationDate, nom, prenom);
-            this.router.navigateByUrl('user');
+            this.router.navigateByUrl('clientDesh');
           }
         })
       );
