@@ -14,7 +14,8 @@ export class AuthenticationPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private menu: MenuController
-  ) {
+  
+    ) {
     this.menu.enable(false, 'custom-menu');
   }
   isLoading = false;

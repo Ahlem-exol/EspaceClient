@@ -13,16 +13,12 @@ export class ClientDeshPage implements OnInit {
   segmentValue = 1;
   requests: any[] = [];
   donors: any[] = [];
-
+  newHeight = 0;
   constructor(private menu: MenuController) {
     this.menu.enable(true, 'custom-menu');
   }
 
-  // When we try to call our chart to initialize methods in ngOnInit() it shows an error nativeElement of undefined.
-  // So, we need to call all chart methods in ngAfterViewInit() where @ViewChild and @ViewChildren will be resolved.
   ngAfterViewInit() {
-    console.log('ngAfterVeiwer ');
-
     this.doughnutChartMethod();
   }
 
@@ -30,26 +26,14 @@ export class ClientDeshPage implements OnInit {
     this.doughnutChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'doughnut',
       data: {
-        labels: ['BJP', 'Congress', 'AAP', 'CPM', 'SP'],
+        labels: ['Realise', 'en cours', 'en attent'],
         datasets: [
           {
-            label: '# of Votes',
+            label: '# de Lot',
 
-            data: [50, 29, 15, 10, 7],
-            backgroundColor: [
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-            ],
-            hoverBackgroundColor: [
-              '#FFCE56',
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#FF6384',
-            ],
+            data: [12, 22, 66],
+            backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
+            hoverBackgroundColor: ['#36A2EB', '#FFCE56', '#FF6384'],
           },
         ],
       },
@@ -63,20 +47,40 @@ export class ClientDeshPage implements OnInit {
     });
   }
 
+  scroll(event) {
+    const value = event.detail.scrollTop;
+    console.log(value);
+    if (value > 40) {
+      this.newHeight += 15;
+      console.log('pandd', 120 - this.newHeight);
+    } else {
+      this.newHeight = 0;
+      console.log('pandd', 120 - this.newHeight);
+    }
+
+    if (value > 166 && this.newHeight <= 166) {
+      this.newHeight += 50;
+    }
+  }
+
   ngOnInit() {
     console.log('ngonite ');
     // this.doughnutChartMethod();
 
     this.requests = [
-      { id: 1, name: 'qsfhs djfhdsf', descreption: 'sfsdfsdfs' },
-      { id: 2, name: 'qsfhsd  jfhdsf', descreption: 'sfsdfsdfs' },
-      { id: 3, name: 'qsfhsdjfhdsf', descreption: 'sfsdfsdfs' },
+      { id: 1, name: 'LOT N°1', descreption: 'Etude' },
+      { id: 2, name: 'LOT N°2', descreption: 'Achat Materiel' },
+      { id: 3, name: 'LOT N°3', descreption: 'Prototyp' },
+      { id: 4, name: 'LOT N°3', descreption: 'Prototyp' },
+      { id: 5, name: 'LOT N°3', descreption: 'Prototyp' },
+      { id: 6, name: 'LOT N°3', descreption: 'Prototyp' },
+      { id: 7, name: 'LOT N°3', descreption: 'Prototyp' },
     ];
 
     this.donors = [
-      { id: 1, name: 'qsfhsdjfhdsf', descreption: 'sfsdfsdfs' },
-      { id: 2, name: 'qsfhsdjfhdsf', descreption: 'sfsdfsdfs' },
-      { id: 3, name: 'qsfhsdjfhdsf', descreption: 'sfsdfsdfs' },
+      { id: 1, name: 'LOT N°4', descreption: 'Realisation produit 1' },
+      { id: 2, name: 'LOT N°5', descreption: 'Realisation producit 2' },
+      { id: 3, name: 'LOT N°5', descreption: 'sfsdfsdfs' },
     ];
   }
 

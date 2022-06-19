@@ -1,11 +1,14 @@
 ion-header {
     background: var(--ion-color-light);
+app-header {
 
+        display: block;
+    
     ion-grid {
         background: var(--ion-color-primary);
         margin-top: -5px;
         border-radius: 0 0 5px 5px;
-        padding-bottom: 120px;
+        // padding-bottom: 120px;
     }
 
     .popoverd {
@@ -13,7 +16,7 @@ ion-header {
         border-radius: 10px;
         width: 90%;
         margin: auto;
-        margin-top: -120px;
+        // margin-top: -120px;
 
         ion-item {
             ion-label {
@@ -38,16 +41,17 @@ ion-header {
 
     }
 
-    div {
-        background: var(--ion-color-light);
+  }
+div {
+    background: var(--ion-color-light);
 
-        ion-segment {
+    ion-segment {
             --background: var(--ion-color-white);
             border-radius: 20px;
             --margin-top: 5px;
             --margin-bottom: 5px;
 
-            ion-segment-button {
+        ion-segment-button {
                 --background-checked: var(--ion-color-primary);
                 --indicator-color: var(--ion-color-primary);
                 --border-radius: 20px;
@@ -55,7 +59,7 @@ ion-header {
                 --color-checked: var(--ion-color-white);
             }
         }
-    }
+        }
 }
 
 ion-content {
