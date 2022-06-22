@@ -12,6 +12,7 @@ exports.createlot = (req, res, next) => {
          description :req.body.description,
          active:1,
          dateFinLot: req.body.dateFinLot,
+         datedebut :req.body.datedebut,
          etat:req.body.etat,
          usr_id: idUser,
          prj_id:req.body.prj_id,
@@ -35,7 +36,7 @@ exports.createlot = (req, res, next) => {
 // get lots 
 exports.getAlllots = (req, res, next) => {
  
-  Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, `prj_id`, `active`,'etat'],
+  Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut', `prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage']}
@@ -46,13 +47,13 @@ exports.getAlllots = (req, res, next) => {
       res.status(200).json({
         message: 'lots !',
         lots: lots.map(lot => {
-       
           return {
              id: lot.lot_id,
              titre: lot.titre,
              duree: lot.duree,
              description: lot.description,
              dateFinLot: lot.dateFinLot,
+             datedebut:lot.datedebut,
              etat:lot.etat,
              projet_id:  lot.prj_id,
              projeTitre: lot.projet.titre,
@@ -74,11 +75,57 @@ exports.getAlllots = (req, res, next) => {
 };
 
 //Update 
+exports.GetLotEnattend = (req, res, next) => {
+  const lotId = req.params.id;
+  const idUser = req.userData.id;
+  console.log(req.body)
+  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut' ,`prj_id`, `active`,'etat'],
+  include:[
+    {
+      model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
+   where:{etat:'En attente'}}
+
+   ).then(lot => {
+    console.log(lot)
+    if (!lot) {
+
+      return res.status(401).json({
+        message: 'lot does not exist !'
+      });
+    }else{
+        lot.update({
+          titre: req.body.titre,
+          duree: req.body.duree,
+          description :req.body.description,
+          active:1,
+          dateFinLot: req.body.dateFinLot,
+          datedebut:req.body.datedebut,
+          etat:req.body.etat,
+          usr_id: idUser,
+          prj_id:req.body.projet,
+
+        
+         
+      }) .then(result => {
+        res.status(201).json({
+          message: 'lot Update  !',
+          result: result,
+        });
+      }).catch(err => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+    }
+  })
+};
+
+//Update 
 exports.Updatelot = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
   console.log(req.body)
-  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, `prj_id`, `active`,'etat'],
+  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut' ,`prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
@@ -98,6 +145,7 @@ exports.Updatelot = (req, res, next) => {
           description :req.body.description,
           active:1,
           dateFinLot: req.body.dateFinLot,
+          datedebut:req.body.datedebut,
           etat:req.body.etat,
           usr_id: idUser,
           prj_id:req.body.projet,
@@ -123,7 +171,7 @@ exports.Desactiverlot = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
  console.log("we are here" , lotId)
-  Lot.findOne({ attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, `usr_id`, `prj_id`, `active`],
+  Lot.findOne({ attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, 'datedebut',`usr_id`, `prj_id`, `active`],
     where:{lot_id:lotId}}
 
    ).then(lot => {

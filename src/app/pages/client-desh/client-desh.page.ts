@@ -58,15 +58,17 @@ export class ClientDeshPage implements OnInit {
       console.log('pandd', 120 - this.newHeight);
     }
 
-    if (value > 166 && this.newHeight <= 166) {
-      this.newHeight += 50;
+    if (value > 400 && this.newHeight <= 56) {
+      this.newHeight += 100;
     }
   }
 
   ngOnInit() {
     console.log('ngonite ');
     // this.doughnutChartMethod();
-
+    // liste lot en attent
+    // liste  lot fini
+    //list lot en cours
     this.requests = [
       { id: 1, name: 'LOT N°1', descreption: 'Etude' },
       { id: 2, name: 'LOT N°2', descreption: 'Achat Materiel' },

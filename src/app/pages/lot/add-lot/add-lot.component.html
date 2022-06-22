@@ -34,12 +34,7 @@
       </ion-item>
     </div>
 
-    <div class="form-outline mb-4">
-      <ion-item>
-        <ion-input type="text" name="duree" [(ngModel)]="duree" placeholder="duree" required>
-        </ion-input>
-      </ion-item>
-    </div>
+
 
     <div class="form-outline mb-4">
       <ion-item>
@@ -61,13 +56,29 @@
         </ion-select>
       </ion-item>
     </div>
+  <!-- obliger slectionnes date debut befor selectione date de fin  onchange  si slectionne afficher item date fin  -->
+  <!-- when bothe of date debut et date fin selcete afficher la duree non mofiable  -->
     <div class="form-outline mb-4">
       <ion-item>
-        <ion-input type="Date" name="dateFinLot" [(ngModel)]="dateFinLot" placeholder="date fine de lot" required>
+        <ion-label>Date Debut</ion-label>
+        <ion-input type="Date" name="datedebut" [(ngModel)]="datedebut" required>
         </ion-input>
-      </ion-item>
-    </div>
+        </ion-item>
+        </div>
 
+        <div class="form-outline mb-4">
+          <ion-item>
+            <ion-label>Date Fin</ion-label>
+            <ion-input type="Date" name="dateFinLot" [(ngModel)]="dateFinLot" required>
+            </ion-input>
+          </ion-item>
+        </div>
+        <div class="form-outline mb-4">
+          <ion-item>
+            <ion-input type="number" name="duree" [(ngModel)]="duree" placeholder="duree" required>
+            </ion-input>
+          </ion-item>
+        </div>
 
     <div class="pt-1 mb-4">
       <button type="submit" class="btn btn-dark btn-lg btn-block">Ajouter Lot</button>

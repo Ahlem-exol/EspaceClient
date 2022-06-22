@@ -59,16 +59,19 @@ const routes: Routes = [
     path: 'contact',
     loadChildren: () =>
       import('./pages/contact/contact.module').then((m) => m.ContactPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'projet',
     loadChildren: () =>
       import('./pages/projet/projet.module').then((m) => m.ProjetPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'lot',
     loadChildren: () =>
       import('./pages/lot/lot.module').then((m) => m.LotPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'clientDesh',
@@ -76,6 +79,7 @@ const routes: Routes = [
       import('./pages/client-desh/client-desh.module').then(
         (m) => m.ClientDeshPageModule
       ),
+    canActivate: [AuthGuard],
   },
 ];
 

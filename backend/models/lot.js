@@ -62,6 +62,16 @@ const {
         comment: null,
         field: "dateFinLot"
       },
+      
+      datedebut: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "datedebut"
+      },
       active: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -99,9 +109,7 @@ const {
         }
       },
     }, {
-      // disable the modification of table names; By default, sequelize will automatically
-      // transform all passed model names (first parameter of define) into plural.
-      // if you don't want that, set the following
+    
       freezeTableName: true,
       timestamps: false
     }

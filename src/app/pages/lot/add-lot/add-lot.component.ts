@@ -7,6 +7,8 @@ import { Societe } from 'src/app/models/societe.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LotService } from 'src/app/services/lot/lot.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 declare interface type {
   title: string;
   icon: string;
@@ -23,7 +25,7 @@ export class AddLotComponent implements OnInit {
 
   listEtat: type[] = [
     { title: 'Fin', icon: 'ni-tv-2 text-primary' },
-    { title: 'En attente ', icon: 'ni-tv-2 text-primary' },
+    { title: 'En attente', icon: 'ni-tv-2 text-primary' },
     { title: 'En cours', icon: 'ni-tv-2 text-primary' },
   ];
 
@@ -53,6 +55,7 @@ export class AddLotComponent implements OnInit {
     const duree = form.value.duree;
     const description = form.value.description;
     const dateFinLot = form.value.dateFinLot;
+    const datedebut = form.value.datedebut;
     const etat = form.value.etat;
     const prj_id = form.value.projet;
 
@@ -61,6 +64,7 @@ export class AddLotComponent implements OnInit {
       duree,
       description,
       dateFinLot,
+      datedebut,
       etat,
       prj_id
     ).subscribe(

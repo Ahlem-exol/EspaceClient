@@ -8,6 +8,7 @@ interface addData {
   duree: string;
   description: string;
   dateFinLot: Date;
+  datedebut: Date;
   etat: string;
   prj_id: string;
 }
@@ -23,6 +24,7 @@ export class LotService {
     duree: string,
     description: string,
     dateFinLot: Date,
+    datedebut: Date,
     etat: string,
     prj_id: string
   ) {
@@ -31,6 +33,7 @@ export class LotService {
       duree: duree,
       description: description,
       dateFinLot: dateFinLot,
+      datedebut: datedebut,
       etat: etat,
       prj_id: prj_id,
     };

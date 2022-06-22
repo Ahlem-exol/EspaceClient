@@ -75,7 +75,7 @@
         <ion-icon slot="icon-only" name="options"></ion-icon>
       </ion-button>
     </ion-item>
-    <ion-item-groupe>
+    <ion-item-group>
       <ion-item color="ion-padding-vertical popItem" *ngFor="let item of (segmentValue =='1') ? requests : donors">
         <ion-thumbnail slot="start">
           <div class="ion-text-center" *ngIf="segmentValue =='1'">
@@ -91,7 +91,7 @@
           <p class="ion-text-wrap ">{{item?.descreption}}</p>
         </ion-label>
       </ion-item>
-    </ion-item-groupe>
+    </ion-item-group>
   </ion-list>
 
 </ion-content>
