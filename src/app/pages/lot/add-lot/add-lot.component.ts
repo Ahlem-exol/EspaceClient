@@ -20,8 +20,12 @@ declare interface type {
 })
 export class AddLotComponent implements OnInit {
   date = new Date();
+  dateDebut = '12/06/2066';
   sub: Subscription;
   loadedProjet: Projet[];
+  AfficheDateFin = 0;
+  DateDebut: Date;
+  dureeCalculer = 0;
 
   listEtat: type[] = [
     { title: 'Fin', icon: 'ni-tv-2 text-primary' },
@@ -40,13 +44,25 @@ export class AddLotComponent implements OnInit {
     this.sub = this.ProjetService.getProjets().subscribe((projetsData) => {
       this.loadedProjet = projetsData.projets;
     });
+    // this.datedebut = this.navParams.get('datedebut');
+    // console.log('From the construction', this.datedebut);
   }
 
+  chnageDateDebut(event) {
+    this.DateDebut = event.detail.value;
+    this.AfficheDateFin = 1;
+  }
+
+  calculeDuree($event) {
+    console.log('date debut ', this.DateDebut);
+    console.log(event);
+    // this.datedebut = this.navParams.get('datedebut');
+    // console.log('From the construction', this.datedebut);
+  }
   _dismiss() {
     this.modelControl.dismiss();
   }
   createLot(form: NgForm) {
-    console.log('in the ts', form.value);
     if (!form.valid) {
       return;
     }
