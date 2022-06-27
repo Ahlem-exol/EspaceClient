@@ -61,8 +61,9 @@
     <div class="form-outline mb-4">
       <ion-item>
         <ion-label>Date Debut</ion-label>
-        <ion-input type="text" name="datedebut" [(ngModel)]="dateDebut" (ionChange)='chnageDateDebut($event)' required>
-        </ion-input>
+        <!-- <ion-input type="text"  (ionChange)='chnageDateDebut($event)' required> -->
+        <ion-datetime displayFormat="MM/DD/YYYYY" name="datedebut" [(ngModel)]="dateDebut"></ion-datetime>
+        <!-- </ion-input> -->
         </ion-item>
         </div>
 
