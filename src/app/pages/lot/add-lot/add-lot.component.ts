@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { IonDatetime, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Projet } from 'src/app/models/projet.model';
 import { Societe } from 'src/app/models/societe.model';
@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { LotService } from 'src/app/services/lot/lot.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { format, parseISO } from 'date-fns';
 
 declare interface type {
   title: string;
@@ -19,8 +20,12 @@ declare interface type {
   styleUrls: ['./add-lot.component.scss'],
 })
 export class AddLotComponent implements OnInit {
+  @ViewChild(IonDatetime) datetime: IonDatetime;
+
+  dateValue: any;
+  dateValue2 = '';
   date = new Date();
-  dateDebut = '12/06/2066';
+
   sub: Subscription;
   loadedProjet: Projet[];
   AfficheDateFin = 0;
@@ -40,6 +45,16 @@ export class AddLotComponent implements OnInit {
     private ProjetService: ProjetService
   ) {}
 
+  confirm() {
+    this.datetime.confirm(true);
+  }
+  reset() {
+    this.datetime.reset();
+  }
+  formatDate(value: string) {
+    return format(parseISO(value), 'MMM dd yyyy');
+  }
+
   ngOnInit() {
     this.sub = this.ProjetService.getProjets().subscribe((projetsData) => {
       this.loadedProjet = projetsData.projets;
@@ -48,10 +63,7 @@ export class AddLotComponent implements OnInit {
     // console.log('From the construction', this.datedebut);
   }
 
-  chnageDateDebut(event) {
-    this.DateDebut = event.detail.value;
-    this.AfficheDateFin = 1;
-  }
+  chnageDateDebut() {}
 
   calculeDuree($event) {
     console.log('date debut ', this.DateDebut);

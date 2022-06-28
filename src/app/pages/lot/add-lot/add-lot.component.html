@@ -11,12 +11,8 @@
 
   </ion-toolbar>
 
-
-
 </ion-header>
-
 <ion-content class="ion-padding">
-
   <form #addUserForm="ngForm" (ngSubmit)="createLot(addUserForm)">
 
     <div class="form-outline mb-4">
@@ -59,21 +55,39 @@
   <!-- obliger slectionnes date debut befor selectione date de fin  onchange  si slectionne afficher item date fin  -->
   <!-- when both of date debut et date fin selcete afficher la duree non mofiable  -->
     <div class="form-outline mb-4">
-      <ion-item>
-        <ion-label>Date Debut</ion-label>
-        <!-- <ion-input type="text"  (ionChange)='chnageDateDebut($event)' required> -->
-        <ion-datetime displayFormat="MM/DD/YYYYY" name="datedebut" [(ngModel)]="dateDebut"></ion-datetime>
-        <!-- </ion-input> -->
-        </ion-item>
+      <ion-item button="true" id="open-date-input">
+        <ion-label>Date debut</ion-label>
+        <ion-text slot="end"> {{ dateValue }}</ion-text>
+        <ion-popover trigger="open-date-input" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime presentation="date" (ionChange)="dateValue = formatDate(popoverDatetime.value)">
+              <ion-buttons slot="buttons">
+                <ion-button (click)="confirm()">Good to go !</ion-button>
+                <ion-button (click)="reset()">Rest</ion-button>
+              </ion-buttons>
+            </ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
         </div>
 
-        <div class="form-outline mb-4" *ngIf="AfficheDateFin === 1 ">
-          <ion-item>
-            <ion-label>Date Fin</ion-label>
-            <ion-input type="Date" name="dateFinLot" [(ngModel)]="dateFinLot" (ionChange)='calculeDuree($event)' required>
-            </ion-input>
+        <div class="form-outline mb-4">
+          <ion-item button="true" id="open-date-input">
+            <ion-label>Date debut</ion-label>
+            <ion-text slot="end"> {{ dateValue }}</ion-text>
+            <ion-popover trigger="open-date-input" show-backdrop="false">
+              <ng-template>
+                <ion-datetime #popoverDatetime presentation="date" (ionChange)="dateValue = formatDate(popoverDatetime.value)">
+                  <ion-buttons slot="buttons">
+                    <ion-button (click)="confirm()">Good to go !</ion-button>
+                    <ion-button (click)="reset()">Rest</ion-button>
+                  </ion-buttons>
+                </ion-datetime>
+              </ng-template>
+            </ion-popover>
           </ion-item>
         </div>
+        
         <div class="form-outline mb-4">
           <ion-item>
             <ion-input type="number" name="duree" [(ngModel)]="duree" placeholder="duree" required>
@@ -87,5 +101,4 @@
 
 
   </form>
-
 </ion-content>
