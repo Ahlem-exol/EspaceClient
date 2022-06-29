@@ -23,7 +23,7 @@ export class AddLotComponent implements OnInit {
   @ViewChild(IonDatetime) datetime: IonDatetime;
 
   dateValue: any;
-  dateValue2 = '';
+  dateValue2: any;
   date = new Date();
 
   sub: Subscription;
@@ -52,7 +52,7 @@ export class AddLotComponent implements OnInit {
     this.datetime.reset();
   }
   formatDate(value: string) {
-    return format(parseISO(value), 'MMM dd yyyy');
+    return format(parseISO(value), 'dd MM yyyy');
   }
 
   ngOnInit() {

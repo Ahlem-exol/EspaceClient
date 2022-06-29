@@ -72,16 +72,18 @@
         </div>
 
         <div class="form-outline mb-4">
-          <ion-item button="true" id="open-date-input">
-            <ion-label>Date debut</ion-label>
-            <ion-text slot="end"> {{ dateValue }}</ion-text>
-            <ion-popover trigger="open-date-input" show-backdrop="false">
+          <ion-item button="true" id="open-date-input1">
+            <ion-label>Date Fin</ion-label>
+            <ion-text slot="end"> {{ dateValue2 }}</ion-text>
+            <ion-popover trigger="open-date-input1" show-backdrop="false">
               <ng-template>
-                <ion-datetime #popoverDatetime presentation="date" (ionChange)="dateValue = formatDate(popoverDatetime.value)">
+                <ion-datetime #popoverDatetime2 presentation="date" displayFormat="MMMM YYYY" min="dateValue"
+                  (ionChange)="dateValue2 = formatDate(popoverDatetime2.value)">
                   <ion-buttons slot="buttons">
                     <ion-button (click)="confirm()">Good to go !</ion-button>
                     <ion-button (click)="reset()">Rest</ion-button>
                   </ion-buttons>
+                  
                 </ion-datetime>
               </ng-template>
             </ion-popover>
