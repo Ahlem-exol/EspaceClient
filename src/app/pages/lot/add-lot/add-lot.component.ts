@@ -25,7 +25,8 @@ export class AddLotComponent implements OnInit {
   dateValue: any;
   dateValue2: any;
   date = new Date();
-
+  dateDebut: any;
+  datefin: any;
   sub: Subscription;
   loadedProjet: Projet[];
   AfficheDateFin = 0;
@@ -51,8 +52,18 @@ export class AddLotComponent implements OnInit {
   reset() {
     this.datetime.reset();
   }
-  formatDate(value: string) {
-    return format(parseISO(value), 'dd MM yyyy');
+  formatDate1(value: string) {
+    this.dateValue = format(parseISO(value), 'yyyy-MM-dd');
+    console.log(this.dateValue);
+    return format(parseISO(value), 'yyyy-MM-dd');
+  }
+
+  formatDate2(value: string) {
+    this.dateValue2 = format(parseISO(value), 'yyyy-MM-dd');
+    console.log(this.dateValue2);
+    //calculer la  duree is the date de fin -date de debut
+    this.dureeCalculer = this.dateValue2 - this.dateValue;
+    return format(parseISO(value), 'yyyy-MM-dd');
   }
 
   ngOnInit() {

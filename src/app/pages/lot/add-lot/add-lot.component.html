@@ -60,7 +60,7 @@
         <ion-text slot="end"> {{ dateValue }}</ion-text>
         <ion-popover trigger="open-date-input" show-backdrop="false">
           <ng-template>
-            <ion-datetime #popoverDatetime presentation="date" (ionChange)="dateValue = formatDate(popoverDatetime.value)">
+            <ion-datetime #popoverDatetime presentation="date" (ionChange)="dateValue = formatDate1(popoverDatetime.value)">
               <ion-buttons slot="buttons">
                 <ion-button (click)="confirm()">Good to go !</ion-button>
                 <ion-button (click)="reset()">Rest</ion-button>
@@ -77,8 +77,8 @@
             <ion-text slot="end"> {{ dateValue2 }}</ion-text>
             <ion-popover trigger="open-date-input1" show-backdrop="false">
               <ng-template>
-                <ion-datetime #popoverDatetime2 presentation="date" displayFormat="MMMM YYYY" min="dateValue"
-                  (ionChange)="dateValue2 = formatDate(popoverDatetime2.value)">
+                <ion-datetime #popoverDatetime2 presentation="date" [min]="dateValue"
+                  (ionChange)="dateValue2 = formatDate2(popoverDatetime2.value)">
                   <ion-buttons slot="buttons">
                     <ion-button (click)="confirm()">Good to go !</ion-button>
                     <ion-button (click)="reset()">Rest</ion-button>
@@ -92,7 +92,7 @@
         
         <div class="form-outline mb-4">
           <ion-item>
-            <ion-input type="number" name="duree" [(ngModel)]="duree" placeholder="duree" required>
+            <ion-input type="number" name="duree" [(ngModel)]="duree" [placeholder]="dureeCalculer" required>
             </ion-input>
           </ion-item>
         </div>
