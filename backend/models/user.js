@@ -5,6 +5,7 @@ const {
 const sequelize = require('../utils/database');
 const Contact = require('./contact');
 const Lot = require('./lot');
+const Lotstat = require('./lotstat');
 const Projet = require('./projet');
 const Societe = require('./societe');
 
@@ -137,6 +138,7 @@ const User = sequelize.define(
   }
 );
 module.exports = User;
+
 User.hasMany(Societe);
 Societe.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 
@@ -151,4 +153,8 @@ Projet.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 
 User.hasMany(Lot);
 Lot.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
+
+
+User.hasMany(Lotstat);
+Lotstat.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 

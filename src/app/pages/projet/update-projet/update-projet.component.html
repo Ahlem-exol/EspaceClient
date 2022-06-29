@@ -61,6 +61,12 @@
 
     <div class="form-outline mb-4">
       <ion-item>
+        <ion-input type="text" name="montent" [(ngModel)]="projet.montent" placeholder="Montent" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-outline mb-4">
+      <ion-item>
         <ion-input type="Date" name="dateDemarage" [(ngModel)]="projet.dateDemarage"
           placeholder="Date de demarage de projet" required>
         </ion-input>

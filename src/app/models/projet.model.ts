@@ -10,6 +10,7 @@ export class Projet {
     public localisation: Date,
     public dateDemarage: string,
     public dateFin: string,
+    public montent: number,
     public active: string,
     public raisonSocial: string,
     public societe_id: string,

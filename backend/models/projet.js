@@ -81,7 +81,16 @@ const Lot = require('./lot');
         comment: null,
         field: "active"
       },
-   
+      
+      montent: {
+        type: DataTypes.INTEGER(100),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "montent"
+      },
       usr_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -95,6 +104,7 @@ const Lot = require('./lot');
           model: "user"
         }
       },
+      
       societe_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,

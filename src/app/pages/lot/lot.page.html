@@ -35,7 +35,9 @@
     <ngx-datatable-column name="description"></ngx-datatable-column>
     <ngx-datatable-column name="duree"></ngx-datatable-column>
     <ngx-datatable-column name="etat"></ngx-datatable-column>
+    <ngx-datatable-column name="montentLot"></ngx-datatable-column>
     <ngx-datatable-column name="projeTitre"></ngx-datatable-column>
+    
     <ngx-datatable-column name="Actions" sortable="false">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         <ion-icon style="font-size: 30px; cursor: pointer; " slot="end" color="success" name="create"
@@ -43,7 +45,11 @@
         </ion-icon>
         <ion-icon style="font-size: 30px;  cursor: pointer;" slot="end" color="danger" name="trash"
           (click)="_openModalDelete(row)"></ion-icon>
-
+          <ion-icon style="font-size: 30px;  cursor: pointer;" slot="end" color="warning" name="copy" (click)="_UpdateStat(row)">
+          </ion-icon>
+          <ion-icon style="font-size: 30px;  cursor: pointer;" slot="end" color="medium" name="layers-outline"
+            (click)="_DetailStat(row)">
+          </ion-icon>
       </ng-template>
 
     </ngx-datatable-column>

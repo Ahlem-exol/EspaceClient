@@ -8,6 +8,7 @@ interface addData {
   duree: string;
   description: string;
   localisation: Date;
+  montent: number;
   dateDemarage: string;
   dateFin: string;
   societe_id: string;
@@ -24,6 +25,7 @@ export class ProjetService {
     duree: string,
     description: string,
     localisation: Date,
+    montent: number,
     dateDemarage: string,
     dateFin: string,
     societe_id: string
@@ -33,6 +35,7 @@ export class ProjetService {
       duree: duree,
       description: description,
       localisation: localisation,
+      montent: montent,
       dateDemarage: dateDemarage,
       dateFin: dateFin,
       societe_id: societe_id,

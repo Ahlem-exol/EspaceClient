@@ -8,6 +8,7 @@ export class Lot {
     public description: string,
     public dateFinLot: Date,
     public datedebut: Date,
+    public montentLot: number,
     public etat: string,
     public prj_id: string,
     public projeTitre: string,

@@ -1,0 +1,38 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center ">Detaille Lot </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menuId="custom-menu"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear">
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Lot Details</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ngx-datatable [rows]="loadedStat" [ngClass]="tablestyle" [rowHeight]="'auto'" [headerHeight]="50"
+    [columnMode]="'force'" style="overflow-x: scroll;">
+    <ngx-datatable-column name="lotTitre"></ngx-datatable-column>
+    <ngx-datatable-column name="percentage"></ngx-datatable-column>
+    <ngx-datatable-column name="dateUpdate"></ngx-datatable-column>
+
+
+
+
+  </ngx-datatable>
+
+</ion-content>

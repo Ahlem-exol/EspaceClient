@@ -7,8 +7,11 @@ const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
 router.get('/',checkAuth,LotController.getAlllots);
-router.post('/', checkAuth,LotController.createlot);
+router.get('/:id',checkAuth,LotController.getAlllotStats);
 
+
+router.post('/', checkAuth,LotController.createlot);
+router.post('/updateLotStat', checkAuth,LotController.UpdateStatLot);
 //update user
 router.put('/update/:id',checkAuth,LotController.Updatelot);
 //Desactiver user

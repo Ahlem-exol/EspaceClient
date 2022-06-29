@@ -13,6 +13,7 @@ exports.createProjet = (req, res, next) => {
          description :req.body.description,
          localisation:req.body.localisation,
          active:1,
+         montent:req.body.montent,
          dateDemarage: req.body.dateDemarage,
          dateFin: req.body.dateFin,
          usr_id: idUser,
@@ -39,7 +40,7 @@ exports.createProjet = (req, res, next) => {
 exports.getAllProjets = (req, res, next) => {
  console.log("Get all Projets controller")
  
-  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','societe_id'],
+  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent','dateFin','societe_id'],
   include:[
     {
       model:Societe,attributes:['societe_id', 'raison_social', 'adresse', 'mail','telephone', 'description','fix']}
@@ -59,6 +60,7 @@ exports.getAllProjets = (req, res, next) => {
              localisation: projet.localisation,
              dateDemarage: projet.dateDemarage,
              dateFin: projet.dateFin,
+             montent:projet.montent,
              societe_id:  projet.societe_id,
              raisonSocial: projet.societe.raison_social,
             
@@ -85,7 +87,7 @@ exports.UpdateProjet = (req, res, next) => {
   const ProjetId = req.params.id;
   const idUser = req.userData.id;
  console.log("we are here" , ProjetId)
-  Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin', `usr_id`, `societe_id`],
+  Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`],
    where:{prj_id:ProjetId}}
 
    ).then(Projet => {
@@ -99,7 +101,7 @@ exports.UpdateProjet = (req, res, next) => {
             duree: req.body.duree,
             description :req.body.description,
             localisation:req.body.localisation,
-           
+            montent:req.body.montent,
             dateDemarage: req.body.dateDemarage,
             dateFin: req.body.dateFin,
             usr_id: idUser,
@@ -126,7 +128,7 @@ exports.DesactiverProjet = (req, res, next) => {
   const ProjetId = req.params.id;
   const idUser = req.userData.id;
  console.log("we are here" , ProjetId)
-  Projet.findOne({ attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin', `usr_id`, `societe_id`],
+  Projet.findOne({ attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent' ,`usr_id`, `societe_id`],
     where:{prj_id:ProjetId}}
 
    ).then(Projet => {

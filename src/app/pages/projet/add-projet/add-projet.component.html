@@ -1,24 +1,17 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center ">Ajouter Projet</ion-title>
-
-
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="_dismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
-
-
-
 </ion-header>
 
 <ion-content class="ion-padding">
 
   <form #addUserForm="ngForm" (ngSubmit)="addPro(addUserForm)">
-
 
     <div class="form-outline mb-4">
       <ion-item>
@@ -65,6 +58,14 @@
     <div class="form-outline mb-4">
 
       <ion-item>
+
+        <ion-input type="number" name="montent" [(ngModel)]="montent" placeholder="Montent de projet" required></ion-input>
+        </ion-item>
+        </div>
+        
+        <div class="form-outline mb-4">
+        
+          <ion-item>
 
         <ion-input type="Date" name="dateDemarage" [(ngModel)]="dateDemarage" placeholder="dateDemarage" required>
         </ion-input>

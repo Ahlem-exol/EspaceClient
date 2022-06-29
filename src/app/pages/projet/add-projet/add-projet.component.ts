@@ -41,6 +41,7 @@ export class AddProjetComponent implements OnInit {
     const duree = form.value.duree;
     const description = form.value.description;
     const localisation = form.value.localisation;
+    const montent = form.value.montent;
     const dateDemarage = form.value.dateDemarage;
     const dateFin = form.value.dateFin;
     const idSociete = form.value.societe;
@@ -50,6 +51,7 @@ export class AddProjetComponent implements OnInit {
       duree,
       description,
       localisation,
+      montent,
       dateDemarage,
       dateFin,
       idSociete

@@ -1,4 +1,5 @@
 const Lot = require('../models/lot');
+const Lotstat = require('../models/lotstat');
 const Projet = require('../models/projet');
 
 // const lotPrivilege = require('../models/lot_privilege');
@@ -11,6 +12,7 @@ exports.createlot = (req, res, next) => {
          duree: req.body.duree,
          description :req.body.description,
          active:1,
+         montentLot:req.body.montentLot,
          dateFinLot: req.body.dateFinLot,
          datedebut :req.body.datedebut,
          etat:req.body.etat,
@@ -36,7 +38,7 @@ exports.createlot = (req, res, next) => {
 // get lots 
 exports.getAlllots = (req, res, next) => {
  
-  Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut', `prj_id`, `active`,'etat'],
+  Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage']}
@@ -54,6 +56,7 @@ exports.getAlllots = (req, res, next) => {
              description: lot.description,
              dateFinLot: lot.dateFinLot,
              datedebut:lot.datedebut,
+             montentLot:lot.montentLot,
              etat:lot.etat,
              projet_id:  lot.prj_id,
              projeTitre: lot.projet.titre,
@@ -79,7 +82,7 @@ exports.GetLotEnattend = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
   console.log(req.body)
-  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut' ,`prj_id`, `active`,'etat'],
+  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
@@ -98,6 +101,7 @@ exports.GetLotEnattend = (req, res, next) => {
           duree: req.body.duree,
           description :req.body.description,
           active:1,
+          montentLot:req.montentLot,
           dateFinLot: req.body.dateFinLot,
           datedebut:req.body.datedebut,
           etat:req.body.etat,
@@ -125,7 +129,7 @@ exports.Updatelot = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
   console.log(req.body)
-  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut' ,`prj_id`, `active`,'etat'],
+  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
@@ -144,6 +148,7 @@ exports.Updatelot = (req, res, next) => {
           duree: req.body.duree,
           description :req.body.description,
           active:1,
+          montentLot:req.body.montentLot,
           dateFinLot: req.body.dateFinLot,
           datedebut:req.body.datedebut,
           etat:req.body.etat,
@@ -171,7 +176,7 @@ exports.Desactiverlot = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
  console.log("we are here" , lotId)
-  Lot.findOne({ attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, 'datedebut',`usr_id`, `prj_id`, `active`],
+  Lot.findOne({ attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, 'datedebut','montentLot',`usr_id`, `prj_id`, `active`],
     where:{lot_id:lotId}}
 
    ).then(lot => {
@@ -196,4 +201,63 @@ exports.Desactiverlot = (req, res, next) => {
       });
     }
   })
+};
+
+
+//update letat d'avencement d'un Lot
+
+
+exports.UpdateStatLot = (req, res, next) => {
+
+  const idUser = req.userData.id;
+  console.log(req.body);
+    const lotStat = new Lotstat({
+      dateUpdate: req.body.dateUpdate,
+      Percentage: req.body.percentage,
+       usr_id: idUser,
+       lot_id:req.body.lot_id,
+      });
+
+      lotStat.save()
+        .then(result => {
+        
+         res.status(201).json({
+          message: 'lot update created successfully !.',
+        })
+      
+      }).catch(err => {
+        res.status(500).json({
+          error: err,
+          message: 'lot stat already existe !',
+        });
+      });
+};  
+
+exports.getAlllotStats = (req, res, next) => {
+  const lotId = req.params.id;
+  Lotstat.findAll({attributes: [`idStat`, `dateUpdate`, `Percentage`, `lot_id`, `usr_id`],
+  include:[
+    {
+      model:Lot,attributes:[`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `prj_id`, `active`,'etat']}
+  ],
+  where: {lot_id: lotId}})
+    .then((lotstats) => {
+console.log(lotstats)
+      res.status(200).json({
+        message: 'lots !',
+        lotstats: lotstats.map(lotstat => {
+          return {
+             id: lotstat.idStat,
+             dateUpdate: lotstat.dateUpdate,
+             percentage: lotstat.Percentage,
+             lot_id:  lotstat.lot_id,
+             lotTitre: lotstat.lot.titre,
+          
+          }
+        }),
+      });
+    })
+    .catch((err) => {
+      console.log(err)
+    });
 };

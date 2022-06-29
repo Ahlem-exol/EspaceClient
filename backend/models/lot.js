@@ -3,6 +3,7 @@ const {
   } = require('sequelize');
   
   const sequelize = require('../utils/database');
+const Lotstat = require('./lotstat');
  
   const Lot = sequelize.define(
     'lot',
@@ -82,6 +83,16 @@ const {
         field: "active"
       },
    
+      
+      montentLot: {
+        type: DataTypes.INTEGER(100),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "montentLot"
+      },
       usr_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -116,7 +127,9 @@ const {
   );
   module.exports = Lot;
 
-  
+  Lot.hasMany(Lotstat);
+  Lotstat.belongsTo(Lot, { targetKey: 'lot_id', foreignKey: 'lot_id' });
+
   
   
   
