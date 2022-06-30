@@ -72,6 +72,25 @@ const Lot = require('./lot');
         comment: null,
         field: "dateFin"
       },
+      perRealise: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "perRealise"
+      },
+      perNonReal: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "perNonReal"
+      },
+      
       active: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -83,7 +102,7 @@ const Lot = require('./lot');
       },
       
       montent: {
-        type: DataTypes.INTEGER(100),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,

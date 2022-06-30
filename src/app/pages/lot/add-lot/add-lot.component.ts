@@ -31,7 +31,6 @@ export class AddLotComponent implements OnInit {
   loadedProjet: Projet[];
   AfficheDateFin = 0;
   DateDebut: Date;
-  dureeCalculer = 0;
   todayNumber: number;
   listEtat: type[] = [
     { title: 'Fin', icon: 'ni-tv-2 text-primary' },
@@ -64,9 +63,7 @@ export class AddLotComponent implements OnInit {
     //calculer la  duree is the date de fin -date de debut
     this.todayNumber = this.dateValue2;
     console.log('let convertet to string', this.todayNumber);
-    this.dureeCalculer = this.dateValue2 - this.dateValue;
     this.todayNumber = this.dateValue2;
-
     return format(parseISO(value), 'yyyy-MM-dd');
   }
 
@@ -98,8 +95,8 @@ export class AddLotComponent implements OnInit {
     const duree = form.value.duree;
     const description = form.value.description;
     const montentLot = form.value.montentLot;
-    const dateFinLot = form.value.dateFinLot;
-    const datedebut = form.value.datedebut;
+    const dateFinLot = this.dateValue2;
+    const datedebut = this.dateValue;
     const etat = form.value.etat;
     const prj_id = form.value.projet;
 

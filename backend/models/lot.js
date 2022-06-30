@@ -46,7 +46,7 @@ const Lotstat = require('./lotstat');
         field: "etat"
       },
       duree: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.INTEGER(11),
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -54,6 +54,62 @@ const Lotstat = require('./lotstat');
         comment: null,
         field: "duree"
       },
+  
+      percentage: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "percentage"
+      },
+      percentageRealise: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "percentageRealise"
+      },
+      percentageNonRealise: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "percentageNonRealise"
+      },
+      percentageRealiseCalcule: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "percentageRealiseCalcule"
+      },
+      percentageNonRealiseCalcule: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "percentageNonRealiseCalcule"
+      },
+      duree: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "duree"
+      },
+
       dateFinLot: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -85,7 +141,7 @@ const Lotstat = require('./lotstat');
    
       
       montentLot: {
-        type: DataTypes.INTEGER(100),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,

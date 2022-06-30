@@ -12,6 +12,8 @@ exports.createProjet = (req, res, next) => {
          duree: req.body.duree,
          description :req.body.description,
          localisation:req.body.localisation,
+         perRealise :req.body.perRealise,
+         perNonReal: req.body.perNonReal ,
          active:1,
          montent:req.body.montent,
          dateDemarage: req.body.dateDemarage,
@@ -40,7 +42,7 @@ exports.createProjet = (req, res, next) => {
 exports.getAllProjets = (req, res, next) => {
  console.log("Get all Projets controller")
  
-  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent','dateFin','societe_id'],
+  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent','dateFin','societe_id', `perRealise`, `perNonReal`],
   include:[
     {
       model:Societe,attributes:['societe_id', 'raison_social', 'adresse', 'mail','telephone', 'description','fix']}
@@ -58,6 +60,8 @@ exports.getAllProjets = (req, res, next) => {
              duree: projet.duree,
              description: projet.description,
              localisation: projet.localisation,
+              perRealise: 0,
+              perNonReal: 100,
              dateDemarage: projet.dateDemarage,
              dateFin: projet.dateFin,
              montent:projet.montent,
@@ -87,7 +91,7 @@ exports.UpdateProjet = (req, res, next) => {
   const ProjetId = req.params.id;
   const idUser = req.userData.id;
  console.log("we are here" , ProjetId)
-  Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`],
+  Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
    where:{prj_id:ProjetId}}
 
    ).then(Projet => {
@@ -101,6 +105,8 @@ exports.UpdateProjet = (req, res, next) => {
             duree: req.body.duree,
             description :req.body.description,
             localisation:req.body.localisation,
+            // perRealise:req.body.perRealise,
+            // perNonReal:req.body.perNonReal,
             montent:req.body.montent,
             dateDemarage: req.body.dateDemarage,
             dateFin: req.body.dateFin,
@@ -128,7 +134,7 @@ exports.DesactiverProjet = (req, res, next) => {
   const ProjetId = req.params.id;
   const idUser = req.userData.id;
  console.log("we are here" , ProjetId)
-  Projet.findOne({ attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent' ,`usr_id`, `societe_id`],
+  Projet.findOne({ attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent' ,`usr_id`, `societe_id`, `perRealise`, `perNonReal`],
     where:{prj_id:ProjetId}}
 
    ).then(Projet => {

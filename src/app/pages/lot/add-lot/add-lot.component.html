@@ -91,7 +91,6 @@
                     <ion-button (click)="confirm()">Good to go !</ion-button>
                     <ion-button (click)="reset()">Rest</ion-button>
                   </ion-buttons>
-                  
                 </ion-datetime>
               </ng-template>
             </ion-popover>
@@ -100,7 +99,7 @@
         
         <div class="form-outline mb-4">
           <ion-item>
-            <ion-input type="number" name="duree" [(ngModel)]="duree" [placeholder]="dureeCalculer" required>
+            <ion-input type="number" name="duree" [(ngModel)]="duree" placeholder="dureeCalculer" required>
             </ion-input>
           </ion-item>
         </div>

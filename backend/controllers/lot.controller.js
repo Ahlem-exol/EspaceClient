@@ -6,16 +6,37 @@ const Projet = require('../models/projet');
 //      //SELECT `lot_id`, `titre`, `description`, `duree`, `dateFinLot`, `usr_id`, `prj_id`, `active` FROM `lot` WHERE 1
 exports.createlot = (req, res, next) => {
 
-    const idUser = req.userData.id;
+// get the projet by id here then get only the price pour claculer le percentage de cette lot 
+const ProjetId = req.body.prj_id;
+
+Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
+ where:{prj_id:ProjetId}}
+
+ ).then(Projet => {
+  if (!Projet) {
+    return res.status(401).json({
+      message: 'Projet does not exist !'
+    });
+  }else{
+    // get the montant de projet 
+// calculer le percentage de lot apartire de leur prix et le prix global de projet 
+    per = (req.body.montentLot *100)/Projet.montent;
+ 
+   const idUser = req.userData.id;
        const lot = new Lot({
          titre: req.body.titre,
-         duree: req.body.duree,
+         duree: req.body.duree +'Days',
          description :req.body.description,
          active:1,
          montentLot:req.body.montentLot,
          dateFinLot: req.body.dateFinLot,
          datedebut :req.body.datedebut,
          etat:req.body.etat,
+         percentage:per, 
+         percentageRealise:0,
+         percentageNonRealise:100, 
+         percentageRealiseCalcule:0,
+         percentageNonRealiseCalcule:per ,
          usr_id: idUser,
          prj_id:req.body.prj_id,
         });
@@ -33,6 +54,12 @@ exports.createlot = (req, res, next) => {
             message: 'lotn already in use !',
           });
         });
+
+  }
+})
+
+
+
   };
 
 // get lots 
@@ -77,19 +104,70 @@ exports.getAlllots = (req, res, next) => {
     });
 };
 
-//Update 
+//Get lot  en cour et en attend
 exports.GetLotEnattend = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
-  console.log(req.body)
   Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
-   where:{etat:'En attente'}}
+   where:{
+    $or:[
+      { etat: 'En attente' },
+      { etat: 'En cours'  }
+    ]
+   }
+
+  //  {etat:'En attente' || etat:'En attente'}
+  }
 
    ).then(lot => {
-    console.log(lot)
+    if (!lot) {
+      return res.status(401).json({
+        message: 'lot does not exist !'
+      });
+    }else{
+        lot.update({
+          titre: req.body.titre,
+          duree: req.body.duree,
+          description :req.body.description,
+          active:1,
+          montentLot:req.montentLot,
+          dateFinLot: req.body.dateFinLot,
+          datedebut:req.body.datedebut,
+          etat:req.body.etat,
+          usr_id: idUser,
+          prj_id:req.body.projet,
+
+        
+         
+      }) .then(result => {
+        res.status(201).json({
+          message: 'lot Update  !',
+          result: result,
+        });
+      }).catch(err => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+    }
+  })
+};
+
+
+//Get lot Fini 
+exports.GetLotFini = (req, res, next) => {
+  const lotId = req.params.id;
+  const idUser = req.userData.id;
+  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat'],
+  include:[
+    {
+      model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
+   where:{etat:'Fin'}}
+
+   ).then(lot => {
     if (!lot) {
 
       return res.status(401).json({
@@ -124,19 +202,84 @@ exports.GetLotEnattend = (req, res, next) => {
   })
 };
 
+
+
 //Update 
 exports.Updatelot = (req, res, next) => {
   const lotId = req.params.id;
   const idUser = req.userData.id;
   console.log(req.body)
-  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat'],
+// get the projet by id here then get only the price pour claculer le percentage de cette lot 
+const ProjetId = req.body.projet_id;
+
+Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
+ where:{prj_id:ProjetId}}
+
+ ).then(Projet => {
+  if (!Projet) {
+    return res.status(401).json({
+      message: 'Projet does not exist !'
+    });
+  }else{
+  
+// calculer le percentage de lot apartire de leur prix et le prix global de projet 
+    per = (req.body.montentLot *100)/Projet.montent;
+console.log(per)
+    Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat',`percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`],
+    include:[
+      {
+        model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],
+      },],
+        where:{lot_id:lotId}
+      }
+     ).then(lot => {
+      if (!lot) {
+        return res.status(401).json({
+          message: 'lot does not exist !'
+        });
+      }else{
+          lot.update({
+            titre: req.body.titre,
+            duree: req.body.duree,
+            description :req.body.description,
+            active:1,
+            montentLot:req.body.montentLot,
+            percentage:per, 
+            percentageRealise:0,
+            percentageNonRealise:100, 
+            percentageRealiseCalcule:0,
+            percentageNonRealiseCalcule:per,
+            dateFinLot: req.body.dateFinLot,
+            datedebut:req.body.datedebut,
+            etat:req.body.etat,
+            usr_id: idUser,
+            prj_id:req.body.projet,    
+        }) .then(result => {
+          res.status(201).json({
+            message: 'lot Update  !',
+            result: result,
+          });
+        }).catch(err => {
+          res.status(500).json({
+            error: err,
+          });
+        });
+      }
+    })
+
+  }
+})
+
+
+
+  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat',`percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
    where:{lot_id:lotId}}
 
    ).then(lot => {
-    console.log(lot)
+  
     if (!lot) {
 
       return res.status(401).json({
@@ -173,10 +316,11 @@ exports.Updatelot = (req, res, next) => {
 
 //desactiver lot 
 exports.Desactiverlot = (req, res, next) => {
+
+  console.log("we try to delet the lot ")
   const lotId = req.params.id;
   const idUser = req.userData.id;
- console.log("we are here" , lotId)
-  Lot.findOne({ attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, 'datedebut','montentLot',`usr_id`, `prj_id`, `active`],
+  Lot.findOne({ attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`, 'datedebut','montentLot',`usr_id`, `prj_id`, `active`,`percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`],
     where:{lot_id:lotId}}
 
    ).then(lot => {
@@ -203,14 +347,10 @@ exports.Desactiverlot = (req, res, next) => {
   })
 };
 
-
 //update letat d'avencement d'un Lot
-
-
 exports.UpdateStatLot = (req, res, next) => {
 
   const idUser = req.userData.id;
-  console.log(req.body);
     const lotStat = new Lotstat({
       dateUpdate: req.body.dateUpdate,
       Percentage: req.body.percentage,
@@ -220,7 +360,7 @@ exports.UpdateStatLot = (req, res, next) => {
 
       lotStat.save()
         .then(result => {
-        
+        //update la valuer et calculet at the same time
          res.status(201).json({
           message: 'lot update created successfully !.',
         })
@@ -242,7 +382,6 @@ exports.getAlllotStats = (req, res, next) => {
   ],
   where: {lot_id: lotId}})
     .then((lotstats) => {
-console.log(lotstats)
       res.status(200).json({
         message: 'lots !',
         lotstats: lotstats.map(lotstat => {

@@ -10,6 +10,12 @@ export class Lot {
     public datedebut: Date,
     public montentLot: number,
     public etat: string,
+    public percentage: number,
+    public percentageRealise: number,
+    public percentageNonRealise: number,
+    public percentageRealiseCalcule: number,
+    public percentageNonRealiseCalcule: number,
+
     public prj_id: string,
     public projeTitre: string,
     public projet: Projet
