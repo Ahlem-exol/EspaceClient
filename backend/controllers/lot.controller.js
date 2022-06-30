@@ -222,17 +222,15 @@ Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','locali
     });
   }else{
   
-// calculer le percentage de lot apartire de leur prix et le prix global de projet 
+    // calculer le percentage de lot apartire de leur prix et le prix global de projet 
     per = (req.body.montentLot *100)/Projet.montent;
-console.log(per)
-    Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat',`percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`],
-    include:[
-      {
-        model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],
-      },],
+    console.log(per)
+    Lot.findOne({attributes: ['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,'prj_id', 'active','etat','percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'],
+   
         where:{lot_id:lotId}
       }
      ).then(lot => {
+      console.log(lot)
       if (!lot) {
         return res.status(401).json({
           message: 'lot does not exist !'
@@ -245,10 +243,10 @@ console.log(per)
             active:1,
             montentLot:req.body.montentLot,
             percentage:per, 
-            percentageRealise:0,
-            percentageNonRealise:100, 
-            percentageRealiseCalcule:0,
-            percentageNonRealiseCalcule:per,
+            percentageRealise:lot.percentageRealise,
+            percentageNonRealise:lot.percentageNonRealise, 
+            percentageRealiseCalcule:lot.percentageRealiseCalcule,
+            percentageNonRealiseCalcule:lot.percentageNonRealiseCalcule,
             dateFinLot: req.body.dateFinLot,
             datedebut:req.body.datedebut,
             etat:req.body.etat,
@@ -266,52 +264,16 @@ console.log(per)
         });
       }
     })
-
   }
 })
 
 
 
-  Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,`prj_id`, `active`,'etat',`percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`],
-  include:[
-    {
-      model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage'],},],
-   where:{lot_id:lotId}}
+ 
+     
+     
 
-   ).then(lot => {
-  
-    if (!lot) {
 
-      return res.status(401).json({
-        message: 'lot does not exist !'
-      });
-    }else{
-        lot.update({
-          titre: req.body.titre,
-          duree: req.body.duree,
-          description :req.body.description,
-          active:1,
-          montentLot:req.body.montentLot,
-          dateFinLot: req.body.dateFinLot,
-          datedebut:req.body.datedebut,
-          etat:req.body.etat,
-          usr_id: idUser,
-          prj_id:req.body.projet,
-
-        
-         
-      }) .then(result => {
-        res.status(201).json({
-          message: 'lot Update  !',
-          result: result,
-        });
-      }).catch(err => {
-        res.status(500).json({
-          error: err,
-        });
-      });
-    }
-  })
 };
 
 //desactiver lot 

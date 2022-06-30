@@ -13,6 +13,8 @@ export class Projet {
     public montent: number,
     public active: string,
     public raisonSocial: string,
+    public perRealise: number,
+    public perNonReal: number,
     public societe_id: string,
     public societe: Societe
   ) {}

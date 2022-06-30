@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { IonDatetime, ModalController } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
 import { Subscription } from 'rxjs';
 import { Societe } from 'src/app/models/societe.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -12,6 +13,11 @@ import { SocieteService } from 'src/app/services/societe/societe.service';
   styleUrls: ['./add-projet.component.scss'],
 })
 export class AddProjetComponent implements OnInit {
+  @ViewChild(IonDatetime) datetime: IonDatetime;
+
+  dateDebut: any;
+  dateFin: any;
+
   date = new Date();
   sub: Subscription;
   loadedSociete: Societe[];
@@ -21,6 +27,23 @@ export class AddProjetComponent implements OnInit {
     private ProjetService: ProjetService,
     private SocieteService: SocieteService
   ) {}
+
+  confirm() {
+    this.datetime.confirm(true);
+  }
+  reset() {
+    this.datetime.reset();
+  }
+  formatDate1(value: string) {
+    this.dateDebut = format(parseISO(value), 'yyyy-MM-dd');
+    return format(parseISO(value), 'yyyy-MM-dd');
+  }
+
+  formatDate2(value: string) {
+    this.dateFin = format(parseISO(value), 'yyyy-MM-dd');
+
+    return format(parseISO(value), 'yyyy-MM-dd');
+  }
 
   ngOnInit() {
     this.sub = this.SocieteService.getSocietes().subscribe((societesData) => {
@@ -42,8 +65,8 @@ export class AddProjetComponent implements OnInit {
     const description = form.value.description;
     const localisation = form.value.localisation;
     const montent = form.value.montent;
-    const dateDemarage = form.value.dateDemarage;
-    const dateFin = form.value.dateFin;
+    const dateDemarage = this.dateDebut;
+    const dateFin = this.dateFin;
     const idSociete = form.value.societe;
 
     this.ProjetService.createProjet(
