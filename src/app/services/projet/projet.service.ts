@@ -41,13 +41,18 @@ export class ProjetService {
       societe_id: societe_id,
     };
 
-    console.log(ProjData);
     return this.http.post<{ message: string }>(`${BACKEND_URL}/`, ProjData);
   }
 
   getProjets() {
     return this.http.get<{ message: string; projets: Projet[] }>(
       `${BACKEND_URL}/`
+    );
+  }
+
+  getProjet(id: number) {
+    return this.http.get<{ message: string; projet: Projet }>(
+      `${BACKEND_URL}/` + id
     );
   }
 

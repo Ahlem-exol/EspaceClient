@@ -49,7 +49,6 @@ exports.getAllProjets = (req, res, next) => {
   ],
   where: {active: 1}})
     .then((projets) => {
-
       res.status(200).json({
         message: 'Projets !',
         projets: projets.map(projet => {
@@ -60,8 +59,8 @@ exports.getAllProjets = (req, res, next) => {
              duree: projet.duree,
              description: projet.description,
              localisation: projet.localisation,
-              perRealise: 0,
-              perNonReal: 100,
+              perRealise: projet.perRealise,
+              perNonReal: projet.perNonReal,
              dateDemarage: projet.dateDemarage,
              dateFin: projet.dateFin,
              montent:projet.montent,
@@ -85,6 +84,45 @@ exports.getAllProjets = (req, res, next) => {
       console.log(err)
     });
 };
+
+//get project by id the id apartir of the id of client we get all the information of the project apartire de id Project existe in the client infiromation 
+//i will get project by id  manyly
+// when i do the user privilage 
+// i will log with the client session and get the id from the cleint idpprojet 
+
+exports.getProjet = (req, res, next) => {
+// i get the id of the projet from the infoamtion of the societer
+   Projet.findOne({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent','dateFin','societe_id', `perRealise`, `perNonReal`],
+   include:[
+     {
+       model:Societe,attributes:['societe_id', 'raison_social', 'adresse', 'mail','telephone', 'description','fix']}
+   ],
+   where: {prj_id:1}})
+     .then((projet) => {
+       res.status(200).json({
+         message: 'Projets !',
+         projet:{
+              id: projet.prj_id,
+              titre: projet.titre,
+              duree: projet.duree,
+              description: projet.description,
+              localisation: projet.localisation,
+               perRealise: projet.perRealise,
+               perNonReal: projet.perNonReal,
+              dateDemarage: projet.dateDemarage,
+              dateFin: projet.dateFin,
+              montent:projet.montent,
+              societe_id:  projet.societe_id,
+              raisonSocial: projet.societe.raison_social, 
+         },
+       });
+     })
+     .catch((err) => {
+       console.log(err)
+     });
+ };
+
+
 
 //Update 
 exports.UpdateProjet = (req, res, next) => {
