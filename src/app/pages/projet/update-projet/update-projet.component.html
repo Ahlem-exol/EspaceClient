@@ -1,25 +1,16 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center ">Update Projet {{projet.titre}}</ion-title>
-
-
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="_dismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
-
-
-
 </ion-header>
 
 <ion-content class="ion-padding">
-
   <form #addprojetForm="ngForm" (ngSubmit)="updateProjet(addprojetForm)">
-
-
     <div class="form-outline mb-4">
       <ion-item>
         <ion-input type="text" name="titre" [(ngModel)]="projet.titre" placeholder="Titre de Projet" required>
@@ -28,9 +19,7 @@
     </div>
 
     <div class="form-outline mb-4">
-
       <ion-item>
-
         <ion-input type="text" name="duree" [(ngModel)]="projet.duree" placeholder="la duree" required></ion-input>
       </ion-item>
     </div>
@@ -66,26 +55,43 @@
     </div>
 
     <div class="form-outline mb-4">
-      <ion-item>
-        <ion-input type="Date" name="dateDemarage" [(ngModel)]="projet.dateDemarage"
-          placeholder="Date de demarage de projet" required>
-        </ion-input>
+      <ion-item button="true" id="open-date-input">
+        <ion-label>Date debut</ion-label>
+        <ion-text slot="end"> {{ dateDebut }}</ion-text>
+        <ion-popover trigger="open-date-input" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime presentation="date" [(ngModel)]="projet.dateDemarage"
+              (ionChange)="dateDebut = formatDate1(popoverDatetime.value)">
+              <ion-buttons slot="buttons">
+                <ion-button (click)="confirm()">Good to go !</ion-button>
+                <ion-button (click)="reset()">Rest</ion-button>
+              </ion-buttons>
+            </ion-datetime>
+          </ng-template>
+        </ion-popover>
       </ion-item>
-    </div>
-
-    <div class="form-outline mb-4">
-
-      <ion-item>
-
-        <ion-input type="Date" name="dateFin" [(ngModel)]="projet.dateFin" placeholder="dateFin" required></ion-input>
+      </div>
+      
+      <div class="form-outline mb-4">
+      <ion-item button="true" id="open-date-input1">
+        <ion-label>Date Fin</ion-label>
+        <ion-text slot="end"> {{ dateFin }}</ion-text>
+        <ion-popover trigger="open-date-input1" show-backdrop="false">
+          <ng-template>
+            <ion-datetime #popoverDatetime2 presentation="date" [min]="dateDebut" [(ngModel)]="projet.dateFin"
+              (ionChange)="dateFin = formatDate2(popoverDatetime2.value)">
+              <ion-buttons slot="buttons">
+                <ion-button (click)="confirm()">Good to go !</ion-button>
+                <ion-button (click)="reset()">Rest</ion-button>
+              </ion-buttons>
+            </ion-datetime>
+          </ng-template>
+        </ion-popover>
       </ion-item>
-    </div>
+      </div>
 
     <div class="pt-1 mb-4">
       <button type="submit" class="btn btn-dark btn-lg btn-block">Update Projet</button>
     </div>
-
-
   </form>
-
 </ion-content>

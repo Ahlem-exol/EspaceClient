@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import Chart from 'chart.js/auto';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Lot } from 'src/app/models/lot.model';
 
+import { LotService } from 'src/app/services/lot/lot.service';
 @Component({
   selector: 'app-client-desh',
   templateUrl: './client-desh.page.html',
@@ -14,7 +17,11 @@ export class ClientDeshPage implements OnInit {
   requests: any[] = [];
   donors: any[] = [];
   newHeight = 0;
-  constructor(private menu: MenuController) {
+  sub1: Subscription;
+  loadedLotNotFini: Lot[];
+  sub2: Subscription;
+  loadedLotFini: Lot[];
+  constructor(private menu: MenuController, private LotService: LotService) {
     this.menu.enable(true, 'custom-menu');
   }
 
@@ -65,25 +72,20 @@ export class ClientDeshPage implements OnInit {
 
   ngOnInit() {
     console.log('ngonite ');
+    this.sub1 = this.LotService.getLotsNotFini().subscribe((Lotsdata) => {
+      this.loadedLotNotFini = Lotsdata.lots;
+      this.donors = this.loadedLotNotFini;
+      console.log(this.loadedLotNotFini);
+    });
+    this.sub2 = this.LotService.getLotsFini().subscribe((Lotsdata) => {
+      this.loadedLotFini = Lotsdata.lots;
+      this.requests = this.loadedLotFini;
+      console.log(this.loadedLotFini);
+    });
     // this.doughnutChartMethod();
     // liste lot en attent
     // liste  lot fini
     //list lot en cours
-    this.requests = [
-      { id: 1, name: 'LOT N°1', descreption: 'Etude' },
-      { id: 2, name: 'LOT N°2', descreption: 'Achat Materiel' },
-      { id: 3, name: 'LOT N°3', descreption: 'Prototyp' },
-      { id: 4, name: 'LOT N°3', descreption: 'Prototyp' },
-      { id: 5, name: 'LOT N°3', descreption: 'Prototyp' },
-      { id: 6, name: 'LOT N°3', descreption: 'Prototyp' },
-      { id: 7, name: 'LOT N°3', descreption: 'Prototyp' },
-    ];
-
-    this.donors = [
-      { id: 1, name: 'LOT N°4', descreption: 'Realisation produit 1' },
-      { id: 2, name: 'LOT N°5', descreption: 'Realisation producit 2' },
-      { id: 3, name: 'LOT N°5', descreption: 'sfsdfsdfs' },
-    ];
   }
 
   segmentChanged(event) {

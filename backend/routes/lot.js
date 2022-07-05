@@ -7,6 +7,10 @@ const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
 router.get('/',checkAuth,LotController.getAlllots);
+router.get('/fini',checkAuth,LotController.GetLotFini);
+
+router.get('/notFin',checkAuth,LotController.GetLotEnattend);
+
 router.get('/:id',checkAuth,LotController.getAlllotStats);
 
 

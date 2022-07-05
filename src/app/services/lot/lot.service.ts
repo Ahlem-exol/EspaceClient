@@ -56,6 +56,17 @@ export class LotService {
     return this.http.get<{ message: string; lots: Lot[] }>(`${BACKEND_URL}/`);
   }
 
+  getLotsNotFini() {
+    return this.http.get<{ message: string; lots: Lot[] }>(
+      `${BACKEND_URL}/notFin`
+    );
+  }
+  getLotsFini() {
+    return this.http.get<{ message: string; lots: Lot[] }>(
+      `${BACKEND_URL}/fini`
+    );
+  }
+
   updateLot(updateLot: Lot) {
     return this.http.put<{ message: string }>(
       BACKEND_URL + '/update/' + updateLot.id,
