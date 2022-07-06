@@ -49,17 +49,17 @@ const {
           model: "user"
         }
       },
-      lot_id: {
+      id_art: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
         autoIncrement: false,
         comment: null,
-        field: "lot_id",
+        field: "id_art",
         references: {
-          key: "lot_id",
-          model: "lot"
+          key: "id_art",
+          model: "article"
         }
       },
     }, {

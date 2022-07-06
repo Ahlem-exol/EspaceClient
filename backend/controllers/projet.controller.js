@@ -2,20 +2,19 @@ const Projet = require('../models/projet');
 const nodemailer = require("nodemailer");
 const Societe = require("../models/societe");
 
-// const ProjetPrivilege = require('../models/Projet_privilege');
-
 exports.createProjet = (req, res, next) => {
-  console.log(typeof(req.body.dateFin), req.userData);
+
     const idUser = req.userData.id;
        const projet = new Projet({
          titre: req.body.titre,
          duree: req.body.duree,
          description :req.body.description,
          localisation:req.body.localisation,
-         perRealise :req.body.perRealise,
-         perNonReal: req.body.perNonReal ,
+         perRealise :0,
+         perNonReal:100,
          active:1,
-         montent:req.body.montent,
+        //  i put it 0 pour eter calculer later when i create the lot and the article 
+         montent:0,
          dateDemarage: req.body.dateDemarage,
          dateFin: req.body.dateFin,
          usr_id: idUser,
@@ -24,16 +23,14 @@ exports.createProjet = (req, res, next) => {
 
         projet.save()
           .then(result => {
-            console.log("we save projet");
-          
            res.status(201).json({
-            message: 'Account created successfully !.',
+            message: 'project created successfully !.',
           })
         
         }).catch(err => {
           res.status(500).json({
             error: err,
-            message: 'Projetn already in use !',
+            message: 'Projet is already in use !',
           });
         });
   };
@@ -145,7 +142,7 @@ exports.UpdateProjet = (req, res, next) => {
             localisation:req.body.localisation,
             // perRealise:req.body.perRealise,
             // perNonReal:req.body.perNonReal,
-            montent:req.body.montent,
+            // montent:req.body.montent,
             dateDemarage: req.body.dateDemarage,
             dateFin: req.body.dateFin,
             usr_id: idUser,

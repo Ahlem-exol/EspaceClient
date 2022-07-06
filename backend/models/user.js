@@ -142,19 +142,18 @@ module.exports = User;
 User.hasMany(Societe);
 Societe.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 
-
 User.hasMany(Contact);
 Contact.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
-
 
 User.hasMany(Projet);
 Projet.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 
-
 User.hasMany(Lot);
 Lot.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 
-
 User.hasMany(Lotstat);
 Lotstat.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
+
+User.hasMany(Article);
+Article.belongsTo(User, { targetKey: 'usr_id', foreignKey: 'usr_id' });
 

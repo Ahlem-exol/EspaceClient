@@ -1,9 +1,12 @@
 for the digramme 
 https://online.visual-paradigm.com/app/diagrams/#diagram:proj=0&type=ClassDiagram&gallery=/repository/492e9b34-93bb-426d-b807-003cb1e4875c.xml&name=Students%20Enrollment%20Class%20Diagram
  
+
+=> ajouter fonctionnalite articel
 => verification de formulare
 => gestion de role prevelages
 => start the interface
+
 
  
 => problem in header shrinking,
@@ -13,3 +16,6 @@ https://online.visual-paradigm.com/app/diagrams/#diagram:proj=0&type=ClassDiagra
      - form validateur la date de fin soit éter supereur de date debut
      - calculer la durée automatique date debut - date fin
      - Notification 
+
+=> lot unite et quantité prix unitaire
+=>
