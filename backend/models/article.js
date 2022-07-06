@@ -150,7 +150,7 @@ const {
       timestamps: false
     }
   );
-  module.exports = Lot;
+  module.exports = Article;
 
   Article.hasMany(Lotstat);
   Lotstat.belongsTo(Article, { targetKey: 'id_art', foreignKey: 'id_art' });
