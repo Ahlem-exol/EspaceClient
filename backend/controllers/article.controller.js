@@ -147,6 +147,7 @@ exports.Desactiverlot = (req, res, next) => {
 };
 
 //update letat d'avencement d'un Lot
+//only change the idlot by id article
 exports.UpdateStatLot = (req, res, next) => {
 
   const idUser = req.userData.id;
