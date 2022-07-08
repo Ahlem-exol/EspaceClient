@@ -64,7 +64,6 @@ export class AddProjetComponent implements OnInit {
     const duree = form.value.duree;
     const description = form.value.description;
     const localisation = form.value.localisation;
-    const montent = form.value.montent;
     const dateDemarage = this.dateDebut;
     const dateFin = this.dateFin;
     const idSociete = form.value.societe;
@@ -74,12 +73,11 @@ export class AddProjetComponent implements OnInit {
       duree,
       description,
       localisation,
-      montent,
       dateDemarage,
       dateFin,
       idSociete
     ).subscribe(
-      (result) => {
+      (res) => {
         form.reset();
       },
       (error) => {}

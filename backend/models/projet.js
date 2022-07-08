@@ -73,7 +73,7 @@ const Lot = require('./lot');
         field: "dateFin"
       },
       perRealise: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -82,7 +82,7 @@ const Lot = require('./lot');
         field: "perRealise"
       },
       perNonReal: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,

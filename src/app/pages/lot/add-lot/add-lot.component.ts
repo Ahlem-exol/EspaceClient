@@ -94,7 +94,6 @@ export class AddLotComponent implements OnInit {
     const titre = form.value.titre;
     const duree = form.value.duree;
     const description = form.value.description;
-    const montentLot = form.value.montentLot;
     const dateFinLot = this.dateValue2;
     const datedebut = this.dateValue;
     const etat = form.value.etat;
@@ -104,7 +103,6 @@ export class AddLotComponent implements OnInit {
       titre,
       duree,
       description,
-      montentLot,
       dateFinLot,
       datedebut,
       etat,

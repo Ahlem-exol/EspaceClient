@@ -3,13 +3,13 @@ const {
   } = require('sequelize');
   
   const sequelize = require('../utils/database');
-const Lotstat = require('./lotstat');
+const Article = require('./article');
  
   const Lot = sequelize.define(
     'lot',
     {
 
-        lot_id: {
+      lot_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         defaultValue: null,
@@ -54,9 +54,8 @@ const Lotstat = require('./lotstat');
         comment: null,
         field: "duree"
       },
-  
       percentage: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -65,7 +64,7 @@ const Lotstat = require('./lotstat');
         field: "percentage"
       },
       percentageRealise: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -74,7 +73,7 @@ const Lotstat = require('./lotstat');
         field: "percentageRealise"
       },
       percentageNonRealise: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -83,7 +82,7 @@ const Lotstat = require('./lotstat');
         field: "percentageNonRealise"
       },
       percentageRealiseCalcule: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -92,7 +91,7 @@ const Lotstat = require('./lotstat');
         field: "percentageRealiseCalcule"
       },
       percentageNonRealiseCalcule: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -109,7 +108,6 @@ const Lotstat = require('./lotstat');
         comment: null,
         field: "duree"
       },
-
       dateFinLot: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -118,8 +116,7 @@ const Lotstat = require('./lotstat');
         autoIncrement: false,
         comment: null,
         field: "dateFinLot"
-      },
-      
+      },     
       datedebut: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -137,9 +134,7 @@ const Lotstat = require('./lotstat');
         autoIncrement: false,
         comment: null,
         field: "active"
-      },
-   
-      
+      },     
       montentLot: {
         type: DataTypes.REAL,
         allowNull: false,
@@ -183,8 +178,8 @@ const Lotstat = require('./lotstat');
   );
   module.exports = Lot;
 
-  Lot.hasMany(Lotstat);
-  Lotstat.belongsTo(Lot, { targetKey: 'lot_id', foreignKey: 'lot_id' });
+  Lot.hasMany(Article);
+  Article.belongsTo(Lot, { targetKey: 'lot_id', foreignKey: 'lot_id' });
 
   
   

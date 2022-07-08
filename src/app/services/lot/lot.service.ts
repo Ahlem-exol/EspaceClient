@@ -8,7 +8,6 @@ interface addData {
   titre: string;
   duree: string;
   description: string;
-  montentLot: number;
   dateFinLot: Date;
   datedebut: Date;
   etat: string;
@@ -31,7 +30,6 @@ export class LotService {
     titre: string,
     duree: string,
     description: string,
-    montentLot: number,
     dateFinLot: Date,
     datedebut: Date,
     etat: string,
@@ -41,7 +39,6 @@ export class LotService {
       titre: titre,
       duree: duree,
       description: description,
-      montentLot: montentLot,
       dateFinLot: dateFinLot,
       datedebut: datedebut,
       etat: etat,

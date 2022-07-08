@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonDatetime, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,9 @@ import { LotService } from 'src/app/services/lot/lot.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { format, parseISO } from 'date-fns';
+import { Article } from 'src/app/models/article.model';
+import { ArticleService } from 'src/app/services/article/article.service';
+import { Lot } from 'src/app/models/lot.model';
 
 declare interface type {
   title: string;
@@ -21,14 +24,15 @@ declare interface type {
 })
 export class AddArticleComponent implements OnInit {
   @ViewChild(IonDatetime) datetime: IonDatetime;
-
   dateValue: any;
   dateValue2: any;
   date = new Date();
   dateDebut: any;
   datefin: any;
+
   sub: Subscription;
-  loadedProjet: Projet[];
+  loadedLots: Lot[];
+
   AfficheDateFin = 0;
   DateDebut: Date;
   todayNumber: number;
@@ -42,7 +46,7 @@ export class AddArticleComponent implements OnInit {
     private modelControl: ModalController,
     private authService: AuthService,
     private LotService: LotService,
-    private ProjetService: ProjetService
+    private ArticleService: ArticleService
   ) {}
 
   confirm() {
@@ -68,47 +72,38 @@ export class AddArticleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sub = this.ProjetService.getProjets().subscribe((projetsData) => {
-      this.loadedProjet = projetsData.projets;
+    this.sub = this.LotService.getLots().subscribe((LotsData) => {
+      this.loadedLots = LotsData.lots;
     });
     // this.datedebut = this.navParams.get('datedebut');
     // console.log('From the construction', this.datedebut);
   }
 
-  chnageDateDebut() {}
-
-  calculeDuree($event) {
-    console.log('date debut ', this.DateDebut);
-    console.log(event);
-    // this.datedebut = this.navParams.get('datedebut');
-    // console.log('From the construction', this.datedebut);
-  }
   _dismiss() {
     this.modelControl.dismiss();
   }
-  createLot(form: NgForm) {
+  createArticle(form: NgForm) {
     if (!form.valid) {
       return;
     }
-
-    const titre = form.value.titre;
-    const duree = form.value.duree;
-    const description = form.value.description;
-    const montentLot = form.value.montentLot;
-    const dateFinLot = this.dateValue2;
+    console.log('the data send to the service ', form.value);
+    const designation = form.value.designation;
+    const unite = form.value.unite;
+    const quantite = form.value.quantite;
+    const prixUnitaire = form.value.prixUnitaire;
+    const dateFin = this.dateValue2;
     const datedebut = this.dateValue;
-    const etat = form.value.etat;
-    const prj_id = form.value.projet;
+    const lot_id = form.value.lot;
 
-    this.LotService.createLot(
-      titre,
-      duree,
-      description,
-      montentLot,
-      dateFinLot,
+    this.ArticleService.createArticle(
+      designation,
+      unite,
+      quantite,
+      prixUnitaire,
+      dateFin,
+
       datedebut,
-      etat,
-      prj_id
+      lot_id
     ).subscribe(
       (result) => {
         form.reset();

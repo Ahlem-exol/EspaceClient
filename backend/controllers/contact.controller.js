@@ -16,10 +16,9 @@ exports.createcontact = (req, res, next) => {
     length: 10,
     numbers: true
   });
- console.log(password);
+
   
  bcrypt.hash(password,10).then(hash=>{
-  console.log("we save contact", req.body,idUser );
        const contact = new Contact({
           clt_nom: req.body.nom,
           clt_prenom: req.body.prenom,
@@ -36,7 +35,6 @@ exports.createcontact = (req, res, next) => {
 
         contact.save()
           .then(result => {
-            console.log("we save contact");
             //Invalid login: 451 4.7.0 Temporary server error. Please try again later. PRX2  
             //this erreur apard in case when i put it here when i got it out it s work
             let transporter = nodemailer.createTransport({
@@ -62,34 +60,22 @@ exports.createcontact = (req, res, next) => {
                 console.log(err);
                 return;
               }
-              console.log("Sent:  "+info.response);
-            });
-         
-           
+            });  
            res.status(201).json({
             message: 'Account created successfully !.',
-           
           })
-        
         }).catch(err => {
           res.status(500).json({
             error: err,
             message: 'contactname or Email already in use !',
           });
         });
-
-       
-
      })
-        
-    
   };
 
 
 // get contacts 
 exports.getAllcontacts = (req, res, next) => {
- console.log("Get all contacts controller")
- 
   Contact.findAll({attributes: ['clt_id', 'clt_nom', 'clt_prenom', 'clt_fonction','clt_mobile', 'clt_address','clt_date_inscription','clt_email'],
   include:[
     {
@@ -97,7 +83,6 @@ exports.getAllcontacts = (req, res, next) => {
   ],
   where: {clt_active: 1}})
     .then((contacts) => {
-      //console.log(contacts[0].clt_email);
       res.status(200).json({
         message: 'contacts !',
         contacts: contacts.map(contact => {
@@ -135,7 +120,6 @@ exports.getAllcontacts = (req, res, next) => {
 exports.Updatecontact = (req, res, next) => {
   const contactId = req.params.id;
   const idUser = req.userData.id;
- console.log("we are here" , contactId)
   Contact.findOne({  attributes: ['clt_id', 'clt_nom', 'clt_prenom', 'clt_fonction','clt_mobile', 'clt_address','clt_date_inscription','clt_email','societe_id'], where:{clt_id:contactId}}
    ).then(contact => {
     if (!contact) {
@@ -176,7 +160,6 @@ exports.Updatecontact = (req, res, next) => {
 exports.Desactivercontact = (req, res, next) => {
   const contactId = req.params.id;
   const idUser = req.userData.id;
- console.log("we are here" , contactId)
   Contact.findOne({ attributes: ['clt_id', 'clt_nom', 'clt_prenom', 'clt_fonction','clt_mobile', 'clt_address','clt_date_inscription','clt_email'],
     where:{clt_id:contactId}}
 

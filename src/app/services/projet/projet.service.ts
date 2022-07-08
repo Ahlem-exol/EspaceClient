@@ -7,10 +7,9 @@ interface addData {
   titre: string;
   duree: string;
   description: string;
-  localisation: Date;
-  montent: number;
-  dateDemarage: string;
-  dateFin: string;
+  localisation: string;
+  dateDemarage: Date;
+  dateFin: Date;
   societe_id: string;
 }
 
@@ -24,10 +23,9 @@ export class ProjetService {
     titre: string,
     duree: string,
     description: string,
-    localisation: Date,
-    montent: number,
-    dateDemarage: string,
-    dateFin: string,
+    localisation: string,
+    dateDemarage: Date,
+    dateFin: Date,
     societe_id: string
   ) {
     const ProjData: addData = {
@@ -35,7 +33,6 @@ export class ProjetService {
       duree: duree,
       description: description,
       localisation: localisation,
-      montent: montent,
       dateDemarage: dateDemarage,
       dateFin: dateFin,
       societe_id: societe_id,

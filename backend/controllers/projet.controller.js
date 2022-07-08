@@ -3,6 +3,7 @@ const nodemailer = require("nodemailer");
 const Societe = require("../models/societe");
 
 exports.createProjet = (req, res, next) => {
+  console.log("creat projet")
     const idUser = req.userData.id;
        const projet = new Projet({
          titre: req.body.titre,

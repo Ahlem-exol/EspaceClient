@@ -7,7 +7,6 @@ const {
   const Article = sequelize.define(
     'article',
     {
-
       id_art: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -36,7 +35,7 @@ const {
         field: "unite"
       },
       quantite: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -45,7 +44,7 @@ const {
         field: "quantite"
       },
       prixUnitaire: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -54,7 +53,7 @@ const {
         field: "prixUnitaire"
       },
       montant: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -64,7 +63,7 @@ const {
       },
       // quantite realise 
       quantitRealise: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -73,7 +72,7 @@ const {
         field: "quantitRealise"
       },
       perReal: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -82,17 +81,16 @@ const {
         field: "perReal"
       },
       perNonReal: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
         autoIncrement: false,
         comment: null,
         field: "perNonReal"
-      },
-      
+      },  
       per: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -101,7 +99,7 @@ const {
         field: "per"
       },
       perRealiseCalc: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -110,7 +108,7 @@ const {
         field: "perRealiseCalc"
       },
       perNonRealiseCalc: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.REAL,
         allowNull: false,
         defaultValue: null,
         primaryKey: false,
@@ -173,7 +171,6 @@ const {
         }
       },
     }, {
-    
       freezeTableName: true,
       timestamps: false
     }

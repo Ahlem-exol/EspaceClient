@@ -1,10 +1,6 @@
-
 const Societe = require('../models/societe');
-
 exports.createSociete = (req, res, next) => {
     const idUser = req.userData.id;
-  
-    
        const societe = new Societe({
         raison_social: req.body.raisonSocial,
         adresse :req.body.adresse,
@@ -42,7 +38,6 @@ exports.getAllSociete = (req, res, next) => {
         societes: societes
     
         .map(societe => {
-          console.log(societe);
           return {
             id:societe.societe_id,
             raisonSocial: societe.raison_social,
@@ -105,7 +100,6 @@ exports.DesactiverSociete = (req, res, next) => {
   where:{societe_id:societeId}}
 
    ).then(societe => {
-     console.log(societe)
     if (!societe) {
       return res.status(401).json({
         message: 'societe does not exist !'

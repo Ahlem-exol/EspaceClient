@@ -25,8 +25,7 @@ exports.createUser = (req, res, next) => {
     length: 10,
     numbers: true
   });
- console.log(password);
-  
+
  bcrypt.hash(password,10).then(hash=>{
   
        const user = new User({
@@ -58,7 +57,6 @@ exports.createUser = (req, res, next) => {
                 console.log(err);
                 return;
               }
-              console.log("Sent:  "+info.response);
             });
           });   
            res.status(201).json({
@@ -78,12 +76,10 @@ exports.createUser = (req, res, next) => {
 
 // get users 
 exports.getAllUsers = (req, res, next) => {
- console.log("Get all users controller")
  
   User.findAll({attributes: ['usr_id', 'usr_nom', 'usr_prenom', 'usr_fonction','usr_mobile', 'usr_address','usr_date_inscription','usr_email'],
   where: {usr_active: 1}})
     .then((users) => {
-      //console.log(users[0].usr_email);
       res.status(200).json({
         message: 'Users !',
         users: users.map(user => {
@@ -109,7 +105,6 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.UpdateUser = (req, res, next) => {
   const userId = req.params.id;
- console.log("we are here" , userId)
   User.findOne({   where:{usr_id:userId}}
 
    ).then(user => {
@@ -150,7 +145,6 @@ exports.UpdateUser = (req, res, next) => {
 
 exports.DesactiverUser = (req, res, next) => {
   const userId = req.params.id;
- console.log("we are here" , userId)
   User.findOne({   where:{usr_id:userId}}
 
    ).then(user => {

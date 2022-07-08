@@ -59,19 +59,8 @@ export class LotPage implements OnInit {
     return await modal.present();
   }
 
-  async _UpdateStat(lot: Lot) {
-    const modal = await this.modalController.create({
-      component: StatLotComponent,
-      componentProps: { lot },
-    });
-    return await modal.present();
-  }
-  async _DetailStat(lot: Lot) {
-    const modal = await this.modalController.create({
-      component: DetailLotComponent,
-      componentProps: { lot },
-    });
-    return await modal.present();
+  async _detaille(lot: Lot) {
+    this.router.navigateByUrl('article');
   }
 
   ngOnInit() {

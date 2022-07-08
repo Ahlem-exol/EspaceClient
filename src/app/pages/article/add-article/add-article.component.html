@@ -1,67 +1,50 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center ">Ajouter Article</ion-title>
-
-
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="_dismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 
 </ion-header>
 <ion-content class="ion-padding">
-  <form #addUserForm="ngForm" (ngSubmit)="createLot(addUserForm)">
-
+  <form #addArticleForm="ngForm" (ngSubmit)="createArticle(addArticleForm)">
     <div class="form-outline mb-4">
       <ion-item>
-        <ion-input type="text" name="titre" [(ngModel)]="titre" placeholder="LOT N°1" required></ion-input>
-      </ion-item>
-    </div>
-
-    <div class="form-outline mb-4">
-
-      <ion-item>
-
-        <ion-input type="text" name="description" [(ngModel)]="description" placeholder="La description" required>
+        <ion-input type="text" name="designation" [(ngModel)]="designation" placeholder="Article Désignation" required>
         </ion-input>
       </ion-item>
     </div>
-
     <div class="form-outline mb-4">
-
       <ion-item>
-
-        <ion-input type="number" name="montentLot" [(ngModel)]="montentLot" placeholder="Le Montent de Lot" required>
+        <ion-input type="text" name="unite" [(ngModel)]="unite" placeholder="L'unité de mesure" required>
         </ion-input>
       </ion-item>
     </div>
-
     <div class="form-outline mb-4">
       <ion-item>
-        <ion-label>projet Titre</ion-label>
-        <ion-select [(ngModel)]="projet" name="projet">
-          <ion-select-option *ngFor="let projet of loadedProjet" [value]="projet.id">
-            {{projet.titre}}</ion-select-option>
+        <ion-label>Lot Titre</ion-label>
+        <ion-select [(ngModel)]="lot" name="lot">
+          <ion-select-option *ngFor="let lot of loadedLots" [value]="lot.id">
+            {{lot.titre}}</ion-select-option>
         </ion-select>
       </ion-item>
     </div>
 
-
     <div class="form-outline mb-4">
       <ion-item>
-        <ion-label>ETAT</ion-label>
-        <ion-select [(ngModel)]="etat" name="etat">
-          <ion-select-option *ngFor="let etat of listEtat" [value]="etat.title">
-            {{etat.title}}</ion-select-option>
-        </ion-select>
+        <ion-input type="number" name="quantite" [(ngModel)]="quantite" placeholder="Le quantité" required>
+        </ion-input>
       </ion-item>
     </div>
-
-    <!-- obliger slectionnes date debut befor selectione date de fin  onchange  si slectionne afficher item date fin  -->
-    <!-- when both of date debut et date fin selcete afficher la duree non mofiable  -->
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="number" name="prixUnitaire" [(ngModel)]="prixUnitaire" placeholder="Prix Unitaire" required>
+        </ion-input>
+      </ion-item>
+    </div>
     <div class="form-outline mb-4">
       <ion-item button="true" id="open-date-input">
         <ion-label>Date debut</ion-label>
@@ -79,7 +62,6 @@
         </ion-popover>
       </ion-item>
     </div>
-
     <div class="form-outline mb-4">
       <ion-item button="true" id="open-date-input1">
         <ion-label>Date Fin</ion-label>
@@ -97,18 +79,14 @@
         </ion-popover>
       </ion-item>
     </div>
-
     <div class="form-outline mb-4">
       <ion-item>
         <ion-input type="number" name="duree" [(ngModel)]="duree" placeholder="dureeCalculer" required>
         </ion-input>
       </ion-item>
     </div>
-
     <div class="pt-1 mb-4">
-      <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="!addUserForm.valid">Ajouter Lot</button>
+      <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="!addArticleForm.valid">Ajouter Article</button>
     </div>
-
-
   </form>
 </ion-content>

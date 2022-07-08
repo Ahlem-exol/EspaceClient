@@ -10,8 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <form #addUserForm="ngForm" (ngSubmit)="addPro(addUserForm)">
+  <form #addProjetForm="ngForm" (ngSubmit)="addProjet(addProjetForm)">
 
     <div class="form-outline mb-4">
       <ion-item>
@@ -49,12 +48,6 @@
       </ion-item>
     </div>
 
-    <div class="form-outline mb-4">
-      <ion-item>
-        <ion-input type="number" name="montent" [(ngModel)]="montent" placeholder="Montent de projet" required></ion-input>
-      </ion-item>
-      </div>
-        
       <div class="form-outline mb-4">
         <ion-item button="true" id="open-date-input">
           <ion-label>Date debut</ion-label>
@@ -92,7 +85,7 @@
             
 
     <div class="pt-1 mb-4">
-      <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="!addUserForm.valid">Ajouter Projet</button>
+      <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="!addProjetForm.valid">Ajouter Projet</button>
     </div>
 
 
