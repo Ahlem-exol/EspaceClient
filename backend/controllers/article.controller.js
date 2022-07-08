@@ -1,31 +1,80 @@
 const Article = require('../models/article');
 const Lotstat = require('../models/lotstat');
 const Lot = require('../models/lot');
-const { Op } = require("sequelize");
-
 
 exports.createArticle = (req, res, next) => {
 const LotId = req.body.lot_id;
 const idUser = req.userData.id;
-       const article = new Article({
-        designation: req.body.designation,
-        unite: req.body.unite,
-        quantite :req.body.quantite,
-         active:1,
-         prixUnitaire:req.body.prixUnitaire,
-         montant: req.body.montant,
-         quantitRealise :req.body.quantitRealise,
-         perReal:0,
-         perNonReal:100,
-         datedebut :req.body.datedebut,
-         dateFin :req.body.dateFin,
-         usr_id: idUser,
-         lot_id:req.body.LotId,
-        });
-        article.save()
-          .then(res => {         
+const article = new Article({
+  designation: req.body.designation,
+  unite: req.body.unite,
+  quantite :req.body.quantite,
+  active:1,
+  prixUnitaire:req.body.prixUnitaire,
+  montant: req.body.quantite * req.body.prixUnitaire,
+  perReal:0,
+  perNonReal:100,
+  datedebut :req.body.datedebut,
+  dateFin :req.body.dateFin,
+  usr_id: idUser,
+  lot_id:req.body.LotId,
+});
+article.save().then(res => {
+  Lot.findOne({attributes: ['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,'prj_id', 'active','etat',
+  'percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'],
+  where:{lot_id:LotId}
+  }).then(lot => {
+    if (!lot) {
+      return res.status(401).json({message: 'lot does not exist !' });
+    }else{
+      lot.update({
+        montentLot:req.body.montentLot+ req.body.quantite * req.body.prixUnitaire,
+        usr_id: idUser, 
+      }).then(result => {
+              res.status(201).json({
+                message: 'lot Update  !',
+                result: result,
+              });
+              //Update project
+        Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
+              where:{prj_id:ProjetId}} 
+        ).then(Projet => {
+               if (!Projet) {
+                 return res.status(401).json({
+                   message: 'Projet does not exist !'
+                 });
+               }else{
+                   Projet.update({
+                       montent:Projet.montant + lot.montentLot,
+                       usr_id: idUser,
+
+                 }) .then(result => {
+                   res.status(201).json({
+                     message: 'Projet Update  !',
+                     result: result,
+                   });
+                   // get all thelots and change the percentage 
+                   
+                 }).catch(err => {
+                   res.status(500).json({
+                     error: err,
+                   });
+                 });
+               }
+             })
+
+
+
+            }).catch(err => {
+              res.status(500).json({
+                error: err,
+              });
+            });
+          }
+        })     
+
            res.status(201).json({
-            message: 'Account created successfully !.',
+            message: 'Article created successfully !.',
           })        
         }).catch(err => {
           res.status(500).json({
@@ -33,8 +82,7 @@ const idUser = req.userData.id;
             message: 'lotn already in use !',
           });
         });
-  };
-
+};
 // get lots 
 exports.getAllArticles = (req, res, next) => {
   Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
@@ -69,8 +117,6 @@ exports.getAllArticles = (req, res, next) => {
       console.log(err)
     });
 };
-
-
 //Update 
 exports.UpdateArticle = (req, res, next) => {
   const ArticleId = req.params.id;
@@ -90,14 +136,63 @@ exports.UpdateArticle = (req, res, next) => {
           unite: req.body.unite,
           quantite: req.body.quantite,
           prixUnitaire: req.body.prixUnitaire,
-          montant:req.body.montant,
-          quantitRealise:Artreq.bodyicle.quantitRealise,
-          perReal:req.body.perReal, 
-          perNonReal:req.body.perNonReal,
+          montant: req.body.quantite * req.body.prixUnitaire,
           datedebut:req.body.datedebut,
           dateFin:req.body.dateFin,
           usr_id: idUser,  
         }) .then(result => {
+
+          Lot.findOne({attributes: ['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,'prj_id', 'active','etat',
+          'percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'],
+             where:{lot_id:LotId}
+           }
+          ).then(lot => {
+           if (!lot) {
+             return res.status(401).json({
+               message: 'lot does not exist !'
+             });
+           }else{
+               lot.update({
+                 montentLot:req.body.montentLot+ req.body.quantite * req.body.prixUnitaire,
+                 usr_id: idUser, 
+             }) .then(result => {
+               res.status(201).json({
+                 message: 'lot Update  !',
+                 result: result,
+               });
+               //Update project
+               Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
+               where:{prj_id:ProjetId}}
+            
+               ).then(Projet => {
+                if (!Projet) {
+                  return res.status(401).json({
+                    message: 'Projet does not exist !'
+                  });
+                }else{
+                    Projet.update({
+                        montent:Projet.montant + lot.montentLot,
+                        usr_id: idUser,
+ 
+                  }) .then(result => {
+                    res.status(201).json({
+                      message: 'Projet Update  !',
+                      result: result,
+                    });
+                  }).catch(err => {
+                    res.status(500).json({
+                      error: err,
+                    });
+                  });
+                }
+              })
+             }).catch(err => {
+               res.status(500).json({
+                 error: err,
+               });
+             });
+           }
+         })     
           res.status(201).json({
             message: 'Article Update  !',
             result: result,
@@ -113,7 +208,6 @@ exports.UpdateArticle = (req, res, next) => {
 
 
 };
-
 //desactiver lot 
 exports.Desactiverlot = (req, res, next) => {
   const articleId = req.params.id;
@@ -129,10 +223,69 @@ exports.Desactiverlot = (req, res, next) => {
       });
     }else{
         article.update({
-          
           active:0,
           usr_id: idUser,
       }) .then(result => {
+
+
+        Lot.findOne({attributes: ['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,'prj_id', 'active','etat',
+        'percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'],
+           where:{lot_id:LotId}
+         }
+        ).then(lot => {
+         if (!lot) {
+           return res.status(401).json({
+             message: 'lot does not exist !'
+           });
+         }else{
+             lot.update({
+               montentLot:req.body.montentLot - req.body.quantite * req.body.prixUnitaire,
+               usr_id: idUser, 
+           }) .then(result => {
+             res.status(201).json({
+               message: 'lot Update  !',
+               result: result,
+             });
+             //Update project
+             Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
+             where:{prj_id:ProjetId}}
+          
+             ).then(Projet => {
+              if (!Projet) {
+                return res.status(401).json({
+                  message: 'Projet does not exist !'
+                });
+              }else{
+                  Projet.update({
+                      montent:Projet.montant + lot.montentLot,
+                      usr_id: idUser,
+
+                }) .then(result => {
+                  res.status(201).json({
+                    message: 'Projet Update  !',
+                    result: result,
+                  });
+                }).catch(err => {
+                  res.status(500).json({
+                    error: err,
+                  });
+                });
+              }
+            })
+
+
+
+           }).catch(err => {
+             res.status(500).json({
+               error: err,
+             });
+           });
+         }
+       })     
+
+
+
+
         res.status(201).json({
           message: 'article Desactivat  !',
           result: result,
@@ -146,46 +299,98 @@ exports.Desactiverlot = (req, res, next) => {
   })
 };
 
-//update letat d'avencement d'un Lot
-//only change the idlot by id article
+//update letat d'avencement d'un Article
 exports.UpdateStatLot = (req, res, next) => {
-
   const idUser = req.userData.id;
   const lotStat = new Lotstat({
+    //get from the system 
       dateUpdate: req.body.dateUpdate,
+      //quantitie réealise 
       Percentage: req.body.percentage,
        usr_id: idUser,
-       id_art:req.body.id_art,
+       id_art:req.body.id,
   });
-
   const idArticle = req.body.id;
-      lotStat.save()
-        .then(result => {
-        //update la valuer et calculé at the same time in the lot
-        //get lot by id 
-        Lot.findOne({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, `prj_id`, `active`,'etat'],
-         where:{lot_id:idlot}}
+  lotStat.save().then(res => {
+   Article.findOne({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`, `montant`, `quantitRealise`, 
+   `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`],
+    where:{id_art:idArticle}}
+    ).then(article => {
+      if (!article) {
+            return res.status(401).json({
+              message: 'article does not exist !'
+            });
+      }else{
+        realise = (req.body.percentage*article.prixUnitaire)/article.montant*100;
+        nonRealise = article.perNonReal-realise;              
+        article.update({
+          quantitRealise:req.body.percentage,
+          perReal:realise, 
+          perNonReal:nonRealise,           
+          }) .then(result => {
+          Lot.findOne({attributes: ['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,
+          'prj_id', 'active','etat','percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'], 
+            where:{lot_id:article.lot_id}
+          }
          ).then(lot => {
+          console.log(lot)
           if (!lot) {
             return res.status(401).json({
               message: 'lot does not exist !'
             });
           }else{
-              // calcule les date
-                 nonrealise = 100- req.body.percentage;
-                 realsieCalculer = (req.body.percentage*lot.percentage)/100;
-                 nonralisecalculer = lot.percentage - realsieCalculer;
+            //get all the article existe in the lot
+           const somPer=0;
+          Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
+            `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`],
+           where: {lot_id:lot.lot_id}})
+             .then((Articles) => {
+               res.status(200).json({
+                 message: 'Articles !',
+                 Articles: Articles.map(Article => {
+                   console.log(somPer)
+                   somPer= somPer +article.perReal
+                 }),
+               });
+             })
+             .catch((err) => {
+               console.log(err)
+             });
               lot.update({
-                percentageRealise:req.body.percentage,
-                percentageNonRealise:nonrealise, 
-                percentageRealiseCalcule:realsieCalculer,
-                percentageNonRealiseCalcule:nonralisecalculer,           
+                montentLot:lot.montentLot+article.montant,
+                percentage:per, 
+                percentageRealise:lot.percentageRealise,
+                percentageNonRealise:lot.percentageNonRealise, 
+                percentageRealiseCalcule:lot.percentageRealiseCalcule,
+                percentageNonRealiseCalcule:lot.percentageNonRealiseCalcule,
+                dateFinLot: req.body.dateFinLot,
+                datedebut:req.body.datedebut,
+                etat:req.body.etat,
+                usr_id: idUser,
+                prj_id:req.body.projet,    
             }) .then(result => {
+              res.status(201).json({
+                message: 'lot Update  !',
+                result: result,
+              });
+            }).catch(err => {
+              res.status(500).json({
+                error: err,
+              });
+            });
+          }
+        })
+
+
+
+
+
+
+            
             //update project valeur 
             const ProjetId = lot.prj_id;
             Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
-             where:{prj_id:ProjetId}}
-            
+             where:{prj_id:ProjetId}}        
              ).then(Projet => {
               if (!Projet) {
                 return res.status(401).json({
@@ -193,16 +398,12 @@ exports.UpdateStatLot = (req, res, next) => {
                 });
               }else{
                 // get the montant de projet 
-            // calculer le percentage de lot apartire de leur prix et le prix global de projet 
+                // calculer le percentage de lot apartire de leur prix et le prix global de projet 
                 perRealise1 = Projet.perRealise +lot.percentageRealiseCalcule;
                 perNonRealise1 = Projet.perNonReal - perRealise1;
                 Projet.update({
-                 
                    perRealise:perRealise1,
-                   perNonReal:perNonRealise1,
-          
-      
-        
+                   perNonReal:perNonRealise1,        
             }) .then(result => {
               res.status(201).json({
                 message: 'Projet Update  !',
@@ -212,13 +413,9 @@ exports.UpdateStatLot = (req, res, next) => {
               res.status(500).json({
                 error: err,
               });
-            });
-
-
-            
+            });           
               }
             })
-            
 
 
 
@@ -233,30 +430,45 @@ exports.UpdateStatLot = (req, res, next) => {
             });
           }
         })
-   
 
 
-        // and update it in the projet 
-         res.status(201).json({
-          message: 'lot update created successfully !.',
-        })
+
+
+
+
+
+
+
+
+
+
+
+    
       
-      }).catch(err => {
-        res.status(500).json({
+
+
+
+
+   res.status(201).json({
+          message: 'Article update successfully !!',
+   })    
+}).catch(err => {
+  res.status(500).json({
           error: err,
           message: 'lot stat already existe !',
         });
-      });
+});
 };  
 
 exports.getAlllotStats = (req, res, next) => {
-  const lotId = req.params.id;
-  Lotstat.findAll({attributes: [`idStat`, `dateUpdate`, `Percentage`, `lot_id`, `usr_id`],
+  const ArticleId = req.params.id;
+  Lotstat.findAll({attributes: [`idStat`, `dateUpdate`, `Percentage`, `id_art`, `usr_id`],
   include:[
     {
-      model:Lot,attributes:[`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `prj_id`, `active`,'etat']}
+      model:Article,attributes:[`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`, `montant`, `quantitRealise`, 
+      `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`]}
   ],
-  where: {lot_id: lotId}})
+  where: {id_art: ArticleId}})
     .then((lotstats) => {
       res.status(200).json({
         message: 'lots !',
@@ -265,9 +477,8 @@ exports.getAlllotStats = (req, res, next) => {
              id: lotstat.idStat,
              dateUpdate: lotstat.dateUpdate,
              percentage: lotstat.Percentage,
-             lot_id:  lotstat.lot_id,
-             lotTitre: lotstat.lot.titre,
-          
+             id_art:  lotstat.id_art,
+             lotTitre: lotstat.lot.titre,       
           }
         }),
       });

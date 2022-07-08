@@ -90,6 +90,34 @@ const {
         comment: null,
         field: "perNonReal"
       },
+      
+      per: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "per"
+      },
+      perRealiseCalc: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "perRealiseCalc"
+      },
+      perNonRealiseCalc: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        primaryKey: false,
+        autoIncrement: false,
+        comment: null,
+        field: "perNonRealiseCalc"
+      },
       datedebut: {
         type: DataTypes.DATE,
         allowNull: false,

@@ -2,10 +2,8 @@ const Lot = require('../models/lot');
 const Lotstat = require('../models/lotstat');
 const Projet = require('../models/projet');
 const { Op } = require("sequelize");
-// const lotPrivilege = require('../models/lot_privilege');
-//      //SELECT `lot_id`, `titre`, `description`, `duree`, `dateFinLot`, `usr_id`, `prj_id`, `active` FROM `lot` WHERE 1
-exports.createlot = (req, res, next) => {
 
+exports.createlot = (req, res, next) => {
 // get the projet by id here then get only the price pour claculer le percentage de cette lot 
 const ProjetId = req.body.prj_id;
 Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
