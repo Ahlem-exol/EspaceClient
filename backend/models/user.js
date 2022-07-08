@@ -8,6 +8,7 @@ const Lot = require('./lot');
 const Lotstat = require('./lotstat');
 const Projet = require('./projet');
 const Societe = require('./societe');
+const Article = require('./article');
 
 const User = sequelize.define(
   'user',

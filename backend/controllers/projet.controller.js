@@ -12,20 +12,17 @@ exports.createProjet = (req, res, next) => {
          perRealise :0,
          perNonReal:100,
          active:1,
-        //  i put it 0 pour eter calculer later when i create the lot and the article 
          montent:0,
          dateDemarage: req.body.dateDemarage,
          dateFin: req.body.dateFin,
          usr_id: idUser,
          societe_id:req.body.societe_id,
         });
-
         projet.save()
           .then(result => {
            res.status(201).json({
             message: 'project created successfully !.',
           })
-        
         }).catch(err => {
           res.status(500).json({
             error: err,

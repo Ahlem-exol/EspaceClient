@@ -6,57 +6,37 @@ const { Op } = require("sequelize");
 exports.createlot = (req, res, next) => {
 // get the projet by id here then get only the price pour claculer le percentage de cette lot 
 const ProjetId = req.body.prj_id;
-Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
- where:{prj_id:ProjetId}}
+const idUser = req.userData.id;
+    const lot = new Lot({
+      titre: req.body.titre,
+      duree: req.body.duree,
+      description :req.body.description,
+      active:1,
+      montentLot:0,
+      dateFinLot: req.body.dateFinLot,
+      datedebut :req.body.datedebut,
+      etat:req.body.etat,
+      percentage:0, 
+      percentageRealise:0,
+      percentageNonRealise:100, 
+      percentageRealiseCalcule:0,
+      percentageNonRealiseCalcule:0 ,
+      usr_id: idUser,
+      prj_id:req.body.prj_id,
+     });
 
- ).then(Projet => {
-  if (!Projet) {
-    return res.status(401).json({
-      message: 'Projet does not exist !'
-    });
-  }else{
-    // get the montant de projet 
-// calculer le percentage de lot apartire de leur prix et le prix global de projet 
-    per = (req.body.montentLot *100)/Projet.montent;
- 
-   const idUser = req.userData.id;
-       const lot = new Lot({
-         titre: req.body.titre,
-         duree: req.body.duree +'Days',
-         description :req.body.description,
-         active:1,
-         montentLot:req.body.montentLot,
-         dateFinLot: req.body.dateFinLot,
-         datedebut :req.body.datedebut,
-         etat:req.body.etat,
-         percentage:per, 
-         percentageRealise:0,
-         percentageNonRealise:100, 
-         percentageRealiseCalcule:0,
-         percentageNonRealiseCalcule:per ,
-         usr_id: idUser,
-         prj_id:req.body.prj_id,
-        });
-
-        lot.save()
-          .then(result => {
-          
-           res.status(201).json({
-            message: 'Account created successfully !.',
-          })
-        
-        }).catch(err => {
-          res.status(500).json({
-            error: err,
-            message: 'lotn already in use !',
-          });
-        });
-
-  }
-})
-
-
-
+     lot.save()
+       .then(result => {
+        res.status(201).json({
+         message: 'Account created successfully !.',
+       })
+     
+     }).catch(err => {
+       res.status(500).json({
+         error: err,
+         message: 'lotn already in use !',
+       });
+     });
   };
 
 // get lots 

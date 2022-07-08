@@ -1,9 +1,9 @@
-// `id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`, 
-// `montant`, `quantitRealise`, `perReal`, `perNonReal`, `datedebut`, `dateFin` , `lot_id`, `iduser`
 const {
     DataTypes
   } = require('sequelize');
   const sequelize = require('../utils/database');
+  const Lotstat = require('./lotstat');
+
   const Article = sequelize.define(
     'article',
     {

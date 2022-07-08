@@ -81,6 +81,10 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'article',
+    loadChildren: () => import('./pages/article/article.module').then( m => m.ArticlePageModule)
+  },
 ];
 
 @NgModule({
