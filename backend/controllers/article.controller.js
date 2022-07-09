@@ -231,64 +231,74 @@ exports.DesactiverArticle = (req, res, next) => {
           active:0,
           usr_id: idUser,
       }) .then(result => {
+     
         Lot.findOne({attributes: ['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,'prj_id', 'active','etat',
         'percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'],
-           where:{lot_id:LotId}
-         }
-        ).then(lot => {
-         if (!lot) {
-           return res.status(401).json({
-             message: 'lot does not exist !'
-           });
-         }else{
-             lot.update({
-               montentLot:req.body.montentLot - req.body.quantite * req.body.prixUnitaire,
-               usr_id: idUser, 
-           }) .then(result => {
-             res.status(201).json({
-               message: 'lot Update  !',
-               result: result,
-             });
-             //Update project
-             Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin','montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
-             where:{prj_id:ProjetId}}
-          
-             ).then(Projet => {
-              if (!Projet) {
-                return res.status(401).json({
-                  message: 'Projet does not exist !'
-                });
-              }else{
-                  Projet.update({
-                      montent:Projet.montant + lot.montentLot,
-                      usr_id: idUser,
-
-                }) .then(result => {
-                  res.status(201).json({
-                    message: 'Projet Update  !',
-                    result: result,
-                  });
-                }).catch(err => {
-                  res.status(500).json({
-                    error: err,
-                  });
-                });
-              }
-            })
-
-
-
-           }).catch(err => {
-             res.status(500).json({
-               error: err,
-             });
-           });
-         }
-       })     
-
-
-
-
+        where:{lot_id:req.body.lot } && {active:1}}).then(lot => {
+          if (!lot) {
+            return res.status(401).json({message: 'lot does not exist !' });
+          }else{
+            const montonLot=lot.montentLot- req.body.quantite * req.body.prixUnitaire;
+            //#################### Update montent Lot  ##################################    
+            lot.update({
+              montentLot:montonLot,
+              usr_id: idUser, 
+            }).then(res => {
+            //#################### Get All the article pour le changement de ercentage de chaque article apprtire de montent de Lot ################################## 
+            Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
+              `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `per`, `perRealiseCalc`, `perNonRealiseCalc`,`dateFin`, `active`],
+            where: {active: 1} && {lot_id :lot.lot_id } })
+            .then((articles) => {
+              articles: articles.map(Article => {
+                const percentageArticle = Article.montant *100/lot.montentLot;
+                Article.update({
+                  per : percentageArticle,
+                  perNonRealiseCalc:percentageArticle,
+                  usr_id: idUser, 
+                })
+               })
+               }).catch((err) => {
+                 console.log(err)
+               });
+           
+               //#################### Get project and change the montante  ################################## 
+              Projet.findOne({  attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','dateFin',
+              'montent', `usr_id`, `societe_id`, `perRealise`, `perNonReal`],
+                    where:{prj_id:lot.prj_id} && {active:1}} 
+              ).then(Projet => {
+              
+                     if (!Projet) {
+                       return res.status(401).json({
+                         message: 'Projet does not exist !'
+                       });
+                     }else{
+                      const montonProjet = Projet.montent + lot.montentLot;
+                         Projet.update({
+                             montent:montonProjet,
+                             usr_id: idUser,
+                       }) .then(result => {
+        //#################### Get All the Lots pour le changement de percentage de chaque Lots apprtire de montent de Project ################################## 
+              Lot.findAll({attributes:['lot_id','titre','description','duree','dateFinLot','datedebut','montentLot' ,'prj_id', 'active','etat',
+              'percentage','percentageRealise', 'percentageNonRealise', 'percentageRealiseCalcule', 'percentageNonRealiseCalcule'],
+               where: {active: 1} && {prj_id :Projet.prj_id } })
+               .then((Lots) => {
+                            
+                             Lots: Lots.map(lot => {
+                              const montant = lot.montentLot *100/Projet.montent;
+                              lot.update({
+                                percentage :montant,
+                                percentageNonRealiseCalcule : montant,
+                                usr_id: idUser, 
+                              })
+                             })
+                           
+                })})
+                     }
+                   })
+                  })
+                }
+              })  
+       
         res.status(201).json({
           message: 'article Desactivat  !',
           result: result,
@@ -306,10 +316,10 @@ exports.DesactiverArticle = (req, res, next) => {
 exports.UpdateStatLot = (req, res, next) => {
   const idUser = req.userData.id;
   const lotStat = new Lotstat({
-    //get from the system 
-      dateUpdate: req.body.dateUpdate,
-      //quantitie réealise 
-      Percentage: req.body.percentage,
+       //get from the system 
+       dateUpdate: req.body.dateUpdate,
+       //quantitie réealise 
+       Percentage: req.body.percentage,
        usr_id: idUser,
        id_art:req.body.id,
   });
