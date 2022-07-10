@@ -49,9 +49,34 @@ exports.getAlllots = (req, res, next) => {
   ],
   where: {active: 1}})
     .then((lots) => {
-
+// calculer 
+      montentLot=0;
+      montentRealise=0;
+      percentage=0;
+      percentageRealise=0;
+      percentageNonRealise=0;
+      lots.map(lot => {
+       //Get all the article pour calcuer le montentde lot et montent realise 
+       Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
+       `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`],
+       where: {active: 1} && {lot_id:lot.lot_id}})
+        .then((Articles) => {   
+         Articles: Articles.map(Article => {
+            // i sould Calculer la comme
+            montentLot = montentLot+(Article.prixUnitaire*Article.quantite);
+            montentRealise = montentRealise+(Article.prixUnitaire*Article.quantitRealise);
+          })
+        })
+      }),
+      console.log("montant de lot ",montentLot);
+      console.log("montnt realise d'un lot ",montentRealise)
+      // Calculer le percentage realise and notRealiser
+      percentageRealise = montentRealise /montentLot*100 ;
+      percentgaeNonRealise=100-percentgaeNonRealise; 
+      console.log("le percentgae realise de projet ", percentageRealise )
+      console.log("le percentgae realise de projet ", percentgaeNonRealise )
       res.status(200).json({
-        message: 'lots !',
+        message: 'lots !!!',
         lots: lots.map(lot => {
           return {
              id: lot.lot_id,
@@ -60,12 +85,11 @@ exports.getAlllots = (req, res, next) => {
              description: lot.description,
              dateFinLot: lot.dateFinLot,
              datedebut:lot.datedebut,
-             montentLot:lot.montentLot,
-             percentage:lot.percentage, 
-             percentageRealise:lot.percentageRealise,
-             percentageNonRealise:lot.percentageNonRealise,
-             percentageRealiseCalcule:lot.percentageRealiseCalcule,
-             percentageNonRealiseCalcule:lot.percentageNonRealiseCalcule,
+            
+             montentLot:montentLot,
+
+             percentageRealise:percentageRealise,
+             percentageNonRealise:percentgaeNonRealise,
              etat:lot.etat,
              projet_id:  lot.prj_id,
              projeTitre: lot.projet.titre,
@@ -74,8 +98,7 @@ exports.getAlllots = (req, res, next) => {
              titre: lot.projet.titre,
              duree: lot.projet.duree,
              description: lot.projet.description,
-             localisation: lot.projet.localisation,
-               
+             localisation: lot.projet.localisation,       
             }
           }
         }),

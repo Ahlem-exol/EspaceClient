@@ -19,6 +19,7 @@ const article = new Article({
   usr_id: idUser,
   lot_id:LotId,
   // we should not put in the data base calculation information 
+  // ishoud delete it later
   montant: 0,
   quantitRealise:0,
   per:0,
@@ -26,9 +27,7 @@ const article = new Article({
   perNonReal:100,
   perRealiseCalc:0,
   perNonRealiseCalc:100,
-
 });
-//####################  save article ##################################
 article.save().then(res => {
  res.status(201).json({
    message: 'Article created successfully !.',
@@ -40,7 +39,6 @@ article.save().then(res => {
           });
 });
 };
-
 
 //Update 
 exports.UpdateArticle = (req, res, next) => {
@@ -124,6 +122,35 @@ exports.UpdateStatLot = (req, res, next) => {
   
   const idArticle = req.body.id;
   lotStat.save().then(res => {
+    // update quantite realise dans article
+
+    Article.findOne({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
+    `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `per`, `perRealiseCalc`, `perNonRealiseCalc`,`dateFin`, `active`],
+        where:{id_art:idArticle}  && {active:1}
+      }
+     ).then(article => {
+      if (!article) {
+        return res.status(401).json({
+          message: 'article does not exist !'
+        });
+      }else{
+        article.update({
+        
+          quantitRealise: req.body.percentage,
+          usr_id: idUser,  
+        }).then(result => {
+          res.status(201).json({
+            message: 'Article Update  !!!',
+            result: result,
+          });
+        }).catch(err => {
+          res.status(500).json({
+            error: err,
+          });
+        });
+      }
+    })
+
    res.status(201).json({
           message: 'Article montant realisé update successfully !!',
    })    
@@ -179,16 +206,33 @@ exports.getAllArticles = (req, res, next) => {
         message: 'Articles !',
         Articles: Articles.map(Article => {
           // i sould calculat the statistique 
+          // calculer le montent de artciel
+          montant = Article.prixUnitaire* Article.quantite;
+          console.log(montant);
+          // calculer le montant realise 
+          montantRealise = Article.prixUnitaire*Article.quantitRealise;
+          console.log(montantRealise)
+          // calcuer le percentage realise 
+          percentageRealise = montantRealise/montant*100;
+          console.log(percentageRealise)
+          //calculer le percentage non realise 
+          percentageNonRealise = 100- montantRealise;
+          console.log(percentageNonRealise)
+          
           return {
              id: Article.id_art,
              designation: Article.designation,
              unite: Article.unite,
-             quantite: Article.quantite,
              prixUnitaire: Article.prixUnitaire,
-             montant:Article.montant,
+             quantite: Article.quantite,
              quantitRealise:Article.quantitRealise,
-             perReal:Article.perReal, 
-             perNonReal:Article.perNonReal,
+            // Calculer 
+             montant:montant,
+             montantRealise:montantRealise,
+             perReal:percentageRealise, 
+             perNonReal:percentageNonRealise,
+
+
              datedebut:Article.datedebut,
              dateFin:Article.dateFin,
              lot_id:  Article.lot_id,
