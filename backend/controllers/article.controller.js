@@ -111,46 +111,38 @@ exports.DesactiverArticle = (req, res, next) => {
 //update letat d'avencement d'un Article
 exports.UpdateStatLot = (req, res, next) => {
   const idUser = req.userData.id;
+  console.log("we are in the backend " , req.body);
   const lotStat = new Lotstat({
        //get from the system 
        dateUpdate: req.body.dateUpdate,
        //quantitie réealise 
        Percentage: req.body.percentage,
        usr_id: idUser,
-       id_art:req.body.id,
-  });
-  
-  const idArticle = req.body.id;
-  lotStat.save().then(res => {
-    // update quantite realise dans article
+       id_art:req.body.id_art,
+  }); 
 
+  lotStat.save().then(res => {
+    
+    // update quantite realise dans article
     Article.findOne({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
     `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `per`, `perRealiseCalc`, `perNonRealiseCalc`,`dateFin`, `active`],
-        where:{id_art:idArticle}  && {active:1}
+        where:{id_art:req.body.id_art}  && {active:1}
       }
      ).then(article => {
+      console.log(article)
       if (!article) {
         return res.status(401).json({
           message: 'article does not exist !'
         });
       }else{
+        console.log("article")
         article.update({
-        
           quantitRealise: req.body.percentage,
           usr_id: idUser,  
-        }).then(result => {
-          res.status(201).json({
-            message: 'Article Update  !!!',
-            result: result,
-          });
-        }).catch(err => {
-          res.status(500).json({
-            error: err,
-          });
-        });
+        })
+        console.log(" update article")
       }
     })
-
    res.status(201).json({
           message: 'Article montant realisé update successfully !!',
    })    
@@ -192,32 +184,32 @@ exports.getAlllotStats = (req, res, next) => {
 
 // get lots 
 exports.getAllArticles = (req, res, next) => {
+  const lotId = req.params.id;
+  console.log("get all the ")
   Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
    `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`],
   include:[
     {
       model:Lot,attributes:[`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, `prj_id`, `active`,'etat']}
   ],
-  where: {active: 1}})
+  where: {active: 1}&& {lot_id: lotId} })
     .then((Articles) => {
-      
       res.status(200).json({
-        
         message: 'Articles !',
         Articles: Articles.map(Article => {
           // i sould calculat the statistique 
           // calculer le montent de artciel
           montant = Article.prixUnitaire* Article.quantite;
-          console.log(montant);
+          console.log("montent article ", montant);
           // calculer le montant realise 
           montantRealise = Article.prixUnitaire*Article.quantitRealise;
-          console.log(montantRealise)
+          console.log("montant realise de article ",montantRealise)
           // calcuer le percentage realise 
           percentageRealise = montantRealise/montant*100;
-          console.log(percentageRealise)
+          console.log("percnetage realise de article ",percentageRealise)
           //calculer le percentage non realise 
-          percentageNonRealise = 100- montantRealise;
-          console.log(percentageNonRealise)
+          percentageNonRealise = 100 - percentageRealise;
+          console.log("percentage non relise ", percentageNonRealise)
           
           return {
              id: Article.id_art,

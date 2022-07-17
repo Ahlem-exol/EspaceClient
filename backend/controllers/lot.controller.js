@@ -2,12 +2,12 @@ const Lot = require('../models/lot');
 const Lotstat = require('../models/lotstat');
 const Projet = require('../models/projet');
 const { Op } = require("sequelize");
-
+const Article = require('../models/article');
 exports.createlot = (req, res, next) => {
 // get the projet by id here then get only the price pour claculer le percentage de cette lot 
 const ProjetId = req.body.prj_id;
 const idUser = req.userData.id;
-    const lot = new Lot({
+const lot = new Lot({
       titre: req.body.titre,
       duree: req.body.duree,
       description :req.body.description,
@@ -42,10 +42,14 @@ const idUser = req.userData.id;
 // get lots 
 exports.getAlllots = (req, res, next) => {
  
-  Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, `prj_id`, `active`,'etat'],
+  Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,
+   `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, 
+   `prj_id`, `active`,'etat'],
   include:[
     {
-      model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage']}
+      model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage']},
+      
+
   ],
   where: {active: 1}})
     .then((lots) => {
@@ -66,43 +70,47 @@ exports.getAlllots = (req, res, next) => {
             montentLot = montentLot+(Article.prixUnitaire*Article.quantite);
             montentRealise = montentRealise+(Article.prixUnitaire*Article.quantitRealise);
           })
-        })
-      }),
-      console.log("montant de lot ",montentLot);
-      console.log("montnt realise d'un lot ",montentRealise)
-      // Calculer le percentage realise and notRealiser
-      percentageRealise = montentRealise /montentLot*100 ;
-      percentgaeNonRealise=100-percentgaeNonRealise; 
-      console.log("le percentgae realise de projet ", percentageRealise )
-      console.log("le percentgae realise de projet ", percentgaeNonRealise )
-      res.status(200).json({
-        message: 'lots !!!',
-        lots: lots.map(lot => {
-          return {
-             id: lot.lot_id,
-             titre: lot.titre,
-             duree: lot.duree,
-             description: lot.description,
-             dateFinLot: lot.dateFinLot,
-             datedebut:lot.datedebut,
-            
-             montentLot:montentLot,
+          console.log("montant de lot ",montentLot);
+          console.log("montnt realise d'un lot ",montentRealise)
+    // Calculer le percentage realise and notRealiser
+    percentageRealise = montentRealise /montentLot*100 ;
+    percentageNonRealise=100-percentageRealise; 
+    console.log("le percentgae realise de lot ", percentageRealise )
+    console.log("le percentgae realise de lot ", percentageNonRealise )
 
-             percentageRealise:percentageRealise,
-             percentageNonRealise:percentgaeNonRealise,
-             etat:lot.etat,
-             projet_id:  lot.prj_id,
-             projeTitre: lot.projet.titre,
-            projet:{
-             id: lot.projet.prj_id,
-             titre: lot.projet.titre,
-             duree: lot.projet.duree,
-             description: lot.projet.description,
-             localisation: lot.projet.localisation,       
-            }
+    res.status(200).json({
+      message: 'lots !!!',
+      lots: lots.map(lot => {
+        return {
+           id: lot.lot_id,
+           titre: lot.titre,
+           duree: lot.duree,
+           description: lot.description,
+           dateFinLot: lot.dateFinLot,
+           datedebut:lot.datedebut,
+          
+           montentLot:montentLot,
+
+           percentageRealise:percentageRealise,
+           percentageNonRealise:percentageNonRealise,
+           etat:lot.etat,
+           projet_id:  lot.prj_id,
+           projeTitre: lot.projet.titre,
+          projet:{
+           id: lot.projet.prj_id,
+           titre: lot.projet.titre,
+           duree: lot.projet.duree,
+           description: lot.projet.description,
+           localisation: lot.projet.localisation,       
           }
-        }),
-      });
+        }
+      }),
+    });
+        })
+      })
+    
+  
+   
     })
     .catch((err) => {
       console.log(err)

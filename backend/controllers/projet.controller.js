@@ -1,7 +1,9 @@
 const Projet = require('../models/projet');
 const nodemailer = require("nodemailer");
 const Societe = require("../models/societe");
-
+const Lot = require('../models/lot');
+const Article = require('../models/article');
+const sequelize = require('../utils/database');
 exports.createProjet = (req, res, next) => {
 const idUser = req.userData.id;
 const projet = new Projet({
@@ -33,83 +35,56 @@ projet.save()
 
 // get Projets 
 exports.getAllProjets = (req, res, next) => {
- console.log("Get all Projets controller")
-  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent','dateFin','societe_id', `perRealise`, `perNonReal`],
+  Projet.findAll({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent',
+  'dateFin','societe_id', `perRealise`, `perNonReal`],
+  where: {active: 1},
   include:[
-    {
-      model:Societe,attributes:['societe_id', 'raison_social', 'adresse', 'mail','telephone', 'description','fix']}
+      {
+         model:Lot,
+         on: {
+          col1: sequelize.where(sequelize.col("Projet.prj_id"), "=", sequelize.col("lots.prj_id")),
+            },
+          attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `prj_id`, `active`,'etat'],
+        
+          where: {active: 1},
+          include:[   
+      { 
+        model:Article,
+        on: {
+          col2: sequelize.where(sequelize.col("lots.lot_id"), "=", sequelize.col("lots->articles.lot_id")),
+            },
+        attributes: [`id_art`,`quantite`, `prixUnitaire`, `quantitRealise`, `lot_id`],
+        // get col montent d'artciel
+        //get montent realise de l'artciel d'un lot  
+        where: {active: 1},
+      
+    }
+          ]
+      },
+
+
   ],
-  where: {active: 1}})
+})
     .then((projets) => {
-      // pour calculer
-      montentProjet = 0;
-      montentProjetRealise =0;
-      percentageRealise =0;
-      percentgaeNonRealise =100;  
-     projets.map(projet => {
-      Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, `prj_id`, `active`,'etat'],
-      where: {active: 1} && {prj_id:projet.prj_id}})
-        .then((lots) => {
-         // calculer 
-          montentLot=0;
-          montentRealise=0;
-          percentage=0;
-          percentageRealise=0;
-          percentageNonRealise=0;
-          lots.map(lot => {
-           //Get all the article pour calcuer le montentde lot et montent realise 
-           Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
-           `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`],
-           where: {active: 1} && {lot_id:lot.lot_id}})
-            .then((Articles) => {   
-             Articles: Articles.map(Article => {
-                // i sould Calculer la comme
-                montentLot = montentLot+(Article.prixUnitaire*Article.quantite);
-                montentRealise = montentRealise+(Article.prixUnitaire*Article.quantitRealise);
-              })
-            })
-          }),
-          console.log("montant de lot ",montentLot);
-          console.log("montnt realise d'un lot ",montentRealise)
-          // Calculer le percentage realise and notRealiser
-          montentProjet = montentProjet +montentLot;
-          montentProjetRealise =montentProjetRealise +montentRealise;
-        })
-     }),
-     console.log("montant de projet ",montentProjet);
-     console.log("montnt realise d'un projet ",montentProjetRealise)
-//caluler percentage
-percentageRealise = montentProjetRealise /montentProjet*100 ;
-percentgaeNonRealise=100-percentgaeNonRealise; 
       res.status(200).json({
-        message: 'Projets !',
+        message: 'lots !!!',
         projets: projets.map(projet => {
           return {
-             id: projet.prj_id,
-             titre: projet.titre,
-             duree: projet.duree,
-             description: projet.description,
-             localisation: projet.localisation,
-
-             perRealise: percentageRealise,
-             perNonReal: percentgaeNonRealise,
-             
-             dateDemarage: projet.dateDemarage,
-             dateFin: projet.dateFin,
-             montent:montentProjet,
-             societe_id:  projet.societe_id,
-             raisonSocial: projet.societe.raison_social,
+            id: projet.prj_id,
+            titre: projet.titre,
+            duree: projet.duree,
+            description: projet.description,
+            localisation: projet.localisation,
+       
+            perRealise: 0,
+            perNonReal: 0,
             
-            societe:{
-                id:projet.societe.societe_id,
-                raisonSocial: projet.societe.raison_social,
-                adresse :projet.societe.adresse,
-                mail:projet.societe.mail,
-                telephone:projet.societe.telephone,
-                description: projet.societe.description,
-                fixe: projet.societe.fix,
-            }
-          }
+            dateDemarage: projet.dateDemarage,
+            dateFin: projet.dateFin,
+            montent:0,
+            societe_id:  projet.societe_id,
+      
+         }
         }),
       });
     })

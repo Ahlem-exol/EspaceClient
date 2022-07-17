@@ -9,7 +9,7 @@ const Lot = require('./lot');
     'projet',
     {
    
-        prj_id: {
+      prj_id: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         defaultValue: null,
@@ -148,10 +148,4 @@ const Lot = require('./lot');
   module.exports = Projet;
 
 Projet.hasMany(Lot);
-Lot.belongsTo(Projet, { targetKey: 'prj_id', foreignKey: 'prj_id' });
-
-
-  
-  
-  
-  
+Lot.belongsTo(Projet, { targetKey: 'prj_id', foreignKey: 'prj_id' });  

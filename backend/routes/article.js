@@ -6,10 +6,14 @@ const checkAuth = require("../middleware/check-auth");
 // const authorize = require("../middleware/authorize")
 const router = express.Router();
 
-router.get('/',checkAuth,ArticleController.getAllArticles);
+router.get('/all/:id',checkAuth,ArticleController.getAllArticles);
+router.get('/:id',checkAuth,ArticleController.getAlllotStats );
+
 
 router.post('/', checkAuth,ArticleController.createArticle);
 router.post('/updateLotStat', checkAuth,ArticleController.UpdateStatLot);
+
+
 //update user
 router.put('/update/:id',checkAuth,ArticleController.UpdateArticle);
 //Desactiver user

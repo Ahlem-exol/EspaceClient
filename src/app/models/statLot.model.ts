@@ -5,7 +5,7 @@ export class StatLot {
     public id: number,
     public dateUpdate: Date,
     public percentage: number,
-    public lot_id: number,
+    public id_art: number,
     public lotTitre: string,
     public lot: Lot
   ) {}

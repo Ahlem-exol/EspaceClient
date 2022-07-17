@@ -78,24 +78,4 @@ export class LotService {
       null
     );
   }
-
-  updateLotStat(percentage: Number, dateUpdate: Date, lot_id: number) {
-    const ProjData: addDataLotStat = {
-      percentage: percentage,
-      dateUpdate: dateUpdate,
-      lot_id: lot_id,
-    };
-
-    console.log(ProjData);
-    return this.http.post<{ message: string }>(
-      `${BACKEND_URL}/updateLotStat`,
-      ProjData
-    );
-  }
-
-  getLotStaTs(id: number) {
-    return this.http.get<{ message: string; lotstats: StatLot[] }>(
-      BACKEND_URL + '/' + id
-    );
-  }
 }

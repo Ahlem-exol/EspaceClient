@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Article } from 'src/app/models/article.model';
+import { Lot } from 'src/app/models/lot.model';
 import { ArticleService } from 'src/app/services/article/article.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AddArticleComponent } from './add-article/add-article.component';
 import { DeleteArticleComponent } from './delete-article/delete-article.component';
+import { StatArticleComponent } from './stat-article/stat-article.component';
+import { StatdetailArticleComponent } from './statdetail-article/statdetail-article.component';
 import { UpdateArticleComponent } from './update-article/update-article.component';
 
 @Component({
@@ -15,6 +18,7 @@ import { UpdateArticleComponent } from './update-article/update-article.componen
   styleUrls: ['./article.page.scss'],
 })
 export class ArticlePage implements OnInit {
+  @Input() lot: Lot;
   date = new Date();
   nameUser: any;
   idSession: number;
@@ -56,6 +60,27 @@ export class ArticlePage implements OnInit {
     });
     return await modal.present();
   }
+  // calle the focntions
+
+  async _UpdateStat(article: Article) {
+    console.log(this.authService.getAuthData());
+    console.log(article.id);
+    const modal = await this.modalController.create({
+      component: StatArticleComponent,
+      componentProps: { article },
+    });
+    return await modal.present();
+  }
+
+  async _DetailStat(article: Article) {
+    console.log(this.authService.getAuthData());
+    console.log(article.id);
+    const modal = await this.modalController.create({
+      component: StatdetailArticleComponent,
+      componentProps: { article },
+    });
+    return await modal.present();
+  }
 
   ngOnInit() {
     this.nameUser =
@@ -64,9 +89,11 @@ export class ArticlePage implements OnInit {
       this.authService.getAuthData().prenom;
     console.log(this.authService.getAuthData());
     this.idSession = parseInt(this.authService.getAuthData().id);
-    this.sub = this.ArticleService.getArticle().subscribe((Articlesdata) => {
-      this.loadedArticle = Articlesdata.Articles;
-      console.log(this.loadedArticle);
-    });
+    this.sub = this.ArticleService.getArticle(this.lot.id).subscribe(
+      (Articlesdata) => {
+        this.loadedArticle = Articlesdata.Articles;
+        console.log(this.loadedArticle);
+      }
+    );
   }
 }

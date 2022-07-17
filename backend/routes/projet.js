@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.get('/',checkAuth,ProjetController.getAllProjets);
 router.get('/:id',checkAuth,ProjetController.getProjet);
+
 // add project
 router.post('/', checkAuth, ProjetController.createProjet);
 

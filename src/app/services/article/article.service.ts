@@ -18,7 +18,7 @@ interface addData {
 interface addDataLotStat {
   percentage: Number;
   dateUpdate: Date;
-  lot_id: number;
+  id_art: number;
 }
 
 @Injectable({
@@ -50,44 +50,29 @@ export class ArticleService {
     return this.http.post<{ message: string }>(`${BACKEND_URL}/`, ArticleData);
   }
 
-  getArticle() {
+  getArticle(id: number) {
     return this.http.get<{ message: string; Articles: Article[] }>(
-      `${BACKEND_URL}/`
+      BACKEND_URL + '/all' + id
     );
   }
 
-  // updateLot(updateLot: Lot) {
-  //   return this.http.put<{ message: string }>(
-  //     BACKEND_URL + '/update/' + updateLot.id,
-  //     updateLot
-  //   );
-  // }
-  // DeleteLot(idLot: number) {
-  //   console.log('id user ', idLot);
+  updateLotStat(percentage: Number, dateUpdate: Date, id_art: number) {
+    const ProjData: addDataLotStat = {
+      percentage: percentage,
+      dateUpdate: dateUpdate,
+      id_art: id_art,
+    };
 
-  //   return this.http.put<{ message: string }>(
-  //     BACKEND_URL + '/desactiver/' + idLot,
-  //     null
-  //   );
-  // }
+    console.log(ProjData);
+    return this.http.post<{ message: string }>(
+      `${BACKEND_URL}/updateLotStat`,
+      ProjData
+    );
+  }
 
-  // updateLotStat(percentage: Number, dateUpdate: Date, lot_id: number) {
-  //   const ProjData: addDataLotStat = {
-  //     percentage: percentage,
-  //     dateUpdate: dateUpdate,
-  //     lot_id: lot_id,
-  //   };
-
-  //   console.log(ProjData);
-  //   return this.http.post<{ message: string }>(
-  //     `${BACKEND_URL}/updateLotStat`,
-  //     ProjData
-  //   );
-  // }
-
-  // getLotStaTs(id: number) {
-  //   return this.http.get<{ message: string; lotstats: StatLot[] }>(
-  //     BACKEND_URL + '/' + id
-  //   );
-  // }
+  getLotStaTs(id: number) {
+    return this.http.get<{ message: string; lotstats: StatLot[] }>(
+      BACKEND_URL + '/' + id
+    );
+  }
 }

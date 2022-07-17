@@ -1,33 +1,23 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonDatetime, ModalController } from '@ionic/angular';
-import { Subscription } from 'rxjs';
-import { Projet } from 'src/app/models/projet.model';
-import { Societe } from 'src/app/models/societe.model';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { LotService } from 'src/app/services/lot/lot.service';
-import { ProjetService } from 'src/app/services/projet/projet.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { format, parseISO } from 'date-fns';
-import { Lot } from 'src/app/models/lot.model';
-declare interface type {
-  title: string;
-  icon: string;
-}
+import { Article } from 'src/app/models/article.model';
+import { ArticleService } from 'src/app/services/article/article.service';
 
 @Component({
-  selector: 'app-stat-lot',
-  templateUrl: './stat-lot.component.html',
-  styleUrls: ['./stat-lot.component.scss'],
+  selector: 'app-stat-article',
+  templateUrl: './stat-article.component.html',
+  styleUrls: ['./stat-article.component.scss'],
 })
-export class StatLotComponent implements OnInit {
+export class StatArticleComponent implements OnInit {
   @ViewChild(IonDatetime) datetime: IonDatetime;
-  @Input() lot: Lot;
+  @Input() article: Article;
   dateValue: any;
 
   constructor(
     private modelControl: ModalController,
-    private LotService: LotService
+    private ArticelService: ArticleService
   ) {}
 
   confirm() {
@@ -57,9 +47,9 @@ export class StatLotComponent implements OnInit {
 
     const percentage = form.value.percentage;
     const dateUpdate = this.dateValue;
-    const lot_id = this.lot.id;
+    const lot_id = this.article.id;
 
-    this.LotService.updateLotStat(percentage, dateUpdate, lot_id).subscribe(
+    this.ArticelService.updateLotStat(percentage, dateUpdate, lot_id).subscribe(
       (result) => {
         form.reset();
       },

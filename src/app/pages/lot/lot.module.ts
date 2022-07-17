@@ -11,8 +11,6 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AddLotComponent } from './add-lot/add-lot.component';
 import { UpdateLotComponent } from './update-lot/update-lot.component';
 import { DeleteLotComponent } from './delete-lot/delete-lot.component';
-import { StatLotComponent } from './stat-lot/stat-lot.component';
-import { DetailLotComponent } from './detail-lot/detail-lot.component';
 
 @NgModule({
   imports: [
@@ -27,15 +25,7 @@ import { DetailLotComponent } from './detail-lot/detail-lot.component';
     AddLotComponent,
     UpdateLotComponent,
     DeleteLotComponent,
-    StatLotComponent,
-    DetailLotComponent,
   ],
-  entryComponents: [
-    AddLotComponent,
-    UpdateLotComponent,
-    DeleteLotComponent,
-    StatLotComponent,
-    DetailLotComponent,
-  ],
+  entryComponents: [AddLotComponent, UpdateLotComponent, DeleteLotComponent],
 })
 export class LotPageModule {}
