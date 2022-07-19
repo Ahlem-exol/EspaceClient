@@ -5,7 +5,6 @@ const checkAuth = require("../middleware/check-auth");
 
 // const authorize = require("../middleware/authorize")
 const router = express.Router();
-
 router.get('/all/:id',checkAuth,ArticleController.getAllArticles);
 router.get('/:id',checkAuth,ArticleController.getAlllotStats );
 

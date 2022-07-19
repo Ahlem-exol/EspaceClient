@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Lot } from 'src/app/models/lot.model';
@@ -21,13 +21,14 @@ export class LotPage implements OnInit {
   sub: Subscription;
   loadedLot: Lot[];
   tablestyle = 'bootstrap'; // dark
-
+  projet: number;
   constructor(
     public modalController: ModalController,
     private router: Router,
     private menu: MenuController,
     private LotService: LotService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.menu.enable(true, 'custom-menu');
   }
@@ -58,7 +59,9 @@ export class LotPage implements OnInit {
   }
 
   async _detaille(lot: Lot) {
-    this.router.navigateByUrl('article');
+    const lotId = lot.id;
+    console.log('we are in the lot sanding stata to ', lotId);
+    this.router.navigate(['/article', lotId]);
   }
 
   ngOnInit() {
@@ -68,7 +71,8 @@ export class LotPage implements OnInit {
       this.authService.getAuthData().prenom;
     console.log(this.authService.getAuthData());
     this.idSession = parseInt(this.authService.getAuthData().id);
-    this.sub = this.LotService.getLots().subscribe((Lotsdata) => {
+    this.projet = JSON.parse(this.route.snapshot.paramMap.get('id'));
+    this.sub = this.LotService.getLots(this.projet).subscribe((Lotsdata) => {
       this.loadedLot = Lotsdata.lots;
       console.log(this.loadedLot);
     });

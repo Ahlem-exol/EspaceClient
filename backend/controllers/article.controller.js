@@ -185,14 +185,14 @@ exports.getAlllotStats = (req, res, next) => {
 // get lots 
 exports.getAllArticles = (req, res, next) => {
   const lotId = req.params.id;
-  console.log("get all the ")
+  console.log("get all the ",req.params.id)
   Article.findAll({attributes: [`id_art`, `designation`, `unite`, `quantite`, `prixUnitaire`,
    `montant`, `quantitRealise`, `lot_id`, `usr_id`, `perReal`, `perNonReal`, `datedebut`, `dateFin`, `active`],
   include:[
     {
       model:Lot,attributes:[`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, `prj_id`, `active`,'etat']}
   ],
-  where: {active: 1}&& {lot_id: lotId} })
+  where: {active: 1} && {lot_id: lotId}})
     .then((Articles) => {
       res.status(200).json({
         message: 'Articles !',

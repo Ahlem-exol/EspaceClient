@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Article } from 'src/app/models/article.model';
@@ -18,20 +18,20 @@ import { UpdateArticleComponent } from './update-article/update-article.componen
   styleUrls: ['./article.page.scss'],
 })
 export class ArticlePage implements OnInit {
-  @Input() lot: Lot;
   date = new Date();
   nameUser: any;
   idSession: number;
   sub: Subscription;
   loadedArticle: Article[];
   tablestyle = 'bootstrap'; // dark
-
+  lot: number;
   constructor(
     public modalController: ModalController,
     private router: Router,
     private menu: MenuController,
     private ArticleService: ArticleService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     this.menu.enable(true, 'custom-menu');
   }
@@ -87,9 +87,10 @@ export class ArticlePage implements OnInit {
       this.authService.getAuthData().nom +
       ' ' +
       this.authService.getAuthData().prenom;
-    console.log(this.authService.getAuthData());
     this.idSession = parseInt(this.authService.getAuthData().id);
-    this.sub = this.ArticleService.getArticle(this.lot.id).subscribe(
+
+    this.lot = JSON.parse(this.route.snapshot.paramMap.get('id'));
+    this.sub = this.ArticleService.getArticle(this.lot).subscribe(
       (Articlesdata) => {
         this.loadedArticle = Articlesdata.Articles;
         console.log(this.loadedArticle);

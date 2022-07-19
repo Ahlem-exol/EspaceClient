@@ -39,36 +39,49 @@ exports.getAllProjets = (req, res, next) => {
   'dateFin','societe_id', `perRealise`, `perNonReal`],
   where: {active: 1},
   include:[
-      {
-         model:Lot,
-         on: {
-          col1: sequelize.where(sequelize.col("Projet.prj_id"), "=", sequelize.col("lots.prj_id")),
-            },
-          attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' , `prj_id`, `active`,'etat'],
-        
-          where: {active: 1},
-          include:[   
-      { 
-        model:Article,
-        on: {
-          col2: sequelize.where(sequelize.col("lots.lot_id"), "=", sequelize.col("lots->articles.lot_id")),
-            },
-        attributes: [`id_art`,`quantite`, `prixUnitaire`, `quantitRealise`, `lot_id`],
-        // get col montent d'artciel
-        //get montent realise de l'artciel d'un lot  
-        where: {active: 1},
-      
-    }
-          ]
-      },
-
-
-  ],
+    {
+       model:Lot,
+       on: {
+        col1: sequelize.where(sequelize.col("Projet.prj_id"), "=", sequelize.col("lots.prj_id")),
+          },
+          required: false,
+        attributes: [`lot_id`, `titre`, `prj_id`, `active`],
+        where: {active: 1 },
+        include:[   
+    { 
+      //[sequelize.fn('sum', sequelize.col(montentArticle)), 'montentDeProjet'],
+      model:Article,
+      on: {
+        col2: sequelize.where(sequelize.col("lots.lot_id"), "=", sequelize.col("lots->articles.lot_id")),
+          },
+          required: false,
+      attributes: [[sequelize.fn('sum',  sequelize.literal('quantite * prixUnitaire')), 'montentDeProjet'],[sequelize.fn('sum',  sequelize.literal('quantitRealise * prixUnitaire')), 'montentDeProjetRealise'],`id_art`,`quantite`, `prixUnitaire`, `quantitRealise`, `lot_id`],
+      group: ['lot_id'],
+      where: {active: 1},     
+    } 
+      ]
+    },
+],
+group: ['prj_id'],
 })
     .then((projets) => {
+      // afficher  montent 
+      //afficher montent realise 
+     
+
       res.status(200).json({
-        message: 'lots !!!',
+        
+        message: 'projects  !!!',
         projets: projets.map(projet => {
+          montent = 0;
+          montentRealise=0;
+           projet.lots.map(lot => {
+            lot.articles.map(article=>{
+              montent= article.dataValues.montentDeProjet;
+              montentRealise= article.dataValues.montentDeProjetRealise;
+            })
+          })
+         console.log("the montant de projet ", montent , "le montent realise est", montentRealise)
           return {
             id: projet.prj_id,
             titre: projet.titre,
@@ -76,12 +89,12 @@ exports.getAllProjets = (req, res, next) => {
             description: projet.description,
             localisation: projet.localisation,
        
-            perRealise: 0,
+            perRealise: montentRealise,
             perNonReal: 0,
             
             dateDemarage: projet.dateDemarage,
             dateFin: projet.dateFin,
-            montent:0,
+            montent:montent,
             societe_id:  projet.societe_id,
       
          }

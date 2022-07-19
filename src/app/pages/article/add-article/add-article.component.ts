@@ -72,9 +72,10 @@ export class AddArticleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sub = this.LotService.getLots().subscribe((LotsData) => {
-      this.loadedLots = LotsData.lots;
-    });
+    // je doit pas selctionee les lot je  suis inside the lot
+    // this.sub = this.LotService.getLots().subscribe((LotsData) => {
+    //   this.loadedLots = LotsData.lots;
+    // });
     // this.datedebut = this.navParams.get('datedebut');
     // console.log('From the construction', this.datedebut);
   }

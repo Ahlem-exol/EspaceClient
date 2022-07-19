@@ -68,7 +68,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'lot',
+    path: 'lot/:id',
     loadChildren: () =>
       import('./pages/lot/lot.module').then((m) => m.LotPageModule),
     canActivate: [AuthGuard],
@@ -82,8 +82,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'article',
-    loadChildren: () => import('./pages/article/article.module').then( m => m.ArticlePageModule)
+    path: 'article/:id',
+    loadChildren: () =>
+      import('./pages/article/article.module').then((m) => m.ArticlePageModule),
   },
 ];
 

@@ -52,7 +52,7 @@ export class ArticleService {
 
   getArticle(id: number) {
     return this.http.get<{ message: string; Articles: Article[] }>(
-      BACKEND_URL + '/all' + id
+      BACKEND_URL + '/all/' + id
     );
   }
 

@@ -41,17 +41,16 @@ const lot = new Lot({
 
 // get lots 
 exports.getAlllots = (req, res, next) => {
- 
+  console.log("get all lots")
+  const projetId = req.params.id;
   Lot.findAll({attributes: [`lot_id`, `titre`, `description`, `duree`, `dateFinLot`,'datedebut','montentLot' ,
    `percentage`, `percentageRealise`, `percentageNonRealise`, `percentageRealiseCalcule`, `percentageNonRealiseCalcule`, 
    `prj_id`, `active`,'etat'],
   include:[
     {
       model:Projet,attributes:['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage']},
-      
-
   ],
-  where: {active: 1}})
+  where: {active: 1} && {prj_id: projetId} })
     .then((lots) => {
 // calculer 
       montentLot=0;

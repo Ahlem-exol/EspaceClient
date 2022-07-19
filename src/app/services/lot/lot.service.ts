@@ -49,8 +49,10 @@ export class LotService {
     return this.http.post<{ message: string }>(`${BACKEND_URL}/`, ProjData);
   }
 
-  getLots() {
-    return this.http.get<{ message: string; lots: Lot[] }>(`${BACKEND_URL}/`);
+  getLots(id: number) {
+    return this.http.get<{ message: string; lots: Lot[] }>(
+      BACKEND_URL + '/all/' + id
+    );
   }
 
   getLotsNotFini() {
