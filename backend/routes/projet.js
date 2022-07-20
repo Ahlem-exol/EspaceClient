@@ -7,7 +7,8 @@ const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
 router.get('/',checkAuth,ProjetController.getAllProjets);
-router.get('/:id',checkAuth,ProjetController.getProjet);
+
+router.get('/projet/:id',checkAuth,ProjetController.getProjet);
 
 // add project
 router.post('/', checkAuth, ProjetController.createProjet);

@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MenuController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Lot } from 'src/app/models/lot.model';
+import { Projet } from 'src/app/models/projet.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LotService } from 'src/app/services/lot/lot.service';
+import { ProjetService } from 'src/app/services/projet/projet.service';
 import { AddLotComponent } from './add-lot/add-lot.component';
 import { DeleteLotComponent } from './delete-lot/delete-lot.component';
 import { UpdateLotComponent } from './update-lot/update-lot.component';
@@ -20,6 +22,8 @@ export class LotPage implements OnInit {
   idSession: number;
   sub: Subscription;
   loadedLot: Lot[];
+  sub1: Subscription;
+  loadedProjet: Projet;
   tablestyle = 'bootstrap'; // dark
   projet: number;
   constructor(
@@ -28,14 +32,18 @@ export class LotPage implements OnInit {
     private menu: MenuController,
     private LotService: LotService,
     private authService: AuthService,
+    private projetService: ProjetService,
     private route: ActivatedRoute
   ) {
     this.menu.enable(true, 'custom-menu');
   }
 
   async _openModal() {
+    const projet = this.loadedProjet;
+    console.log(projet);
     const modal = await this.modalController.create({
       component: AddLotComponent,
+      componentProps: { projet },
     });
     return await modal.present();
   }
@@ -76,5 +84,13 @@ export class LotPage implements OnInit {
       this.loadedLot = Lotsdata.lots;
       console.log(this.loadedLot);
     });
+
+    console.log('we get the projet', this.projet);
+    this.sub1 = this.projetService
+      .getProjet(this.projet)
+      .subscribe((projetData) => {
+        this.loadedProjet = projetData.projet;
+        console.log('projetc ', this.loadedProjet);
+      });
   }
 }

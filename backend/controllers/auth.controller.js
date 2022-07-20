@@ -38,7 +38,7 @@ exports.userLogin = (req, res, next) => {
             nom: fetchedUser.usr_nom,
             prenom:fetchedUser.usr_prenom,
             token: token,
-            expiresIn: 3600
+            expiresIn: 36000
           });
         });
       })

@@ -10,82 +10,137 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form #addProjetForm="ngForm" (ngSubmit)="addProjet(addProjetForm)">
+  <form [formGroup]="AddProjet">
 
     <div class="form-outline mb-4">
       <ion-item>
-        <ion-input type="text" name="titre" [(ngModel)]="titre" placeholder="Le titre de projet" required></ion-input>
-      </ion-item>
-    </div>
-
-    <div class="form-outline mb-4">
-      <ion-item>
-        <ion-input type="text" name="duree" [(ngModel)]="duree" placeholder="La durée" required></ion-input>
-      </ion-item>
-    </div>
-
-    <div class="form-outline mb-4">
-      <ion-item>
-        <ion-input type="text" name="description" [(ngModel)]="description" placeholder="Description" required>
-        </ion-input>
-      </ion-item>
-    </div>
-
-    <div class="form-outline mb-4">
-      <ion-item>
-        <ion-label>Societe</ion-label>
-        <ion-select [(ngModel)]="societe" name="societe">
+        <ion-label>Le Client</ion-label>
+        <ion-select [(ngModel)]="societe" formControlName="societe">
           <ion-select-option *ngFor="let societe of loadedSociete" [value]="societe.id">
             {{societe.raisonSocial}}</ion-select-option>
         </ion-select>
       </ion-item>
     </div>
-
+    <div>
+      <ng-container *ngFor="let validation of validation_messages.req ">
+        <div
+          *ngIf="AddProjet.get('societe').hasError(validation.type) && (AddProjet.get('societe').dirty || AddProjet.get('societe').touched)">
+          {{validation.message}}
+        </div>
+      </ng-container>
+    </div>
+  
     <div class="form-outline mb-4">
       <ion-item>
-        <ion-input type="text" name="localisation" [(ngModel)]="localisation" placeholder="localisation de projet"
-          required></ion-input>
+        <ion-input type="text" formControlName="titre" [(ngModel)]="titre" placeholder="Le titre de projet">
+        </ion-input>
+        </ion-item>
+        </div>
+        <div>
+          <ng-container *ngFor="let validation of validation_messages.titre ">
+            <div
+              *ngIf="AddProjet.get('titre').hasError(validation.type) && (AddProjet.get('titre').dirty || AddProjet.get('titre').touched)">
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+        <div class="form-outline mb-4">
+          <ion-item>
+            <ion-textarea type="text" rows="3" cols="15" formControlName="description" [(ngModel)]="description"
+              placeholder="Le description de projet ... ">
+            </ion-textarea>
       </ion-item>
     </div>
 
+    <div>
+      <ng-container *ngFor="let validation of validation_messages.titre ">
+        <div
+          *ngIf="AddProjet.get('description').hasError(validation.type) && (AddProjet.get('description').dirty || AddProjet.get('description').touched)">
+          {{validation.message}}
+        </div>
+      </ng-container>
+    </div>
+    <div class="form-outline mb-4">
+      <ion-item>
+        <ion-input type="text" formControlName="localisation" [(ngModel)]="localisation"
+          placeholder="La localisation de projet">
+        </ion-input>
+        </ion-item>
+        </div>
+        <div>
+          <ng-container *ngFor="let validation of validation_messages.titre ">
+            <div
+              *ngIf="AddProjet.get('localisation').hasError(validation.type) && (AddProjet.get('localisation').dirty || AddProjet.get('localisation').touched)">
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
       <div class="form-outline mb-4">
         <ion-item button="true" id="open-date-input">
           <ion-label>Date debut</ion-label>
           <ion-text slot="end"> {{ dateDebut }}</ion-text>
           <ion-popover trigger="open-date-input" show-backdrop="false">
             <ng-template>
-              <ion-datetime #popoverDatetime presentation="date" (ionChange)="dateDebut = formatDate1(popoverDatetime.value)">
-                <ion-buttons slot="buttons">
-                  <ion-button (click)="confirm()">Good to go !</ion-button>
-                  <ion-button (click)="reset()">Rest</ion-button>
-                </ion-buttons>
-              </ion-datetime>
-            </ng-template>
-          </ion-popover>
-        </ion-item>
+                <ion-datetime #popoverDatetime formControlName="dateDebut" presentation="date"
+                  (ionChange)="dateDebut = formatDate1(popoverDatetime.value)">
+                  <ion-buttons slot="buttons">
+                    <ion-button (click)="confirm()">Good to go !</ion-button>
+                    <ion-button (click)="reset()">Rest</ion-button>
+                  </ion-buttons>
+                </ion-datetime>
+                </ng-template>
+                </ion-popover>
+                </ion-item>
+        </div>
+        
+        <div>
+          <ng-container *ngFor="let validation of validation_messages.req ">
+            <div
+              *ngIf="AddProjet.get('dateDebut').hasError(validation.type) && (AddProjet.get('dateDebut').dirty || AddProjet.get('dateDebut').touched)">
+              {{validation.message}}
+            </div>
+          </ng-container>
+        </div>
+        
+        <div class="form-outline mb-4" *ngIf="dateDebut != null">
+          <ion-item button="true" id="open-date-input1">
+            <ion-label>Date Fin</ion-label>
+            <ion-text slot="end"> {{ dateFin }}</ion-text>
+            <ion-popover trigger="open-date-input1" show-backdrop="false">
+              <ng-template>
+                <ion-datetime #popoverDatetime2 formControlName="dateFin" presentation="date" [min]="dateDebut"
+                  (ionChange)="dateFin = formatDate2(popoverDatetime2.value)">
+                  <ion-buttons slot="buttons">
+                    <ion-button (click)="confirm()">Good to go !</ion-button>
+                    <ion-button (click)="reset()">Rest</ion-button>
+                  </ion-buttons>
+                </ion-datetime>
+                </ng-template>
+                </ion-popover>
+                </ion-item>
+        </div>
+
+        <div>
+          <ng-container *ngFor="let validation of validation_messages.req ">
+            <div
+              *ngIf="AddProjet.get('dateFin').hasError(validation.type) && (AddProjet.get('dateFin').dirty || AddProjet.get('dateFin').touched)">
+              {{validation.message}}
+            </div>
+          </ng-container>
         </div>
         
         <div class="form-outline mb-4">
-        <ion-item button="true" id="open-date-input1">
-          <ion-label>Date Fin</ion-label>
-          <ion-text slot="end"> {{ dateFin }}</ion-text>
-          <ion-popover trigger="open-date-input1" show-backdrop="false">
-            <ng-template>
-              <ion-datetime #popoverDatetime2 presentation="date" [min]="dateDebut"
-                (ionChange)="dateFin = formatDate2(popoverDatetime2.value)">
-                <ion-buttons slot="buttons">
-                  <ion-button (click)="confirm()">Good to go !</ion-button>
-                  <ion-button (click)="reset()">Rest</ion-button>
-                </ion-buttons>
-              </ion-datetime>
-            </ng-template>
-          </ion-popover>
-        </ion-item>
+          <ion-label>Duree</ion-label>
+          <ion-item>
+            <ion-input type="number" formControlName="duree" [(ngModel)]="duree" [placeholder]="duree" readonly>
+            </ion-input>
+          </ion-item>
         </div>
-            
 
+  
     <div class="pt-1 mb-4">
-      <button type="submit" class="btn btn-dark btn-lg btn-block" [disabled]="!addProjetForm.valid">Ajouter Projet</button>
+      <button type="submit" (click)="addProjet()" class="btn btn-dark btn-lg btn-block" [disabled]="!AddProjet.valid">Ajouter
+        Projet</button>
     </div>
 
 

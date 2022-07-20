@@ -115,6 +115,8 @@ export class AuthService {
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000);
       this._authStatusListener.next(true);
+    }else{
+      this.router.navigateByUrl('/authentication');
     }
   }
 

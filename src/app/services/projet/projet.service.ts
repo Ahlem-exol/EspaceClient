@@ -48,8 +48,9 @@ export class ProjetService {
   }
 
   getProjet(id: number) {
+    console.log('get one projet', id);
     return this.http.get<{ message: string; projet: Projet }>(
-      `${BACKEND_URL}/` + id
+      `${BACKEND_URL}/projet/` + id
     );
   }
 

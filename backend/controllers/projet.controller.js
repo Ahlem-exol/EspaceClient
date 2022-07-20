@@ -112,13 +112,15 @@ group: ['prj_id'],
 // i will log with the client session and get the id from the cleint idpprojet 
 
 exports.getProjet = (req, res, next) => {
+  console.log("getProjet")
+  const ProjetId = req.params.id;
 // i get the id of the projet from the infoamtion of the societer
    Projet.findOne({attributes: ['prj_id', 'titre', 'duree', 'description','localisation', 'dateDemarage','montent','dateFin','societe_id', `perRealise`, `perNonReal`],
    include:[
      {
        model:Societe,attributes:['societe_id', 'raison_social', 'adresse', 'mail','telephone', 'description','fix']}
    ],
-   where: {prj_id:1}})
+   where: {prj_id:ProjetId}})
      .then((projet) => {
        res.status(200).json({
          message: 'Projets !',
@@ -126,15 +128,9 @@ exports.getProjet = (req, res, next) => {
               id: projet.prj_id,
               titre: projet.titre,
               duree: projet.duree,
-              description: projet.description,
-              localisation: projet.localisation,
-               perRealise: projet.perRealise,
-               perNonReal: projet.perNonReal,
               dateDemarage: projet.dateDemarage,
               dateFin: projet.dateFin,
-              montent:projet.montent,
-              societe_id:  projet.societe_id,
-              raisonSocial: projet.societe.raison_social, 
+           
          },
        });
      })

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IonDatetime, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { LotService } from 'src/app/services/lot/lot.service';
 import { ProjetService } from 'src/app/services/projet/projet.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { format, parseISO } from 'date-fns';
+import { Lot } from 'src/app/models/lot.model';
 
 declare interface type {
   title: string;
@@ -21,7 +22,7 @@ declare interface type {
 })
 export class AddLotComponent implements OnInit {
   @ViewChild(IonDatetime) datetime: IonDatetime;
-
+  @Input() projet: Projet;
   dateValue: any;
   dateValue2: any;
   date = new Date();
@@ -68,6 +69,7 @@ export class AddLotComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.projet);
     this.sub = this.ProjetService.getProjets().subscribe((projetsData) => {
       this.loadedProjet = projetsData.projets;
     });

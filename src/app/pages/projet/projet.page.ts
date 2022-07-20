@@ -58,8 +58,11 @@ export class ProjetPage implements OnInit {
   }
 
   _openDetaille(projet: Projet) {
-    this.router.navigateByUrl('lot');
+    const ProjetId = projet.id;
+    console.log('we are in the lot sanding stata to ', ProjetId);
+    this.router.navigate(['/lot', ProjetId]);
   }
+
   ngOnInit() {
     this.nameUser =
       this.authService.getAuthData().nom +
