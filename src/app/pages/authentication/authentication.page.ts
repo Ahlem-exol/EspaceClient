@@ -3,30 +3,66 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import {
+  Validators,
+  FormControl,
+  FormBuilder,
+  FormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-authentication',
   templateUrl: './authentication.page.html',
-  styleUrls: ['./authentication.page.scss'],
+  styleUrls: ['./contact.page.scss'],
 })
 export class AuthenticationPage implements OnInit {
+  validation_messages = {
+    titre: [
+      { type: 'required', message: 'Le titre is required.' },
+      {
+        type: 'minlength',
+        message: 'Titre must be at least 5 characters long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'Titre cannot be more than 255 characters long.',
+      },
+    ],
+    req: [{ type: 'required', message: 'this champs is required.' }],
+  };
+
+  email: string;
+  password: string;
+  LoginForm: FormGroup;
   constructor(
     private authService: AuthService,
     private router: Router,
     private menu: MenuController
-  
-    ) {
+  ) {
     this.menu.enable(false, 'custom-menu');
   }
   isLoading = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.LoginForm = new FormGroup({
+      //i put all the input and there form validateur
+      email: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(800),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(800),
+      ]),
+    });
+  }
 
-  login(form: NgForm) {
-    console.log('we are in the ts auth page ');
+  login() {
     this.isLoading = true;
-    const email = form.value.email;
-    const password = form.value.password;
+    const email = this.email;
+    const password = this.password;
     this.authService.login(email, password).subscribe(
       (result) => {
         console.log(result);
@@ -37,6 +73,5 @@ export class AuthenticationPage implements OnInit {
         this.isLoading = !this.isLoading;
       }
     );
-    form.reset();
   }
 }

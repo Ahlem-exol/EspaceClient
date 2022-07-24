@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
     { title: 'Sociéte', url: '/societe', icon: 'business' },
     { title: 'Contact(Client)', url: '/contact', icon: 'person' },
     { title: 'Projet', url: '/projet', icon: 'reader' },
-    { title: 'Sign Out', url: '/logout', icon: 'log-out', route: true },
+    { title: 'Sign Out', url: '/authentication', icon: 'log-out' },
   ];
   constructor(private authService: AuthService) {}
 
