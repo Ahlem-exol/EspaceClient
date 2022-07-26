@@ -1,6 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center ">Gestion des utilisateurs {{nameUser}}</ion-title>
+    <ion-searchbar search-icon="d-search"> </ion-searchbar>
     <ion-buttons slot="start">
       <ion-menu-button menuId="custom-menu"></ion-menu-button>
     </ion-buttons>
@@ -18,7 +19,15 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div class="users">
+    <div class="wrapper" *ngFor=" let user of loadedUsers">
+      <p class="ion-no-margin">{{user.nom}} {{user.prenom}}</p>
 
+  
+    </div>
+    
+    </div>
+    <!-- 
   <ion-list>
     <ion-item>
       <ion-label>Users Details</ion-label>
@@ -46,6 +55,6 @@
 
     </ngx-datatable-column>
     </ngx-datatable>
-  
+  -->
   
 </ion-content>

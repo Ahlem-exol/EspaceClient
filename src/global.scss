@@ -39,3 +39,23 @@
     --ion-color-shade: var(--ion-color-white-shade);
     --ion-color-tint: var(--ion-color-white-tint);
 }
+
+* {
+    font-family: Gilroy;
+}
+
+ion-searchbar {
+    .searchbar-input-container {
+        input {
+            padding-top: 14px !important;
+            padding-bottom: 12px !important;
+            font-size: 18px !important;
+        }
+
+        .searchbar-search-icon {
+            top: 15px !important;
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
